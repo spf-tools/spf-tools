@@ -65,6 +65,6 @@ pipe the output of mkblocks.sh with xsel.sh (requires xsel obviously :)
 
 Links:
 
-https://dmarcian.com/spf-survey/apiary.io
-http://www.kitterman.com/spf/validate.html
-http://serverfault.com/questions/584708
+ * https://dmarcian.com/spf-survey/apiary.io
+ * http://www.kitterman.com/spf/validate.html
+ * http://serverfault.com/questions/584708
