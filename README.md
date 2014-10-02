@@ -75,5 +75,6 @@ obviously :)
 ## Links
 
  * https://dmarcian.com/spf-survey/apiary.io
+ * https://dmarcian.com/spf-survey/spf-orig.apiary.io
  * http://www.kitterman.com/spf/validate.html
  * http://serverfault.com/questions/584708
