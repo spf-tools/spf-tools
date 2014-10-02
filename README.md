@@ -30,9 +30,9 @@ UDP packet, splitting into more TXT records if needed.
 
 One TXT record per line of standard output.
 
-    ./despf.sh spf-orig.apiary.io | ./mkblocks.sh _spf
+    ./despf.sh spf-orig.apiary.io | ./mkblocks.sh apiary.io _spf
 
-Both tools have sane defaults, so you can run just
+You can change the defaults and then just run
 
     ./despf.sh | ./mkblocks.sh
 
