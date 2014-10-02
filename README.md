@@ -5,8 +5,8 @@ Simple tools for keeping the SPF TXT records tidy.
 
 despf.sh is a tool that resolves all `ip4` and `ip6` blocks
 found in any included SPF subdomain. It prints all these blocks
-sort(1)ed and uniq(1)ed to stdout, one per line.
-Other output ('Getting ...') is on stderr.
+`sort(1)`ed and `uniq(1)`ed to stdout, one per line.
+Other output (`Getting ...`) is on stderr.
 
 Example:
 
@@ -51,17 +51,18 @@ following line belong to.
     -------------------------------------
 
 You can change the prefix by running mkblocks.sh with an argument
-(e.g. '_spf').
+(e.g. `_spf`).
 
 The last record to update is your root domain's record which just
 contains an include. It should be always updated as the last one
-and you should keep alternating between 'spf' and '_spf' prefixes when
+and you should keep alternating between `spf` and `_spf` prefixes when
 changing records, so the records are all consistent until you change
 the root one.
 
 
 In order to semi-automate the task of updating the records, you can
-pipe the output of mkblocks.sh with xsel.sh (requires xsel obviously :)
+pipe the output of `mkblocks.sh` with `xsel.sh` (requires `xsel`
+obviously :)
 
 Links:
 
