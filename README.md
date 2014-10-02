@@ -1,12 +1,13 @@
-SPF-tools
-=========
+# SPF-tools
 
 Simple tools for keeping the SPF TXT records tidy.
 
-despf.sh is a tool that resolves all `ip4` and `ip6` blocks
+## despf.sh
+
+`despf.sh` is a tool that resolves all `ip4` and `ip6` blocks
 found in any included SPF subdomain. It prints all these blocks
-sort(1)ed and uniq(1)ed to stdout, one per line.
-Other output ('Getting ...') is on stderr.
+`sort(1)`ed and `uniq(1)`ed to stdout, one per line.
+Other output (`Getting ...`) is on stderr.
 
 Example:
 
@@ -21,19 +22,24 @@ Example:
     ip6:2a00:1450:4000::/36
     ip6:2c0f:fb50:4000::/36
 
-mkblocks.sh tool is meant to parse a list of blocks produced by
+## mkblocks.sh
+
+`mkblocks.sh` tool is meant to parse a list of blocks produced by
 despf.sh and prepare content of TXT records that all fit into one
 UDP packet, splitting into more TXT records if needed.
 
 One TXT record per line of standard output.
 
-    ./despf.sh spf-orig.apiary.io | ./mkblocks.sh _spf
+    ./despf.sh spf-orig.apiary.io | ./mkblocks.sh apiary.io _spf
 
-Both tools have sane defaults, so you can run just
+You can change the defaults and then just run
 
     ./despf.sh | ./mkblocks.sh
 
-You can verify your current SPF records by running compare.sh.
+
+## compare.sh
+
+You can verify your current SPF records by running `compare.sh`.
 If the TXT records need an update, it will automatically run
 the other tools to print out one updated TXT records, one per line.
 
@@ -51,20 +57,23 @@ following line belong to.
     -------------------------------------
 
 You can change the prefix by running mkblocks.sh with an argument
-(e.g. '_spf').
+(e.g. `_spf`).
 
 The last record to update is your root domain's record which just
 contains an include. It should be always updated as the last one
-and you should keep alternating between 'spf' and '_spf' prefixes when
+and you should keep alternating between `spf` and `_spf` prefixes when
 changing records, so the records are all consistent until you change
 the root one.
 
 
+## xsel.sh
+
 In order to semi-automate the task of updating the records, you can
-pipe the output of mkblocks.sh with xsel.sh (requires xsel obviously :)
+pipe the output of `mkblocks.sh` with `xsel.sh` (requires `xsel`
+obviously :)
 
-Links:
+## Links
 
-https://dmarcian.com/spf-survey/apiary.io
-http://www.kitterman.com/spf/validate.html
-http://serverfault.com/questions/584708
+ * https://dmarcian.com/spf-survey/apiary.io
+ * http://www.kitterman.com/spf/validate.html
+ * http://serverfault.com/questions/584708
