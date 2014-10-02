@@ -5,7 +5,8 @@ Simple tools for keeping the SPF TXT records tidy.
 
 despf.sh is a tool that resolves all `ip4` and `ip6` blocks
 found in any included SPF subdomain. It prints all these blocks
-to stdout, one per line. Other output is on stderr.
+sort(1)ed and uniq(1)ed to stdout, one per line.
+Other output ('Getting ...') is on stderr.
 
 Example:
 
