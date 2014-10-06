@@ -1,4 +1,6 @@
 #!/bin/sh
+#
+# Usage: ./compare.sh [<domain> [<compare_domain>]]
 
 domain=${1:-'apiary.io'}
 compare_domain=${2:-"spf-orig.$domain"}
