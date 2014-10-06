@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Usage: ./mkblocks.sh <domain> <prefix>
 #  E.g.: ./mkblocks.sh microsoft.com _spf
@@ -10,41 +10,33 @@ test -n "$2" || {
   alternate="${alternate}spf"
 }
 prefix=${2:-"$alternate"}
+incldomain="${prefix}X.$domain"
 
 header="v=spf1"
-incldomain="${prefix}X.$domain"
-footer="include:$incldomain -all"
+policy="-all"
+footer="include:$incldomain $policy"
 let counter=1
 
 myout() {
   local mycounter=$2
   echo -n "${1/X/$((mycounter-1))} (length: `echo $3 | wc -c`):^"
-  echo $3
+  echo "\"$3\""
 }
 
-{
 myout $domain $counter "$header ${footer/X/1}"
 let counter++
 
-blocks=""
 while
   read block
 do
   blocksprev=$blocks
   test -n "$blocks" && blocks="${blocks} ${block}" || blocks=$block
-  if
-    compare="$header $blocks ${footer/X/$counter}"
-    test `echo $compare | wc -c` -ge 255
-  then
+  compare="$header $blocks ${footer/X/$counter}"
+  test `echo $compare | wc -c` -ge 258 && {
     myout $incldomain $counter "$header ${blocksprev} ${footer/X/$counter}"
     blocks=$block
     let counter++
-  fi
+  }
 done
 
-if
-  test -n "$blocks"
-then
-  myout $incldomain $counter "$header $blocks -all"
-fi
-} | tac | tr "^" "\n"
+test -n "$blocks" && myout $incldomain $counter "$header $blocks $policy"

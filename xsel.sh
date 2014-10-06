@@ -1,19 +1,19 @@
 #!/bin/sh
 
-first="yes"
+case "$1" in
+  -m|--mac)
+    cap="pbcopy"
+    ;;
+  -x|--linux|--xsel)
+    cap="xsel -b"
+    ;;
+esac
 
-while read line
+tac | while read line
 do
-  if
-    test -n "$first"
-  then
-    echo $line
-    unset first
-  else
-    echo $line | cut -d^ -f2 | xsel -b
-    echo '  Coppied into seconday paste-buffer. Use CTRL+V to paste it.'
-    echo '  Press ENTER to continue...'
-    read enter </dev/tty
-    first="yes"
-  fi
+  echo -- $line | cut -d^ -f1
+  output=`echo $line | cut -d^ -f2`
+  test -n "$cap" && echo $output | eval $cap || echo $output
+  echo '  Press ENTER to continue...'
+  read enter </dev/tty
 done
