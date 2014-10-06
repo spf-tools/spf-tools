@@ -69,8 +69,7 @@ the root one.
 ## xsel.sh
 
 In order to semi-automate the task of updating the records, you can
-pipe the output of `mkblocks.sh` with `xsel.sh` (requires `xsel`
-obviously :)
+pipe the output of `mkblocks.sh` with `xsel.sh`.
 
 ## Links
 

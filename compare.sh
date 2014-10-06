@@ -17,5 +17,5 @@ trap "rm ${temp}-*" EXIT
 
 cmp ${temp}-* && echo "Everything OK" || {
   echo "Please update TXT records!" 1>&2
-  despf.sh | mkblocks.sh
+  despf.sh | mkblocks.sh | xsel.sh
 }

@@ -1,11 +1,11 @@
 #!/bin/sh
 
-case "$1" in
-  -m|--mac)
+case `uname -s` in
+  Darwin)
     cap="pbcopy"
     ;;
-  -x|--linux|--xsel)
-    cap="xsel -b"
+  *)
+    test -n "$DISPLAY" && type xsel && cap="xsel -b"
     ;;
 esac
 
