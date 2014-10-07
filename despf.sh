@@ -26,7 +26,7 @@ demx() {
 
 despf() {
   host=$1
-  myspf=`host -t txt $host | grep 'v=spf1' | sed 's/" "//'`
+  myspf=`dig +short -t TXT $host | sed 's/^"//;s/"$//;s/" "//' | grep '^v=spf1'`
   if
     includes=`echo $myspf | grep -o 'include:\S\+'`
   then
