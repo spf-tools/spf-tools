@@ -9,7 +9,7 @@ case `uname -s` in
     ;;
 esac
 
-tac | while read line
+sed '1!G;h;$!d' | while read line
 do
   echo -- $line | cut -d^ -f1
   output=`echo $line | cut -d^ -f2`
