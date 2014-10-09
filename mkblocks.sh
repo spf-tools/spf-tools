@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Usage: ./mkblocks.sh <domain> <prefix>
 #  E.g.: ./mkblocks.sh microsoft.com _spf
@@ -19,8 +19,7 @@ let counter=1
 
 myout() {
   local mycounter=$2
-  echo -n "${1/X/$((mycounter-1))} (length: `echo $3 | wc -c`):^"
-  echo "\"$3\""
+  echo "${1/X/$((mycounter-1))} (length: `echo $3 | wc -c`):^\"$3\""
 }
 
 myout $domain $counter "$header ${footer/X/1}"
