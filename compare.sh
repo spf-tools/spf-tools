@@ -16,6 +16,6 @@ despf.sh $compare_domain > ${temp}-2 2>/dev/null
 trap "rm ${temp}-*" EXIT
 
 cmp ${temp}-* 2>/dev/null && echo "Everything OK" || {
-  echo "Please update TXT records!" 1>&2
+  echo "Please update SPF TXT records of $domain!" 1>&2
   exit 1
 }
