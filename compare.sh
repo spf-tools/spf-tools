@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Usage: ./compare.sh [<domain> [<compare_domain>]]
+# Usage: ./compare.sh [domain [compare_domain]]
 
 domain=${1:-'apiary.io'}
 compare_domain=${2:-"spf-orig.$domain"}
@@ -17,5 +17,5 @@ trap "rm ${temp}-*" EXIT
 
 cmp ${temp}-* && echo "Everything OK" || {
   echo "Please update TXT records!" 1>&2
-  despf.sh | mkblocks.sh | xsel.sh
+  exit 1
 }
