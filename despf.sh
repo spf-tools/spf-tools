@@ -39,7 +39,6 @@ despf() {
   fi
   echo $myspf | grep -qw a && dea $host
   echo $myspf | grep -qw mx && demx $host
-  echo $myspf | grep -o 'ptr:\S\+'
   echo $myspf | grep -o 'ip[46]:\S\+' || true
 }
 
