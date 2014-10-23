@@ -31,7 +31,7 @@ do
   blocksprev=$blocks
   test -n "$blocks" && blocks="${blocks} ${block}" || blocks=$block
   compare="$header $blocks ${footer/X/$counter}"
-  test `echo $compare | wc -c` -ge 258 && {
+  test `echo $compare | wc -c` -ge 257 && {
     myout $incldomain $counter "$header ${blocksprev} ${footer/X/$counter}"
     blocks=$block
     let counter++
