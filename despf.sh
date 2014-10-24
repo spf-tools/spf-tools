@@ -4,15 +4,17 @@
 
 domain=${1:-'spf-orig.apiary.io'}
 
-printip4() {
+printip() {
+  ver=${1:-4}
   while read line
   do
-    echo "ip4:$line"
+    echo "ip$ver:$line"
   done
 }
 
 dea() {
-  dig +short -t A $1 | printip4
+  dig +short -t A $1 | printip
+  dig +short -t AAAA $1 | printip 6
 }
 
 demx() {
