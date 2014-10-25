@@ -13,7 +13,7 @@ prefix=${2:-"$alternate"}
 incldomain="${prefix}X.$domain"
 
 header="v=spf1"
-policy="-all"
+policy="~all"
 footer="include:$incldomain $policy"
 let counter=1
 
