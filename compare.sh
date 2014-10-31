@@ -10,8 +10,8 @@ PATH=$BINDIR:$PATH
 
 temp=`mktemp /tmp/$$.XXXXXXXX`
 
-despf.sh $domain > ${temp}-1 2>/dev/null
-despf.sh $compare_domain > ${temp}-2 2>/dev/null
+despf.sh $domain | simplify.sh > ${temp}-1 2>/dev/null
+despf.sh $compare_domain | simplify.sh > ${temp}-2 2>/dev/null
 
 trap "rm ${temp}-*" EXIT
 

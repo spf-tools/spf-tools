@@ -62,7 +62,14 @@ root one is changed.
 In order to semi-automate the task of updating the records,
 pipe the output of `mkblocks.sh` to `xsel.sh`.
 
-  ./despf.sh | ./mkblocks.sh | ./xsel.sh
+## simplify.sh
+
+This script takes out individual IPv4 addresses which are already
+contained in CIDR ranges.
+
+## Example
+
+  ./despf.sh | ./mkblocks.sh | ./simplify.sh | ./xsel.sh
 
 
 ## Links
