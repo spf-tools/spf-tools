@@ -69,7 +69,7 @@ contained in CIDR ranges.
 
 ## Example
 
-  ./despf.sh | ./mkblocks.sh | ./simplify.sh | ./xsel.sh
+    ./despf.sh | ./mkblocks.sh | ./simplify.sh | ./xsel.sh
 
 
 ## Links
