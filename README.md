@@ -79,3 +79,4 @@ contained in CIDR ranges.
  * http://www.kitterman.com/spf/validate.html
  * http://serverfault.com/questions/584708
  * http://www.openspf.org/SPF_Record_Syntax
+ * http://tools.ietf.org/html/rfc7208#section-5.5
