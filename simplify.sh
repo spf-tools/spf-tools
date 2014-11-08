@@ -4,7 +4,7 @@ a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
 export PATH=$BINDIR:$BINDIR/include:$PATH
 
 tmpfile=`mktemp /tmp/simplify.XXXXXXXXX`
-trap "rm $tmpfile*" EXIT
+trap "rm ${tmpfile}*" EXIT
 
 cat > $tmpfile.orig
 
@@ -22,6 +22,12 @@ do
   done < $tmpfile.cidr
 done < $tmpfile.addr
 
-#cat $tmpfile.grep
-grep -vFf $tmpfile.grep $tmpfile | sed 's/^/ip4:/'
+if
+  test -f $tmpfile.grep
+then
+  grep -vFf $tmpfile.grep $tmpfile
+else
+  cat $tmpfile
+fi | sed 's/^/ip4:/'
+
 grep -v "^ip4:" $tmpfile.orig
