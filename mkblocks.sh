@@ -19,7 +19,7 @@ let counter=1
 
 myout() {
   local mycounter=$2
-  echo "${1/X/$((mycounter-1))} (length: `echo $3 | wc -c`):^\"$3\""
+  echo "${1/X/$((mycounter-1))}^\"$3\""
 }
 
 myout $domain $counter "$header ${footer/X/1}"
