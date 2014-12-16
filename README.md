@@ -62,6 +62,7 @@ root one is changed.
 In order to semi-automate the task of updating the records,
 pipe the output of `mkblocks.sh` to `xsel.sh`.
 
+
 ## simplify.sh
 
 This script takes out individual IPv4 addresses which are already
@@ -72,6 +73,21 @@ contained in CIDR ranges.
     > ip4:192.168.0.0/24
     > EOF
     ip4:192.168.0.0/24
+
+
+## cloudflare.sh
+
+Script to update pre-existing TXT SPF records for a domain according
+to the input in DNS zone format using CloudFlare's API.
+
+To use this script, file `.spf-toolsrc` in `$HOME` directory should
+contain `TOKEN` and `EMAIL` variable definitions which are then used
+to connect to CloudFLare API.
+
+Usage:
+
+    ./despf.sh | ./simplify.sh | ./mkblocks.sh | \
+      ./mkzoneent.sh | ./cloudflare.sh 
 
 ## Example
 
