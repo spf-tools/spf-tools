@@ -5,7 +5,9 @@
 
 domain=${1:-'apiary.io'}
 test -n "$2" || {
-  alternate=`dig +short -t TXT $domain | grep "v=spf1" | grep -o "include:."`
+  nameserver=`dig +short -t NS $domain | sed 1q`
+  alternate=`dig +short -t TXT $domain @$nameserver | \
+    grep "v=spf1" | grep -o "include:."`
   alternate=`echo $alternate | cut -d: -f2 | sed 's/_//;s/s/_/'`
   alternate="${alternate}spf"
 }
