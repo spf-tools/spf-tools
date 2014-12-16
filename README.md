@@ -67,6 +67,12 @@ pipe the output of `mkblocks.sh` to `xsel.sh`.
 This script takes out individual IPv4 addresses which are already
 contained in CIDR ranges.
 
+    $ ./simplify.sh <<EOF
+    > ip4:192.168.0.1
+    > ip4:192.168.0.0/24
+    > EOF
+    ip4:192.168.0.0/24
+
 ## Example
 
     ./despf.sh | ./mkblocks.sh | ./simplify.sh | ./xsel.sh
