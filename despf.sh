@@ -3,6 +3,9 @@
 # Usage: ./despf <domain_with_SPF_TXT_record>
 
 domain=${1:-'spf-orig.apiary.io'}
+loopfile=`mktemp /tmp/despf-loop-XXXXXXX`
+touch $loopfile
+trap "rm $loopfile" EXIT INT
 
 printip() {
   ver=${1:-4}
@@ -28,6 +31,14 @@ demx() {
 
 despf() {
   host=$1
+
+  # Loop detection
+  echo $host | grep -qxFf $loopfile && {
+    echo "Loop detected with $host!" 1>&2
+    return 1
+  }
+  echo "$host" >> $loopfile
+
   myspf=`dig +short -t TXT $host | sed 's/^"//;s/"$//;s/" "//' | grep '^v=spf1'`
   if
     includes=`echo $myspf | grep -o 'include:\S\+'`
