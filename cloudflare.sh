@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Script to update pre-existing TXT SPF records for
 # a domain according to the input in DNS zone format.
@@ -27,6 +27,7 @@ apicmd() {
   CMD=${1:-'stats'}
   shift
   curl $APIURL \
+    -s \
     -d "a=$CMD" \
     -d "tkn=$TOKEN" \
     -d "email=$EMAIL" \
@@ -46,11 +47,12 @@ do
   id_to_change=`grep -x "^$domain TXT [0-9]\+ .v=spf1 .*" $idsfile | \
     awk '{print $3}'`
 
-  echo "Changing $domain with id $id_to_change ..."
+  echo -n "Changing $domain with id $id_to_change... "
   apicmd rec_edit \
+    -o /dev/null \
     -d 'type=TXT' \
     -d "name=$name" \
     -d "ttl=$TTL" \
     -d "id=$id_to_change" \
-    -d "content=$content"
+    -d "content=$content" && echo "OK"
 done < $zonefile
