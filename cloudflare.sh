@@ -44,7 +44,7 @@ while read domain ttl proto type content
 do
   name=$domain
   domain=`echo $domain | sed 's/\.$//'`
-  id_to_change=`grep -x "^$domain TXT [0-9]\+ .v=spf1 .*" $idsfile | \
+  id_to_change=`grep -x "^$domain TXT [0-9]\+ .v=spf1.*" $idsfile | \
     awk '{print $3}'`
 
   echo -n "Changing $domain with id $id_to_change... "
