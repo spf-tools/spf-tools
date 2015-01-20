@@ -3,6 +3,20 @@
 # Usage: ./despf <domain_with_SPF_TXT_record>
 
 domain=${1:-'spf-orig.apiary.io'}
+
+findns() {
+  ns=""
+  dd="$1"
+  while
+    test -z "$ns"
+  do
+    ns="`dig +short -t NS $dd | sed 1q`"
+    dd="${dd#*.}"
+  done
+  unset dd
+  echo "@$ns"
+}
+
 loopfile=`mktemp /tmp/despf-loop-XXXXXXX`
 touch $loopfile
 trap "rm $loopfile" EXIT INT
@@ -31,6 +45,7 @@ demx() {
 
 despf() {
   host=$1
+  myns=`findns $host`
 
   # Loop detection
   echo $host | grep -qxFf $loopfile && {
@@ -39,7 +54,8 @@ despf() {
   }
   echo "$host" >> $loopfile
 
-  myspf=`dig +short -t TXT $host | sed 's/^"//;s/"$//;s/" "//' | grep '^v=spf1'`
+  myspf=`dig +short -t TXT $host $myns |
+    sed 's/^"//;s/"$//;s/" "//' | grep '^v=spf1'`
   if
     includes=`echo $myspf | grep -o 'include:\S\+'`
   then
