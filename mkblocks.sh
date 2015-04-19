@@ -11,6 +11,7 @@ done
 header="v=spf1"
 policy="~all"
 delim="^"
+packet=257
 
 domain=${1:-'apiary.io'}
 test -n "$2" || {
@@ -39,10 +40,11 @@ do
   blocksprev=$blocks
   test -n "$blocks" && blocks="${blocks} ${block}" || blocks=$block
   compare="$header $blocks ${footer/X/$counter}"
-  test `echo $compare | wc -c` -ge 257 && {
+  test `echo $compare | wc -c` -ge $packet && {
     myout $incldomain $counter "$header ${blocksprev} ${footer/X/$counter}"
     blocks=$block
     let counter++
+    test $counter -gt 10 && { echo "Too many DNS lookups!"; exit 1; }
   }
 done
 
