@@ -1,6 +1,7 @@
 # SPF-tools
 
-Simple tools for keeping the SPF TXT records tidy.
+Simple tools for keeping the SPF TXT records tidy in order to fight
+[10 maximum DNS lookups](http://serverfault.com/questions/584708).
 
 
 ## despf.sh
