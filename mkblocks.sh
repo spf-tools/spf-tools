@@ -8,6 +8,10 @@ do
   type $cmd >/dev/null || exit 1
 done
 
+header="v=spf1"
+policy="~all"
+delim="^"
+
 domain=${1:-'apiary.io'}
 test -n "$2" || {
   nameserver=`dig +short -t NS $domain | sed 1q`
@@ -18,15 +22,12 @@ test -n "$2" || {
 }
 prefix=${2:-"$alternate"}
 incldomain="${prefix}X.$domain"
-
-header="v=spf1"
-policy="~all"
 footer="include:$incldomain $policy"
 let counter=1
 
 myout() {
   local mycounter=$2
-  echo "${1/X/$((mycounter-1))}^\"$3\""
+  echo "${1/X/$((mycounter-1))}${delim}\"$3\""
 }
 
 myout $domain $counter "$header ${footer/X/1}"
