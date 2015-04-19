@@ -1,5 +1,10 @@
 #!/bin/sh
 
+for cmd in dig awk grep sed cut
+do
+  type $cmd 1>&2 || exit 1
+done
+
 sed '1!G;h;$!d' | while read line
 do
   subdomain="`echo $line | cut -d^ -f1 | awk '{print $1}'`."

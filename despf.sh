@@ -2,6 +2,11 @@
 #
 # Usage: ./despf <domain_with_SPF_TXT_record>
 
+for cmd in dig awk grep sed cut
+do
+  type $cmd 1>&2 || exit 1
+done
+
 domain=${1:-'spf-orig.apiary.io'}
 
 findns() {

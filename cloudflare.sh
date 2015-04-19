@@ -9,6 +9,11 @@
 #          mkzoneent.sh | ./cloudflare.sh <domain>
 # E.g.: ... | ./cloudflare.sh apiary.tk
 
+for cmd in jq awk sed grep
+do
+  type $cmd 1>&2 || exit 1
+done
+
 DOMAIN=${1:-'apiary.io'}
 TTL=1 # 1 = auto
 APIURL="https://www.cloudflare.com/api_json.html"

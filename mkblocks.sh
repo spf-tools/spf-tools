@@ -3,6 +3,11 @@
 # Usage: ./mkblocks.sh <domain> <prefix>
 #  E.g.: ./mkblocks.sh microsoft.com _spf
 
+for cmd in dig awk grep sed cut
+do
+  type $cmd 1>&2 || exit 1
+done
+
 domain=${1:-'apiary.io'}
 test -n "$2" || {
   nameserver=`dig +short -t NS $domain | sed 1q`
