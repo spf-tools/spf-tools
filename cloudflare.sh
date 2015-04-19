@@ -11,7 +11,7 @@
 
 for cmd in jq awk sed grep
 do
-  type $cmd 1>&2 || exit 1
+  type $cmd >/dev/null || exit 1
 done
 
 DOMAIN=${1:-'apiary.io'}
