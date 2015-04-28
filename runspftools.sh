@@ -1,7 +1,10 @@
 #!/bin/sh
 
+a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
+
 bash -se <<EOF
-PATH=$PWD:$PATH
+PATH=$BINDIR:$PATH
+cd $BINDIR
 git pull
 compare.sh || despf.sh \
   | simplify.sh | mkblocks.sh \
