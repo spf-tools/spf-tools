@@ -7,14 +7,14 @@
 #
 # Usage: ./despf.sh | ./simplify.sh | mkblocks.sh | \
 #          mkzoneent.sh | ./cloudflare.sh <domain>
-# E.g.: ... | ./cloudflare.sh jasan.tk
+# E.g.: ... | ./cloudflare.sh spf-tools.ml
 
 for cmd in jq awk sed grep
 do
   type $cmd >/dev/null || exit 1
 done
 
-DOMAIN=${1:-'jasan.tk'}
+DOMAIN=${1:-'spf-tools.ml'}
 TTL=1 # 1 = auto
 APIURL="https://www.cloudflare.com/api_json.html"
 idsfile=`mktemp /tmp/cloudflare-ids-XXXXXX`

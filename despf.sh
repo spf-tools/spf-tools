@@ -7,7 +7,7 @@ do
   type $cmd >/dev/null || exit 1
 done
 
-domain=${1:-'spf-orig.jasan.tk'}
+domain=${1:-'orig.spf-tools.ml'}
 
 findns() {
   ns=""

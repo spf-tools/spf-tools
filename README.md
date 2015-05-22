@@ -33,9 +33,10 @@ UDP packet, splitting into more TXT records if needed.
 
 One TXT record per line of standard output.
 
-    ./despf.sh spf-orig.jasan.tk | ./simplify.sh | ./mkblocks.sh jasan.tk
+    ./despf.sh orig.spf-tools.ml | ./simplify.sh \
+      | ./mkblocks.sh spf-tools.ml _spf
 
-You can change the defaults and then just run
+Or you can change the defaults and then just run
 
     ./despf.sh | ./simplify.sh | ./mkblocks.sh
 
@@ -97,8 +98,8 @@ Usage:
 
 ## Links
 
- * https://dmarcian.com/spf-survey/spf-tools.jasan.tk
- * https://dmarcian.com/spf-survey/spf-orig.jasan.tk
+ * https://dmarcian.com/spf-survey/spf-tools.ml
+ * https://dmarcian.com/spf-survey/orig.spf-tools.ml
  * http://www.kitterman.com/spf/validate.html
  * http://serverfault.com/questions/584708
  * http://www.openspf.org/SPF_Record_Syntax
