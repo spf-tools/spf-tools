@@ -13,7 +13,7 @@ policy="~all"
 delim="^"
 packet=257
 
-domain=${1:-'apiary.io'}
+domain=${1:-'jasan.tk'}
 test -n "$2" || {
   nameserver=`dig +short -t NS $domain | sed 1q`
   alternate=`dig +short -t TXT $domain @$nameserver | \

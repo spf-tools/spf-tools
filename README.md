@@ -33,11 +33,11 @@ UDP packet, splitting into more TXT records if needed.
 
 One TXT record per line of standard output.
 
-    ./despf.sh spf-orig.apiary.io | ./mkblocks.sh apiary.io _spf
+    ./despf.sh spf-orig.jasan.tk | ./simplify.sh | ./mkblocks.sh jasan.tk
 
 You can change the defaults and then just run
 
-    ./despf.sh | ./mkblocks.sh
+    ./despf.sh | ./simplify.sh | ./mkblocks.sh
 
 
 ## compare.sh
@@ -97,8 +97,8 @@ Usage:
 
 ## Links
 
- * https://dmarcian.com/spf-survey/apiary.io
- * https://dmarcian.com/spf-survey/spf-orig.apiary.io
+ * https://dmarcian.com/spf-survey/spf-tools.jasan.tk
+ * https://dmarcian.com/spf-survey/spf-orig.jasan.tk
  * http://www.kitterman.com/spf/validate.html
  * http://serverfault.com/questions/584708
  * http://www.openspf.org/SPF_Record_Syntax

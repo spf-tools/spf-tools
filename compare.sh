@@ -2,8 +2,8 @@
 #
 # Usage: ./compare.sh [domain [compare_domain]]
 
-domain=${1:-'apiary.io'}
-compare_domain=${2:-"spf-orig.$domain"}
+domain=${1:-'spf-tools.jasan.tk'}
+compare_domain=${2:-"spf-orig.jasan.tk"}
 
 a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
 PATH=$BINDIR:$PATH
