@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Usage: ./mkblocks.sh <domain> <prefix>
 #  E.g.: ./mkblocks.sh microsoft.com _spf
@@ -24,7 +24,7 @@ test -n "$2" || {
 prefix=${2:-"$alternate"}
 incldomain="${prefix}X.$domain"
 footer="include:$incldomain $policy"
-let counter=1
+counter=$((1))
 
 myout() {
   local mycounter=$2
@@ -32,7 +32,7 @@ myout() {
 }
 
 myout $domain $counter "$header ${footer/X/1}"
-let counter++
+counter=$((counter+1))
 
 while
   read block
@@ -43,7 +43,7 @@ do
   test `echo $compare | wc -c` -ge $packet && {
     myout $incldomain $counter "$header ${blocksprev} ${footer/X/$counter}"
     blocks=$block
-    let counter++
+    counter=$((counter+1))
     test $counter -gt 10 && { echo "Too many DNS lookups!"; exit 1; }
   }
 done
