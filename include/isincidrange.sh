@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Usage: $BNAME <ip> <ip> <mask>
 # E.g.: $BNAME 192.168.0.1 192.168.0.5 24

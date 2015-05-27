@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Usage: ./mkblocks.sh <domain> <prefix>
 #  E.g.: ./mkblocks.sh microsoft.com _spf
