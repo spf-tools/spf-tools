@@ -9,7 +9,10 @@ done
 
 domain=${1:-'orig.spf-tools.ml'}
 
+dig +short gnu.org NS || export NO_STRAIGHT_DNS=1
+
 findns() {
+  test -n "$NO_STRAIGHT_DNS" && { echo ""; return; }
   ns=""
   dd="$1"
   while
