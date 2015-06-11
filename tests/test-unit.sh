@@ -2,6 +2,8 @@ a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
 tmp=`mktemp /tmp/spf-test-unit-XXXXXXXXX`
 trap "rm $tmp*" EXIT
 . $BINDIR/../include/despf.inc.sh
+export LC_ALL=C
+export LANG=C
 
 testexpect() {
   IN=0
@@ -23,14 +25,14 @@ testexpect 0 mydig -t TXT spf-tools.ml <<EOF
 "v=spf1 include:spf1.spf-tools.ml ~all"
 EOF
 
-testexpect 0 mydig -t NS spf-tools.ml <<EOF
-dawn.ns.cloudflare.com.
+testexpect 0 "mydig -t NS spf-tools.ml | sort" <<EOF
 chris.ns.cloudflare.com.
+dawn.ns.cloudflare.com.
 EOF
 
-testexpect 0 findns orig.spf-tools.ml <<EOF
-dawn.ns.cloudflare.com.
+testexpect 0 "findns orig.spf-tools.ml | sort" <<EOF
 chris.ns.cloudflare.com.
+dawn.ns.cloudflare.com.
 EOF
 
 testexpect -n 1 findns orig.non-existent.nonnon

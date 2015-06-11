@@ -1,0 +1,12 @@
+dependencies:
+  cache_directories:
+    - loksh
+    - musl
+
+  pre:
+    - sh -e misc/circle-setup.sh
+
+## Customize test commands
+test:
+  override:
+    - sh -e tests/test-shell.sh || sh -ex tests/test-shell.sh
