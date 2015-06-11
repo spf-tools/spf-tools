@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Script to update pre-existing TXT SPF records for
 # a domain according to the input in DNS zone format.
