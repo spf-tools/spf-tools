@@ -7,8 +7,10 @@ mydig() {
 findns() {
   dd="$1"; ns="";
   while test -z "$ns"
-    do ns=`mydig -t NS $dd` && dd="${dd#*.}"
-  done && echo "$ns"
+  do
+    ns=`mydig -t NS $dd` && echo $dd | grep -q '\.' && dd="${dd#*.}" || break 1
+  done
+  echo "$ns" | grep .
 }
 
 # printip <<EOF
@@ -18,10 +20,15 @@ findns() {
 # ip4:1.2.3.4
 # ip6:fec0::1
 printip() {
-  echo $1 | grep -q ':' && ver=6;
   while read line
-    do echo "ip${ver:-4}:$line"
+  do
+    if echo $line | grep -q ':'; then ver=6
+    elif echo $line | grep -q '\.'; then ver=4
+    else EXIT=1; break 1
+    fi
+    echo "ip${ver}:$line"
   done
+  return $EXIT
 }
 
 # dea <hostname>
@@ -41,18 +48,6 @@ demx() {
 
 loopfile=`mktemp /tmp/despf-loop-XXXXXXX`
 echo random-non-match-tdaoeinthaonetuhanotehu > $loopfile
-
-# detectloop <host> <loopfile>
-# Loop detection
-detectloop() {
-  host=$1
-  echo $host | grep -qxFf $loopfile && {
-    echo "Loop detected with $host!" 1>&2
-    true
-  }
-  echo "$host" >> $loopfile
-  false
-}
 
 # parsepf <host>
 parsepf() {
@@ -74,17 +69,18 @@ getem() {
 despf() {
   host=$1
 
-  if
-    detectloop $host
-  then
-    echo loop
-  else
-    myspf=`parsepf $host`
-    getem `echo $myspf | grep -Eo 'include:\S+'`
-    echo $myspf | grep -qw a && dea $host
-    echo $myspf | grep -qw mx && demx $host
-    echo $myspf | grep -Eo 'ip[46]:\S+' || true
-  fi
+  # Detect loop
+  echo $host | grep -qxFf $loopfile && {
+    #echo "Loop detected with $host!" 1>&2
+    return
+  }
+
+  echo "$host" >> $loopfile
+  myspf=`parsepf $host`
+  getem `echo $myspf | grep -Eo 'include:\S+'`
+  echo $myspf | grep -qw a && dea $host
+  echo $myspf | grep -qw mx && demx $host
+  echo $myspf | grep -Eo 'ip[46]:\S+' || true
 }
 
 cleanup() {
@@ -97,5 +93,5 @@ despfit() {
   export LANG=C
 
   despf $1 > $loopfile-out
-  sort -u $loopfile-out | sed /^loop$/d
+  sort -u $loopfile-out
 }

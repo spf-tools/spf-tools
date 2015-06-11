@@ -4,7 +4,8 @@ a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
 PATH=$BINDIR/..:$PATH
 cd $BINDIR
 
-despf.sh > $BINDIR/despf/out
+echo Refreshing despf output...
+despf.sh > $BINDIR/despf/out 2>/dev/null
 
 for MYSH in sh pdksh bash dash ash mksh
 do
@@ -13,6 +14,9 @@ do
   echo =================================
   echo Using $MYSH
   $MYSH -se < test-real.sh
+
+  echo Testing despf functions...
+  $MYSH $BINDIR/test-unit.sh
 
   echo Testing with '-n'
   for script in $BINDIR/../*.sh
