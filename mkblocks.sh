@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Usage: ./mkblocks.sh <domain> <prefix>
 #  E.g.: ./mkblocks.sh microsoft.com _spf
@@ -12,40 +12,43 @@ header="v=spf1"
 policy="~all"
 delim="^"
 packet=257
-
 domain=${1:-'spf-tools.ml'}
-test -n "$2" || {
-  nameserver=`dig +short -t NS $domain | sed 1q`
-  alternate=`dig +short -t TXT $domain @$nameserver | \
-    grep "v=spf1" | grep -o "include:."`
-  alternate=`echo $alternate | cut -d: -f2 | sed 's/_//;s/s/_/'`
-  alternate="${alternate}spf"
-}
-prefix=${2:-"$alternate"}
-incldomain="${prefix}X.$domain"
+prefix=${2:-"spf"}
+
+# One-char placeholder substitued for number later
+MYX=#
+
+incldomain="${prefix}${MYX}.$domain"
 footer="include:$incldomain $policy"
-let counter=1
+counter=$((2))
+
+mysed() {
+  sed "s/$MYX/$1/"
+}
 
 myout() {
-  local mycounter=$2
-  echo "${1/X/$((mycounter-1))}${delim}\"$3\""
+  local mycounter=${3:-'1'}
+  mystart=`echo $1 | mysed $((mycounter-1))`
+  myrest=`echo $2 | mysed $((mycounter))`
+  echo ${mystart}${delim}\"$header $myrest\"
 }
 
-myout $domain $counter "$header ${footer/X/1}"
-let counter++
+# Corner case for first entry containing merely include
+myout $domain "$footer"
 
 while
   read block
 do
   blocksprev=$blocks
   test -n "$blocks" && blocks="${blocks} ${block}" || blocks=$block
-  compare="$header $blocks ${footer/X/$counter}"
+  compare="$header $blocks $footer"
   test `echo $compare | wc -c` -ge $packet && {
-    myout $incldomain $counter "$header ${blocksprev} ${footer/X/$counter}"
+    myout $incldomain "${blocksprev} ${footer}" $counter
     blocks=$block
-    let counter++
+    counter=$((counter+1))
     test $counter -gt 10 && { echo "Too many DNS lookups!"; exit 1; }
   }
 done
 
-test -n "$blocks" && myout $incldomain $counter "$header $blocks $policy"
+# Corner case for last entry not containing any include
+test -n "$blocks" && myout $incldomain "$blocks $policy" $counter

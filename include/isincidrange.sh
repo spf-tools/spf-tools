@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Usage: $BNAME <ip> <ip> <mask>
 # E.g.: $BNAME 192.168.0.1 192.168.0.5 24
@@ -28,7 +28,7 @@ then
   restA=${IP1#*.}
   firstB=${IP2%%.*}
   restB=${IP2#*.}
-  let mask=$MSK-8
+  mask=$((MSK-8))
   test $firstA -eq $firstB && exec isincidrange.sh $restA $restB $mask
 else
   firstA=`bece ${IP1%%.*} | cut -b-$MSK`
