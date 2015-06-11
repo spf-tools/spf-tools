@@ -1,4 +1,4 @@
-# SPF-tools
+# SPF-tools [![CircleCI badge][badge]][1]
 
 Simple tools for keeping the SPF TXT records tidy in order to fight
 [10 maximum DNS lookups](http://serverfault.com/questions/584708).
@@ -105,3 +105,6 @@ Usage:
  * http://www.openspf.org/SPF_Record_Syntax
  * http://tools.ietf.org/html/rfc7208#section-5.5
  * http://tools.ietf.org/html/rfc7208#section-14.1
+
+[badge]: https://circleci.com/gh/jsarenik/spf-tools.png?circle-token=76b5be548795219cce8df5780def8eceaa134c35 "Test status"
+[1]: https://circleci.com/gh/jsarenik/spf-tools
