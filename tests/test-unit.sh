@@ -2,7 +2,6 @@ a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
 tmp=`mktemp /tmp/spf-test-unit-XXXXXXXXX`
 trap "rm $tmp*" EXIT
 . $BINDIR/../include/despf.inc.sh
-> $loopfile
 
 testexpect() {
   IN=0
@@ -12,7 +11,7 @@ testexpect() {
 
   echo .. Testing $* ...
   set +e
-  eval "$@" > $tmp-real
+  eval "$@" > $tmp-real 2>&1
   RETURN=$?
   set -e
   test -s $tmp-out && { diff $tmp-out $tmp-real; rm $tmp-out; }
@@ -35,8 +34,6 @@ chris.ns.cloudflare.com.
 EOF
 
 testexpect -n 1 findns orig.non-existent.nonnon
-#<<EOF
-#EOF
 
 cat > $tmp <<EOF
 1.2.3.4

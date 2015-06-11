@@ -5,10 +5,13 @@ mydig() {
 # findns <domain>
 # Find an authoritative NS server for domain
 findns() {
-  dd="$1"; ns="";
+  dd="$1"; ns=""; dig=${2:-mydig}
   while test -z "$ns"
   do
-    ns=`mydig -t NS $dd` && echo $dd | grep -q '\.' && dd="${dd#*.}" || break 1
+    ns=`$dig -t NS $dd` && echo $dd | grep -q '\.' && dd="${dd#*.}" || {
+      unset ns
+      break 1
+    }
   done
   echo "$ns" | grep .
 }
@@ -46,9 +49,6 @@ demx() {
   for name in $mymx; do dea $name; done
 }
 
-loopfile=`mktemp /tmp/despf-loop-XXXXXXX`
-echo random-non-match-tdaoeinthaonetuhanotehu > $loopfile
-
 # parsepf <host>
 parsepf() {
   host=$1
@@ -60,38 +60,45 @@ parsepf() {
 # getem <includes>
 # e.g. includes="include:gnu.org include:google.com"
 getem() {
+  myloop=$1
+  shift
   echo $* | tr " " "\n" | sed '/^$/d' | cut -b 9- | while read included
-  do echo Getting $included... 1>&2; despf $included
+  do echo Getting $included... 1>&2; despf $included $myloop
   done
 }
 
 # despf <domain>
 despf() {
   host=$1
+  myloop=$2
 
   # Detect loop
-  echo $host | grep -qxFf $loopfile && {
+  echo $host | grep -qxFf $myloop && {
     #echo "Loop detected with $host!" 1>&2
     return
   }
 
-  echo "$host" >> $loopfile
+  echo "$host" >> "${myloop}"
   myspf=`parsepf $host`
-  getem `echo $myspf | grep -Eo 'include:\S+'`
+  getem $myloop `echo $myspf | grep -Eo 'include:\S+'`
   echo $myspf | grep -qw a && dea $host
   echo $myspf | grep -qw mx && demx $host
   echo $myspf | grep -Eo 'ip[46]:\S+' || true
 }
 
 cleanup() {
-  rm ${loopfile}*
+  myloop=$1
+  test -n "$myloop" && rm ${myloop}*
 }
 
 despfit() {
+  host=$1
+  myloop=$2
+
   # Make sort(1) behave
   export LC_ALL=C
   export LANG=C
 
-  despf $1 > $loopfile-out
-  sort -u $loopfile-out
+  despf $host $myloop > "$myloop-out"
+  sort -u $myloop-out
 }

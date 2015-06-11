@@ -10,10 +10,11 @@ done
 
 a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
 . $BINDIR/include/despf.inc.sh
-trap "cleanup; false" INT QUIT
+loopfile=`mktemp /tmp/despf-loop-XXXXXXX`
+echo random-non-match-tdaoeinthaonetuhanotehu > $loopfile
+trap "cleanup $loopfile; exit 1;" INT QUIT
 
 domain=${1:-'orig.spf-tools.ml'}
 
-despfit $domain
-
-cleanup
+despfit $domain $loopfile
+cleanup $loopfile
