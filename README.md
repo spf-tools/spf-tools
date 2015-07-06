@@ -1,4 +1,4 @@
-# SPF-tools [![CircleCI badge][badge]][1] [![Codeship badge][cdbadge]][1]
+# SPF-tools [![CircleCI badge][badge]][1]  [![Codeship badge][cdbadge]][2]  [![Travis-CI badge][travis]][3]
 
 Simple tools for keeping the SPF TXT records tidy in order to fight
 [10 maximum DNS lookups](http://serverfault.com/questions/584708).
@@ -114,3 +114,5 @@ Usage:
 [1]: https://circleci.com/gh/jsarenik/spf-tools
 [cdbadge]: https://codeship.com/projects/8958e590-0616-0133-c43a-12a4c431c178/status?branch=master
 [2]: https://codeship.com/projects/89613
+[travis]: https://travis-ci.org/jsarenik/spf-tools.svg
+[3]: https://travis-ci.org/jsarenik/spf-tools

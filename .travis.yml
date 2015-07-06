@@ -1,15 +1,14 @@
-language: shell
+#language: shell
 
 cache:
   directories:
-    - $HOME/loksh
-    - $HOME/musl
+    - $HOME/.m2/repository
 
 before_install:
   - sudo apt-get update -qq
 
 install:
-  - sh -e misc/circle-setup.sh
+  - sh -e misc/ci-setup.sh
 
 script:
-  - sh -e tests/test-shell.sh || sh -ex tests/test-shell.sh
+  - sh -e misc/ci-runtest.sh

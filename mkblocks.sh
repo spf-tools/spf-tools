@@ -3,7 +3,7 @@
 # Usage: ./mkblocks.sh <domain> <prefix>
 #  E.g.: ./mkblocks.sh microsoft.com _spf
 
-for cmd in dig awk grep sed cut
+for cmd in awk grep sed cut
 do
   type $cmd >/dev/null || exit 1
 done

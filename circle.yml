@@ -1,12 +1,11 @@
 dependencies:
   cache_directories:
-    - loksh
-    - musl
+    - .m2/repository
 
   pre:
-    - sh -e misc/circle-setup.sh
+    - sh -ex misc/ci-setup.sh
 
 ## Customize test commands
 test:
   override:
-    - sh -e tests/test-shell.sh || sh -ex tests/test-shell.sh
+    - sh -ex misc/ci-runtest.sh
