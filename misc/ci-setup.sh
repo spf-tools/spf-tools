@@ -4,8 +4,9 @@ export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/usr/lo
 
 ORIG_PWD=$PWD
 CD_CACHE=$HOME/.m2/repository
-mkdir -p $CD_CACHE/bin
-ln -nsf $CD_CACHE/bin $HOME/bin
+mkdir -p $CD_CACHE/cache/bin
+ln -nsf $CD_CACHE/cache $HOME/cache
+ln -nsf $HOME/cache/bin $HOME/bin
 ln -nsf `which busybox` $HOME/bin/ash
 
 clab() {
@@ -28,7 +29,7 @@ clab() {
   cd ..
 }
 
-cd $CD_CACHE
+cd $HOME/cache
 
 clab mksh https://github.com/MirBSD/mksh.git mksh/mksh <<EOF
   sh Build.sh
