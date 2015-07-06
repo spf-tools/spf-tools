@@ -84,7 +84,11 @@ to the input in DNS zone format using CloudFlare's API.
 
 To use this script, file `.spf-toolsrc` in `$HOME` directory should
 contain `TOKEN` and `EMAIL` variable definitions which are then used
-to connect to CloudFLare API.
+to connect to CloudFLare API. The file should also contain `DOMAIN`
+and `ORIG_SPF` which stand for the target SPF domain (e.g. `spf-tools.ml`)
+and original SPF record with includes (e.g. `orig.spf-tools.ml`)
+variable if you want to use `runspftools.sh` without modifying the
+script.
 
 Usage:
 
