@@ -9,6 +9,8 @@ ln -nsf $CD_CACHE/cache $HOME/cache
 ln -nsf $HOME/cache/bin $HOME/bin
 ln -nsf `which busybox` $HOME/bin/ash
 
+which bc || sudo apt-get install bc || true
+
 clab() {
   NAME=$1
   REPO=$2

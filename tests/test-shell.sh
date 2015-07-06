@@ -4,8 +4,11 @@ a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
 PATH=$BINDIR/..:$PATH
 cd $BINDIR
 
-echo Refreshing despf output...
-despf.sh > $BINDIR/despf/out 2>/dev/null
+# This had to be commented out because Travis CI
+# does not have dig installed, don't forget to
+# refresh the $BINDIR/despf/out file when needed.
+#echo Refreshing despf output...
+#despf.sh > $BINDIR/despf/out 2>/dev/null
 
 for MYSH in sh ash pdksh ksh dash mksh bash 
 do
