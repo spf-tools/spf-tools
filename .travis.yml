@@ -4,8 +4,8 @@ cache:
   directories:
     - $HOME/.m2/repository
 
-#before_install:
-#  - sudo apt-get update -qq
+before_install:
+  - sudo apt-get update -qq
 
 install:
   - sh -e misc/ci-setup.sh
