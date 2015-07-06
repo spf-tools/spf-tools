@@ -1,0 +1,15 @@
+language: shell
+
+cache:
+  directories:
+    - $HOME/loksh
+    - $HOME/musl
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  - sh -e misc/circle-setup.sh
+
+script:
+  - sh -e tests/test-shell.sh || sh -ex tests/test-shell.sh
