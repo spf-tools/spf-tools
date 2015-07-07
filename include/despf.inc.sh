@@ -40,6 +40,7 @@ printip() {
 # fec0::1
 dea() {
   for TYPE in A AAAA; do mydig -t $TYPE $1 | printip; done
+  true
 }
 
 # demx <domain>
