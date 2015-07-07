@@ -5,10 +5,10 @@
 domain=${1:-'spf-tools.ml'}
 compare_domain=${2:-'orig.spf-tools.ml'}
 
-a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
+a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 PATH=$BINDIR:$PATH
 
-temp=`mktemp /tmp/$$.XXXXXXXX`
+temp=$(mktemp /tmp/$$.XXXXXXXX)
 
 despf.sh $domain | simplify.sh > ${temp}-1 2>/dev/null
 despf.sh $compare_domain | simplify.sh > ${temp}-2 2>/dev/null

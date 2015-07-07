@@ -28,8 +28,8 @@ mysed() {
 
 myout() {
   local mycounter=${3:-'1'}
-  mystart=`echo $1 | mysed $((mycounter-1))`
-  myrest=`echo $2 | mysed $((mycounter))`
+  mystart=$(echo $1 | mysed $((mycounter-1)))
+  myrest=$(echo $2 | mysed $((mycounter)))
   echo ${mystart}${delim}\"$header $myrest\"
 }
 
@@ -42,7 +42,7 @@ do
   blocksprev=$blocks
   test -n "$blocks" && blocks="${blocks} ${block}" || blocks=$block
   compare="$header $blocks $footer"
-  test `echo $compare | wc -c` -ge $packet && {
+  test $(echo $compare | wc -c) -ge $packet && {
     myout $incldomain "${blocksprev} ${footer}" $counter
     blocks=$block
     counter=$((counter+1))

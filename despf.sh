@@ -8,9 +8,9 @@ do
   type $cmd >/dev/null
 done
 
-a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
+a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 . $BINDIR/include/despf.inc.sh
-loopfile=`mktemp /tmp/despf-loop-XXXXXXX`
+loopfile=$(mktemp /tmp/despf-loop-XXXXXXX)
 echo random-non-match-tdaoeinthaonetuhanotehu > $loopfile
 trap "cleanup $loopfile; exit 1;" INT QUIT
 

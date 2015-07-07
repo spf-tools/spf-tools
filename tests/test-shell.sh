@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
+a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 PATH=$BINDIR/..:$PATH
 cd $BINDIR
 
@@ -9,7 +9,7 @@ despf.sh > $BINDIR/despf/out 2>/dev/null
 
 for MYSH in sh ash pdksh ksh dash mksh bash 
 do
-  MYSH=`which $MYSH 2>/dev/null` || continue
+  MYSH=$(which $MYSH 2>/dev/null) || continue
 
   echo =================================
   echo Using $MYSH

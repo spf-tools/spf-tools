@@ -1,6 +1,6 @@
 #!/bin/sh
 
-a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
+a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 
 # Read DOMAIN and ORIG_SPF
 . $HOME/.spf-toolsrc
