@@ -8,7 +8,7 @@ findns() {
   dd="$1"; ns=""; dig=${2:-mydig}
   while test -z "$ns"
   do
-    ns=`$dig -t NS $dd` && echo $dd | grep -q '\.' && dd="${dd#*.}" || {
+    ns=$($dig -t NS $dd) && echo $dd | grep -q '\.' && dd="${dd#*.}" || {
       unset ns
       break 1
     }
@@ -46,14 +46,14 @@ dea() {
 # demx <domain>
 # Get MX record for a domain
 demx() {
-  mymx=`mydig -t MX $1 | awk '{print $2}' | grep -m1 .`
+  mymx=$(mydig -t MX $1 | awk '{print $2}' | grep -m1 .)
   for name in $mymx; do dea $name; done
 }
 
 # parsepf <host>
 parsepf() {
   host=$1
-  myns=`findns $host`
+  myns=$(findns $host)
   mydig -t TXT $host @$myns | sed 's/^"//;s/"$//;s/" "//' \
     | grep '^v=spf1' | grep .
 }
@@ -80,8 +80,8 @@ despf() {
   }
 
   echo "$host" >> "${myloop}"
-  myspf=`parsepf $host`
-  getem $myloop `echo $myspf | grep -Eo 'include:\S+'`
+  myspf=$(parsepf $host)
+  getem $myloop $(echo $myspf | grep -Eo 'include:\S+')
   echo $myspf | grep -qw a && dea $host
   echo $myspf | grep -qw mx && demx $host
   echo $myspf | grep -Eo 'ip[46]:\S+' || true

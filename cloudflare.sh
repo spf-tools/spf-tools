@@ -17,8 +17,8 @@ done
 DOMAIN=${1:-'spf-tools.ml'}
 TTL=1 # 1 = auto
 APIURL="https://www.cloudflare.com/api_json.html"
-idsfile=`mktemp /tmp/cloudflare-ids-XXXXXX`
-zonefile=`mktemp /tmp/cloudflare-zone-XXXX`
+idsfile=$(mktemp /tmp/cloudflare-ids-XXXXXX)
+zonefile=$(mktemp /tmp/cloudflare-zone-XXXX)
 cat > $zonefile
 trap "rm $idsfile $zonefile" EXIT
 
@@ -48,9 +48,9 @@ apicmd rec_load_all | \
 while read domain ttl proto type content
 do
   name=$domain
-  domain=`echo $domain | sed 's/\.$//'`
-  id_to_change=`grep -x "^$domain TXT [0-9]\+ .v=spf1.*" $idsfile | \
-    awk '{print $3}'`
+  domain=$(echo $domain | sed 's/\.$//')
+  id_to_change=$(grep -x "^$domain TXT [0-9]\+ .v=spf1.*" $idsfile | \
+    awk '{print $3}')
 
   echo -n "Changing $domain with id $id_to_change... "
   apicmd rec_edit \

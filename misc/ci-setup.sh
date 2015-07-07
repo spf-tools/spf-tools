@@ -7,7 +7,7 @@ CD_CACHE=$HOME/.m2/repository
 mkdir -p $CD_CACHE/cache/bin
 ln -nsf $CD_CACHE/cache $HOME/cache
 ln -nsf $HOME/cache/bin $HOME/bin
-ln -nsf `which busybox` $HOME/bin/ash
+ln -nsf $(which busybox) $HOME/bin/ash
 
 which bc || sudo apt-get install bc || true
 which dig || sudo apt-get install dnsutils || true
@@ -16,7 +16,7 @@ clab() {
   NAME=$1
   REPO=$2
   BIN=$3
-  TMPSH=`mktemp /tmp/sh.XXXXXXX`
+  TMPSH=$(mktemp /tmp/sh.XXXXXXX)
 
   cat > $TMPSH
   git clone $REPO || true

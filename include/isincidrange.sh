@@ -3,7 +3,7 @@
 # Usage: $BNAME <ip> <ip> <mask>
 # E.g.: $BNAME 192.168.0.1 192.168.0.5 24
 
-a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=`cd $a; pwd`
+a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 export PATH=$BINDIR:$PATH
 
 IP1=${1:-'193.87.44.98'}
@@ -31,8 +31,8 @@ then
   mask=$((MSK-8))
   test $firstA -eq $firstB && exec isincidrange.sh $restA $restB $mask
 else
-  firstA=`bece ${IP1%%.*} | cut -b-$MSK`
-  firstB=`bece ${IP2%%.*} | cut -b-$MSK`
+  firstA=$(bece ${IP1%%.*} | cut -b-$MSK)
+  firstB=$(bece ${IP2%%.*} | cut -b-$MSK)
   test $firstA -eq $firstB && exit 0
 fi
 
