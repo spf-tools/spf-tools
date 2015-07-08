@@ -9,8 +9,8 @@ ln -nsf $CD_CACHE/cache $HOME/cache
 ln -nsf $HOME/cache/bin $HOME/bin
 ln -nsf $(which busybox) $HOME/bin/ash
 
-which bc || sudo apt-get install bc || true
-which dig || sudo apt-get install dnsutils || true
+which bc || sudo apt-get install bc -qq || true
+which dig || sudo apt-get install dnsutils -qq || true
 
 clab() {
   NAME=$1
