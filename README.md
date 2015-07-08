@@ -1,4 +1,4 @@
-# SPF-tools [![CircleCI badge][badge]][1]  [![Codeship badge][cdbadge]][2]  [![Travis-CI badge][travis]][3]
+# SPF-tools [![CircleCI badge][badge]][1]  [![Codeship badge][cdbadge]][2]  [![Travis-CI badge][travis]][3]  [![SemaphoreCI badge][semaphore]][4]
 
 Simple tools for keeping the SPF TXT records tidy in order to fight
 [10 maximum DNS lookups](http://serverfault.com/questions/584708).
@@ -116,3 +116,5 @@ Usage:
 [2]: https://codeship.com/projects/89613
 [travis]: https://travis-ci.org/jsarenik/spf-tools.svg
 [3]: https://travis-ci.org/jsarenik/spf-tools
+[semaphore]: https://semaphoreci.com/api/v1/projects/1bce3ee4-b034-439a-8df1-2047500ad523/477838/badge.svg
+[4]: https://semaphoreci.com/jsarenik/spf-tools
