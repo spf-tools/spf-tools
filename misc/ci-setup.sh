@@ -19,7 +19,7 @@ clab() {
   TMPSH=$(mktemp /tmp/sh.XXXXXXX)
 
   cat > $TMPSH
-  git clone $REPO || true
+  git clone -q $REPO || true
   cd $NAME
   if
     test -x $BIN
