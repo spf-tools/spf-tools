@@ -64,7 +64,7 @@ getem() {
   myloop=$1
   shift
   echo $* | tr " " "\n" | sed '/^$/d' | cut -b 9- | while read included
-  do echo Getting $included... 1>&2; despf $included $myloop
+  do echo Getting $included 1>&2; despf $included $myloop
   done
 }
 
