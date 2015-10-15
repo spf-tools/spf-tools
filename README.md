@@ -9,7 +9,25 @@ Simple tools for keeping the SPF TXT records tidy in order to fight
 [10 maximum DNS lookups](http://serverfault.com/questions/584708).
 
 
-## despf.sh
+## General Usage
+
+Your original TXT record which causes more than 10 DNS lookups
+should be saved as an otherwise unused subdomain TXT record
+(e.g. `orig.spf-tools.ml`).
+
+Create a configuration file:
+
+    cat > ~/.spftoolsrc <<EOF
+    DOMAIN=spf-tools.ml
+    ORIG_SPF=orig.spf-tools.ml
+    EOF
+
+Now just call any of the scripts described below.
+
+
+## Tools Description
+
+### despf.sh
 
 `despf.sh` is a tool that resolves all `ip4` and `ip6` blocks
 found in any included SPF subdomain. It prints all these blocks
@@ -19,10 +37,10 @@ Other output (`Getting ...`) is on stderr.
 Example:
 
     ./despf.sh google.com
-    Getting _spf.google.com...
-    Getting _netblocks.google.com...
-    Getting _netblocks2.google.com...
-    Getting _netblocks3.google.com...
+    Getting _spf.google.com
+    Getting _netblocks.google.com
+    Getting _netblocks2.google.com
+    Getting _netblocks3.google.com
     ip4:173.194.0.0/16
     ip4:74.125.0.0/16
     ...
@@ -30,7 +48,7 @@ Example:
     ip6:2c0f:fb50:4000::/36
 
 
-## mkblocks.sh
+### mkblocks.sh
 
 `mkblocks.sh` tool is meant to parse a list of blocks produced by
 despf.sh and prepare content of TXT records that all fit into one
@@ -38,15 +56,10 @@ UDP packet, splitting into more TXT records if needed.
 
 One TXT record per line of standard output.
 
-    ./despf.sh orig.spf-tools.ml | ./simplify.sh \
-      | ./mkblocks.sh spf-tools.ml _spf
-
-Or you can change the defaults and then just run
-
     ./despf.sh | ./simplify.sh | ./mkblocks.sh
 
 
-## compare.sh
+### compare.sh
 
 Current SPF records can be verified by running `compare.sh`.
 If the TXT records need an update, it will automatically run
@@ -64,13 +77,13 @@ changing records, so the records are all consistent until the
 root one is changed.
 
 
-## xsel.sh
+### xsel.sh
 
 In order to semi-automate the task of updating the records,
 pipe the output of `mkblocks.sh` to `xsel.sh`.
 
 
-## simplify.sh
+### simplify.sh
 
 This script takes out individual IPv4 addresses which are already
 contained in CIDR ranges.
@@ -82,23 +95,24 @@ contained in CIDR ranges.
     ip4:192.168.0.0/24
 
 
-## cloudflare.sh
+### cloudflare.sh
 
 Script to update pre-existing TXT SPF records for a domain according
 to the input in DNS zone format using CloudFlare's API.
 
 To use this script, file `.spf-toolsrc` in `$HOME` directory should
 contain `TOKEN` and `EMAIL` variable definitions which are then used
-to connect to CloudFLare API. The file should also contain `DOMAIN`
-and `ORIG_SPF` which stand for the target SPF domain (e.g. `spf-tools.ml`)
-and original SPF record with includes (e.g. `orig.spf-tools.ml`)
-variable if you want to use `runspftools.sh` without modifying the
-script.
+to connect to CloudFlare API. The file should also contain `DOMAIN`
+and `ORIG_SPF` variables which stand for the target SPF domain
+(e.g. `spf-tools.ml`) and original SPF record with includes
+(e.g. `orig.spf-tools.ml`) in order to use `runspftools.sh`
+without modifying the script.
 
 Usage:
 
     ./despf.sh | ./simplify.sh | ./mkblocks.sh | \
       ./mkzoneent.sh | ./cloudflare.sh 
+
 
 ## Example
 
