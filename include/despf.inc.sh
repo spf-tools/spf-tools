@@ -42,7 +42,7 @@ printip() {
 # 1.2.3.4
 # fec0::1
 dea() {
-  for TYPE in A AAAA; do mydig -t $TYPE $1 | printip; done
+  for TYPE in A AAAA; do mydig_notshort -t $TYPE $1 | grep -v CNAME | awk '{print $5}' | printip $2; done
   true
 }
 
