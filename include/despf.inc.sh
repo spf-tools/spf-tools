@@ -2,6 +2,10 @@ mydig() {
   dig +time=1 +short "$@" || { echo "DNS lookup error!" >&2; cleanup; false; }
 }
 
+mydig_notshort() {
+  dig +time=1 +noall +answer "$@" || { echo "DNS lookup error!" >&2; cleanup; false; }
+}
+
 # findns <domain>
 # Find an authoritative NS server for domain
 findns() {
