@@ -105,6 +105,7 @@ getamx() {
     fi
   done
 }
+
 # despf <domain>
 despf() {
   host=$1
