@@ -78,32 +78,32 @@ getem() {
 # getamx <a:modifiers>
 # e.g. a="a a:gnu.org a:google.com/24"
 getamx() {
-	host=$1
-	local myloop=$2
-	shift
-	shift
-	for record in $* ; do 
-		local ahost=$(echo $record | cut -s -d: -f2-)
-		if [ "x" = "x$ahost" ] ; then
-			lookuphost="$host";
-			cidr="32";
-			mech="$record"
-		else
-			mech=$(echo $record | cut -s -d: -f1)
-			cidr=$(echo $ahost | cut -s -d\/ -f2-)
-			if [ "x" = "x$cidr" ] ; then
-				lookuphost=$ahost
-				cidr="32";
-			else
-				lookuphost=$(echo $ahost | cut -d\/ -f1)
-			fi
-		fi
-		if [ "$mech" = "a" ]; then
-			dea $lookuphost $cidr
-		elif [ "$mech" = "mx" ]; then
-			demx $lookuphost $cidr
-		fi
-	done
+  host=$1
+  local myloop=$2
+  shift
+  shift
+  for record in $* ; do 
+    local ahost=$(echo $record | cut -s -d: -f2-)
+    if [ "x" = "x$ahost" ] ; then
+      lookuphost="$host";
+      cidr="32";
+      mech="$record"
+    else
+      mech=$(echo $record | cut -s -d: -f1)
+      cidr=$(echo $ahost | cut -s -d\/ -f2-)
+      if [ "x" = "x$cidr" ] ; then
+        lookuphost=$ahost
+        cidr="32";
+      else
+        lookuphost=$(echo $ahost | cut -d\/ -f1)
+      fi
+    fi
+    if [ "$mech" = "a" ]; then
+      dea $lookuphost $cidr
+    elif [ "$mech" = "mx" ]; then
+      demx $lookuphost $cidr
+    fi
+  done
 }
 # despf <domain>
 despf() {
