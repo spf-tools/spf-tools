@@ -23,13 +23,16 @@ findns() {
 # ip4:1.2.3.4
 # ip6:fec0::1
 printip() {
+  if [ "x" != "x$1" ] ; then 
+	  prefix="/$1";
+  fi
   while read line
   do
     if echo $line | grep -q ':'; then ver=6
     elif echo $line | grep -q '\.'; then ver=4
     else EXIT=1; break 1
     fi
-    echo "ip${ver}:$line"
+    echo "ip${ver}:${line}${prefix}"
   done
   return $EXIT
 }
@@ -47,7 +50,7 @@ dea() {
 # Get MX record for a domain
 demx() {
   mymx=$(mydig -t MX $1 | awk '{print $2}' | grep -m1 .)
-  for name in $mymx; do dea $name; done
+  for name in $mymx; do dea $name $2; done
 }
 
 # parsepf <host>
@@ -68,6 +71,36 @@ getem() {
   done
 }
 
+# getamx <a:modifiers>
+# e.g. a="a a:gnu.org a:google.com/24"
+getamx() {
+	host=$1
+	local myloop=$2
+	shift
+	shift
+	for record in $* ; do 
+		local ahost=$(echo $record | cut -s -d: -f2-)
+		if [ "x" = "x$ahost" ] ; then
+			lookuphost="$host";
+			cidr="32";
+			mech="$record"
+		else
+			mech=$(echo $record | cut -s -d: -f1)
+			cidr=$(echo $ahost | cut -s -d\/ -f2-)
+			if [ "x" = "x$cidr" ] ; then
+				lookuphost=$ahost
+				cidr="32";
+			else
+				lookuphost=$(echo $ahost | cut -d\/ -f1)
+			fi
+		fi
+		if [ "$mech" = "a" ]; then
+			dea $lookuphost $cidr
+		elif [ "$mech" = "mx" ]; then
+			demx $lookuphost $cidr
+		fi
+	done
+}
 # despf <domain>
 despf() {
   host=$1
@@ -82,8 +115,7 @@ despf() {
   echo "$host" >> "${myloop}"
   myspf=$(parsepf $host)
   getem $myloop $(echo $myspf | grep -Eo 'include:\S+')
-  echo $myspf | grep -qw a && dea $host
-  echo $myspf | grep -qw mx && demx $host
+  getamx $host $myloop $(echo $myspf | grep -Eo -w '(mx|a)(:\S+)?')
   echo $myspf | grep -Eo 'ip[46]:\S+' || true
 }
 
