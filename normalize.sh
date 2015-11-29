@@ -33,15 +33,18 @@ network() {
 while
   read ip
 do
-  array=(${ip/:/ });
-  if [ "x${array[0]}" = "xip4" ] ; then
+  cidr=$(echo $ip | cut -d: -f2)
+  ipver=$(echo $ip | cut -d: -f1)
+  if [ $ipver = "ip4" ] ; then
     # check if is a CIDR
-    if [[ ${array[1]} == *"/"32 ]] ; then
+    cidr=$(echo $ip | cut -d: -f2 -)
+    nm=$(echo $ip | cut -s -d/ -f2)
+    if [ "x$nm" = "x32" ] ; then
       echo $ip
-    elif [[ ${array[1]} == *"/"* ]] ; then
-      echo "ip4:$(network ${array[1]})"
+    elif [ "x$nm" = "x" ] ; then
+      echo $ip
     else
-      echo "ip4:${array[1]}"
+      echo "ip4:$(network $cidr)"
     fi
   else
     echo $ip
