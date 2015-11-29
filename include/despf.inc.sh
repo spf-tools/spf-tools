@@ -118,10 +118,15 @@ despf() {
   }
 
   echo "$host" >> "${myloop}"
-  myspf=$(parsepf $host)
-  getem $myloop $(echo $myspf | grep -Eo 'include:\S+')
-  getamx $host $myloop $(echo $myspf | grep -Eo -w '(mx|a)(:\S+)?')
-  echo $myspf | grep -Eo 'ip[46]:\S+' || true
+  myspf=$(parsepf $host | sed 's/redirect=/include:/')
+
+  set +e
+  dogetem=$(echo $myspf | grep -Eo 'include:\S+') \
+    && getem $myloop $dogetem
+  dogetamx=$(echo $myspf | grep -Eo -w '(mx|a)(:\S+)?')  \
+    && getamx $host $myloop $dogetamx
+  echo $myspf | grep -Eo 'ip[46]:\S+'
+  set -e
 }
 
 cleanup() {
