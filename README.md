@@ -101,6 +101,11 @@ contained in CIDR ranges.
 
 ### cloudflare.sh
 
+Dependencies: [jq](https://stedolan.github.io/jq/),
+[awk](https://www.gnu.org/software/gawk/),
+[sed](https://www.gnu.org/software/sed/),
+[grep](https://www.gnu.org/software/grep/)
+
 Script to update pre-existing TXT SPF records for a domain according
 to the input in DNS zone format using CloudFlare's API.
 
