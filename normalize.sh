@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Usage: ./despf.sh domain | ./normalize.sh
 #  E.g.: ./despf.sh microsoft.com | ./normalize.sh
@@ -6,8 +6,9 @@
 
 ip2int() {
   local a b c d
-  { IFS="." read a b c d; } <<< $1;
-  echo $(((((((a << 8) | b) << 8) | c) << 8) | d))
+  echo $1 | while IFS="." read a b c d ; do
+    echo $(((((((a << 8) | b) << 8) | c) << 8) | d))
+  done
 }
 
 int2ip() {
@@ -22,10 +23,11 @@ int2ip() {
 
 network() {
   local ip netmask
-  { IFS="/" read ip netmask; } <<< $1
-  local addr=$(ip2int $ip);
-  local mask=$((0xffffffff << (32 -$netmask)));
-  echo $(int2ip $((addr & mask)))/$netmask
+  echo $1 | while  IFS="/" read ip netmask; do
+    local addr=$(ip2int $ip);
+    local mask=$((0xffffffff << (32 -$netmask)));
+    echo $(int2ip $((addr & mask)))/$netmask
+  done
 }
 
 while
@@ -45,5 +47,3 @@ do
     echo $ip
   fi
 done
-
-
