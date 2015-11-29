@@ -20,6 +20,7 @@ Create a configuration file:
     cat > ~/.spftoolsrc <<EOF
     DOMAIN=spf-tools.ml
     ORIG_SPF=orig.spf-tools.ml
+    DNS_TIMEOUT=5
     EOF
 
 Now just call any of the scripts described below.
@@ -46,6 +47,9 @@ Example:
     ...
     ip6:2a00:1450:4000::/36
     ip6:2c0f:fb50:4000::/36
+
+The `DNS_TIMEOUT` configuration variable sets number of seconds
+for the `dig +time=SECS` command.
 
 
 ### mkblocks.sh
