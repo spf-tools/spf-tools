@@ -21,5 +21,5 @@ trap "cleanup $loopfile; exit 1;" INT QUIT
 
 domain=${1:-'orig.spf-tools.ml'}
 
-despfit $domain $loopfile
+despfit $domain $loopfile | grep . || { cleanup $loopfile; exit 1; }
 cleanup $loopfile
