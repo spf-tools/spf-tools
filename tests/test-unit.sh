@@ -30,6 +30,11 @@ chris.ns.cloudflare.com.
 dawn.ns.cloudflare.com.
 EOF
 
+testexpect 0 "mydig_notshort -t A cname.spf-tools.ml @dawn.ns.cloudflare.com." <<EOF
+cname.spf-tools.ml.	300	IN	CNAME	both.spf-tools.ml.
+both.spf-tools.ml.	300	IN	A	1.2.3.4
+EOF
+
 testexpect 0 "findns orig.spf-tools.ml | sort" <<EOF
 chris.ns.cloudflare.com.
 dawn.ns.cloudflare.com.
