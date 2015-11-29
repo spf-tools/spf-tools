@@ -1,9 +1,16 @@
+DNS_TIMEOUT=${DNS_TIMEOUT:-"2"}
+
+mydg() {
+  dig +time=$DNS_TIMEOUT "$@" \
+      || { echo "DNS lookup error!" >&2; cleanup; false; }
+}
+
 mydig() {
-  dig +time=1 +short "$@" || { echo "DNS lookup error!" >&2; cleanup; false; }
+  mydg +short "$@"
 }
 
 mydig_notshort() {
-  dig +time=1 +noall +answer "$@" || { echo "DNS lookup error!" >&2; cleanup; false; }
+  mydg +noall +answer "$@"
 }
 
 # findns <domain>

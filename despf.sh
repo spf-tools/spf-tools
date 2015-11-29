@@ -9,7 +9,12 @@ do
 done
 
 a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
+. $BINDIR/include/global.inc.sh
 . $BINDIR/include/despf.inc.sh
+
+# Read DNS_TIMEOUT if spf-toolsrc is present
+test -r $SPFTRC && . $SPFTRC
+
 loopfile=$(mktemp /tmp/despf-loop-XXXXXXX)
 echo random-non-match-tdaoeinthaonetuhanotehu > $loopfile
 trap "cleanup $loopfile; exit 1;" INT QUIT
