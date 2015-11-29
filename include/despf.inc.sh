@@ -28,7 +28,7 @@ findns() {
 # ip6:fec0::1
 printip() {
   if [ "x" != "x$1" ] ; then 
-	  prefix="/$1";
+    prefix="/$1";
   fi
   while read line
   do
@@ -105,6 +105,7 @@ getamx() {
     fi
   done
 }
+
 # despf <domain>
 despf() {
   host=$1
