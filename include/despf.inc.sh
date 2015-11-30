@@ -93,14 +93,12 @@ getamx() {
     local ahost=$(echo $record | cut -s -d: -f2-)
     if [ "x" = "x$ahost" ] ; then
       lookuphost="$host";
-      cidr="32";
       mech="$record"
     else
       mech=$(echo $record | cut -s -d: -f1)
       cidr=$(echo $ahost | cut -s -d\/ -f2-)
       if [ "x" = "x$cidr" ] ; then
         lookuphost=$ahost
-        cidr="32";
       else
         lookuphost=$(echo $ahost | cut -d\/ -f1)
       fi
