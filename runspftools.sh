@@ -16,7 +16,7 @@ exec > $HOME/runspftools.log 2>&1
 date
 git pull
 compare.sh $DOMAIN $ORIG_SPF || despf.sh $ORIG_SPF \
-  | simplify.sh | mkblocks.sh $DOMAIN \
+  | normalize.sh | simplify.sh | mkblocks.sh $DOMAIN \
   | mkzoneent.sh | cloudflare.sh $DOMAIN
 sleep 300
 exec $0

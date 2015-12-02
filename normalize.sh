@@ -22,31 +22,31 @@ int2ip() {
 }
 
 network() {
-  local ip netmask
-  echo $1 | while  IFS="/" read ip netmask; do
-    local addr=$(ip2int $ip);
+  local ia netmask
+  echo $1 | while  IFS="/" read ia netmask; do
+    local addr=$(ip2int $ia);
     local mask=$((0xffffffff << (32 -$netmask)));
     echo $(int2ip $((addr & mask)))/$netmask
   done
 }
 
 while
-  read ip
+  read i
 do
-  cidr=$(echo $ip | cut -d: -f2)
-  ipver=$(echo $ip | cut -d: -f1)
+  cidr=$(echo $i | cut -d: -f2)
+  ipver=$(echo $i | cut -d: -f1)
   if [ $ipver = "ip4" ] ; then
     # check if is a CIDR
-    cidr=$(echo $ip | cut -d: -f2 -)
-    nm=$(echo $ip | cut -s -d/ -f2)
+    cidr=$(echo $i | cut -d: -f2 -)
+    nm=$(echo $i | cut -s -d/ -f2)
     if [ "x$nm" = "x32" ] ; then
-      echo $ip
+      echo $i
     elif [ "x$nm" = "x" ] ; then
-      echo $ip
+      echo $i
     else
       echo "ip4:$(network $cidr)"
     fi
   else
-    echo $ip
+    echo $i
   fi
 done
