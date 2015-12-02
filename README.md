@@ -67,7 +67,7 @@ UDP packet, splitting into more TXT records if needed.
 
 One TXT record per line of standard output.
 
-    ./despf.sh | ./simplify.sh | ./mkblocks.sh
+    ./despf.sh | ./normalize.sh | ./simplify.sh | ./mkblocks.sh
 
 
 ### compare.sh
@@ -92,6 +92,23 @@ root one is changed.
 
 In order to semi-automate the task of updating the records,
 pipe the output of `mkblocks.sh` to `xsel.sh`.
+
+
+### normalize.sh
+
+This script takes care of correct CIDR ranges. At the moment
+only IPv4.
+
+Example:
+
+    $ ./normalize.sh <<EOF
+    > ip4:207.68.169.173/30
+    > ip4:207.68.169.175/30
+    > ip4:65.55.238.129/26
+    > EOF
+    ip4:207.68.169.172/30
+    ip4:207.68.169.172/30
+    ip4:65.55.238.128/26
 
 
 ### simplify.sh
@@ -126,13 +143,16 @@ without modifying the script.
 
 Usage:
 
-    ./despf.sh | ./simplify.sh | ./mkblocks.sh | \
-      ./mkzoneent.sh | ./cloudflare.sh 
+    ./despf.sh | ./normalize.sh | ./simplify.sh | ./mkblocks.sh \
+      > /tmp/out 2>&1
+    grep "Too many DNS lookups!" /tmp/out \
+      || cat /tmp/out | ./mkzoneent.sh | ./cloudflare.sh
 
 
 ## Example
 
-    ./despf.sh | ./simplify.sh | ./mkblocks.sh | ./xsel.sh
+    ./despf.sh | ./normalize.sh | ./simplify.sh \
+      | ./mkblocks.sh | ./xsel.sh
 
 
 ## Links
