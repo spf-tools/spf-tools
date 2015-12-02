@@ -31,22 +31,22 @@ network() {
 }
 
 while
-  read ip
+  read i
 do
-  cidr=$(echo $ip | cut -d: -f2)
-  ipver=$(echo $ip | cut -d: -f1)
+  cidr=$(echo $i | cut -d: -f2)
+  ipver=$(echo $i | cut -d: -f1)
   if [ $ipver = "ip4" ] ; then
     # check if is a CIDR
-    cidr=$(echo $ip | cut -d: -f2 -)
-    nm=$(echo $ip | cut -s -d/ -f2)
+    cidr=$(echo $i | cut -d: -f2 -)
+    nm=$(echo $i | cut -s -d/ -f2)
     if [ "x$nm" = "x32" ] ; then
-      echo $ip
+      echo $i
     elif [ "x$nm" = "x" ] ; then
-      echo $ip
+      echo $i
     else
       echo "ip4:$(network $cidr)"
     fi
   else
-    echo $ip
+    echo $i
   fi
 done
