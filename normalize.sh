@@ -22,9 +22,9 @@ int2ip() {
 }
 
 network() {
-  local ip netmask
-  echo $1 | while  IFS="/" read ip netmask; do
-    local addr=$(ip2int $ip);
+  local ia netmask
+  echo $1 | while  IFS="/" read ia netmask; do
+    local addr=$(ip2int $ia);
     local mask=$((0xffffffff << (32 -$netmask)));
     echo $(int2ip $((addr & mask)))/$netmask
   done
