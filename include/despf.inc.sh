@@ -53,6 +53,7 @@ printip() {
 # 1.2.3.4
 # fec0::1
 dea() {
+  echo "Getting A/AAAA for $1"
   for TYPE in A AAAA; do mydig_notshort -t $TYPE $1 | grep -v CNAME | awk '{print $5}' | printip $2; done
   true
 }
@@ -61,7 +62,7 @@ dea() {
 # Get MX record for a domain
 demx() {
   mymx=$(mydig -t MX $1 | awk '{print $2}' | grep -m1 .)
-  for name in $mymx; do dea $name $2; done
+  for name in $mymx; do echo "Getting MX for $1"; dea $name $2; done
 }
 
 # parsepf <host>
@@ -90,13 +91,14 @@ getamx() {
   shift
   shift
   for record in $* ; do 
+    local cidr=$(echo $record | cut -s -d\/ -f2-)
     local ahost=$(echo $record | cut -s -d: -f2-)
     if [ "x" = "x$ahost" ] ; then
       lookuphost="$host";
-      mech="$record"
+      mech=$(echo $record | cut -d/ -f1)
     else
-      mech=$(echo $record | cut -s -d: -f1)
-      cidr=$(echo $ahost | cut -s -d\/ -f2-)
+      # try to catch "a/24", "a",  "a:host.tld/24" and "a:host.tld"
+      mech=$(echo $record | cut -d: -f1 | cut -d/ -f1)
       if [ "x" = "x$cidr" ] ; then
         lookuphost=$ahost
       else
@@ -128,7 +130,7 @@ despf() {
   set +e
   dogetem=$(echo $myspf | grep -Eo 'include:\S+') \
     && getem $myloop $dogetem
-  dogetamx=$(echo $myspf | grep -Eo -w '(mx|a)(:\S+)?')  \
+  dogetamx=$(echo $myspf | grep -Eo -w '(mx|a)((\/|:)\S+)?')  \
     && getamx $host $myloop $dogetamx
   echo $myspf | grep -Eo 'ip[46]:\S+'
   set -e
