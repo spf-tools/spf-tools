@@ -53,7 +53,6 @@ printip() {
 # 1.2.3.4
 # fec0::1
 dea() {
-  echo "Getting A/AAAA for $1"
   for TYPE in A AAAA; do mydig_notshort -t $TYPE $1 | grep -v CNAME | awk '{print $5}' | printip $2; done
   true
 }
@@ -62,7 +61,7 @@ dea() {
 # Get MX record for a domain
 demx() {
   mymx=$(mydig -t MX $1 | awk '{print $2}' | grep -m1 .)
-  for name in $mymx; do echo "Getting MX for $1"; dea $name $2; done
+  for name in $mymx; do dea $name $2; done
 }
 
 # parsepf <host>
