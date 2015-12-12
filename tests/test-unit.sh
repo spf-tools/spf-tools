@@ -35,9 +35,8 @@ cname.spf-tools.ml.	300	IN	CNAME	both.spf-tools.ml.
 both.spf-tools.ml.	300	IN	A	1.2.3.4
 EOF
 
-testexpect 0 "findns orig.spf-tools.ml | sort" <<EOF
-chris.ns.cloudflare.com.
-dawn.ns.cloudflare.com.
+testexpect 0 findns one.spf-tools.ml <<EOF
+ns1.he.net.
 EOF
 
 testexpect -n 1 findns orig.non-existent.nonnon
