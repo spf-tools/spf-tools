@@ -58,7 +58,7 @@ Example:
     ip6:2c0f:fb50:4000::/36
 
 The `DNS_TIMEOUT` configuration variable sets number of seconds
-for the `dig +time=SECS` command.
+for the `drill +time=SECS` command.
 
 
 ### mkblocks.sh

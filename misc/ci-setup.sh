@@ -26,11 +26,11 @@ ln -nsf $CD_CACHE/cache $HOME/cache
 ln -nsf $HOME/cache/bin $HOME/bin
 ln -nsf $(which busybox) $HOME/bin/ash
 
-which dig || {
-  wget "http://dl.bintray.com/jsarenik/spf-tools-bin/dig.bz2"
-  bunzip2 dig.bz2
-  chmod a+x dig
-  mv dig $HOME/bin
+which drill || {
+  cd $HOME/bin
+  wget "http://dl.bintray.com/jsarenik/spf-tools-bin/drill.bz2"
+  bunzip2 drill.bz2
+  chmod a+x drill
 }
 
 clab() {
@@ -72,3 +72,7 @@ clab loksh https://github.com/dimkr/loksh.git ksh <<EOF
 EOF
 
 cd $ORIG_PWD
+
+ls -l $HOME/bin
+which drill
+drill
