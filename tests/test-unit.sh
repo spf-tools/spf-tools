@@ -65,6 +65,11 @@ ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
+testexpect 0 dea cname.spf-tools.ml <<EOF
+ip4:1.2.3.4
+ip6:fec0::1
+EOF
+
 testexpect 0 demx mx.spf-tools.ml <<EOF
 ip4:5.6.7.8
 ip6:56:78::1
