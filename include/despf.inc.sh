@@ -24,7 +24,7 @@ findns() {
       break 1
     }
   done
-  echo "$ns" | grep .
+  echo "$ns" | grep '^[^;]'
 }
 
 # printip <<EOF
