@@ -69,7 +69,7 @@ parsepf() {
   host=$1
   myns=$(findns $host)
   mydig -t TXT $host @$myns | sed 's/^"//;s/"$//;s/" "//' \
-    | grep -E '^v=spf1\s+' | grep .
+    | grep -E '^v=spf1\s+'
 }
 
 # getem <includes>
