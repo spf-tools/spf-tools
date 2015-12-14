@@ -46,7 +46,7 @@ do
     else
       result="ip4:$(network $cidr)"
       test -n "$ignore" || { echo $result; continue; }
-      test "$result" = "$i" && echo $i
+      test "$result" = "$i" && echo $i || true
     fi
   else
     echo $i
