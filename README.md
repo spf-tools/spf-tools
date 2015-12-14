@@ -7,6 +7,8 @@
 
 # SPF-tools
 
+[![Join the chat at https://gitter.im/jsarenik/spf-tools](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jsarenik/spf-tools?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![CircleCI badge][badge]][1]
 [![Codeship badge][cdbadge]][2]
 [![Travis-CI badge][travis]][3]
