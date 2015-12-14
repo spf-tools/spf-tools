@@ -4,9 +4,6 @@ a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 PATH=$BINDIR/..:$PATH
 cd $BINDIR
 
-echo Refreshing despf output...
-despf.sh > $BINDIR/despf/out 2>/dev/null
-
 for MYSH in sh ash pdksh ksh dash mksh bash 
 do
   MYSH=$(which $MYSH 2>/dev/null) || continue
