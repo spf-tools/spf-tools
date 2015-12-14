@@ -78,4 +78,11 @@ testexpect 0 parsepf spf-tools.ml <<EOF
 v=spf1 include:spf1.spf-tools.ml ~all
 EOF
 
+# This tests the correct process of iteration
+# between different NS servers if one is not
+# responding
+testexpect 0 parsepf morens.spf-tools.ml <<EOF
+v=spf1 include:spf1.spf-tools.ml ~all
+EOF
+
 testexpect -n 1 parsepf mail.spf-tools.ml
