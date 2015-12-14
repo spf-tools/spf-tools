@@ -3,6 +3,7 @@
 # Usage: ./despf.sh domain | ./normalize.sh
 #  E.g.: ./despf.sh microsoft.com | ./normalize.sh
 
+test "$1" = "-i" && ignore=1
 
 ip2int() {
   local a b c d
@@ -43,7 +44,9 @@ do
     elif [ "x$nm" = "x" ] ; then
       echo $i
     else
-      echo "ip4:$(network $cidr)"
+      result="ip4:$(network $cidr)"
+      test -n "$ignore" || { echo $result; continue; }
+      test "$result" = "$i" && echo $i
     fi
   else
     echo $i
