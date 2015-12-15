@@ -36,7 +36,7 @@ which dig || {
 clab() {
   NAME=$1
   REPO=$2
-  BIN=$3
+  BIN=${3:-"nonexistent"}
   TMPSH=$(mktemp /tmp/sh.XXXXXXX)
 
   cat > $TMPSH
@@ -61,8 +61,8 @@ clab mksh https://github.com/MirBSD/mksh.git mksh <<EOF
 EOF
 
 
-clab musl git://git.musl-libc.org/musl tools/musl-gcc <<EOF
-  ./configure --prefix=$HOME; make;
+clab musl git://git.musl-libc.org/musl <<EOF
+  test -x tools/musl-gcc || ./configure --prefix=$HOME; make;
   make install
 EOF
 
