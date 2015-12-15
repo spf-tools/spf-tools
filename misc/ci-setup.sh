@@ -55,18 +55,18 @@ clab() {
 
 cd $HOME/cache
 
-clab mksh https://github.com/MirBSD/mksh.git mksh/mksh <<EOF
+clab mksh https://github.com/MirBSD/mksh.git mksh <<EOF
   sh Build.sh
   cp mksh $HOME/bin/mksh
 EOF
 
 
-clab musl git://git.musl-libc.org/musl musl/tools/musl-gcc <<EOF
+clab musl git://git.musl-libc.org/musl tools/musl-gcc <<EOF
   ./configure --prefix=$HOME; make;
   make install
 EOF
 
-clab loksh https://github.com/dimkr/loksh.git loksh/ksh <<EOF
+clab loksh https://github.com/dimkr/loksh.git ksh <<EOF
   export CC=musl-gcc LDFLAGS=-static; make;
   make PREFIX=$HOME install
 EOF
