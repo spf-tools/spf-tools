@@ -26,8 +26,12 @@ ln -nsf $CD_CACHE/cache $HOME/cache
 ln -nsf $HOME/cache/bin $HOME/bin
 ln -nsf $(which busybox) $HOME/bin/ash
 
-which bc || sudo apt-get install bc -qq || true
-which dig || sudo apt-get install dnsutils -qq || true
+which dig || {
+  wget "http://dl.bintray.com/jsarenik/spf-tools-bin/dig.bz2"
+  bunzip2 dig.bz2
+  chmod a+x dig
+  mv dig $HOME/bin
+}
 
 clab() {
   NAME=$1
