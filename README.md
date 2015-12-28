@@ -167,14 +167,6 @@ Usage:
  * http://tools.ietf.org/html/rfc7208#section-5.5
  * http://tools.ietf.org/html/rfc7208#section-14.1
 
-[badge]: https://circleci.com/gh/jsarenik/spf-tools.png?circle-token=76b5be548795219cce8df5780def8eceaa134c35 "Test status"
-[1]: https://circleci.com/gh/jsarenik/spf-tools
-[cdbadge]: https://codeship.com/projects/8958e590-0616-0133-c43a-12a4c431c178/status?branch=master
-[2]: https://codeship.com/projects/89613
-[travis]: https://travis-ci.org/jsarenik/spf-tools.svg
-[3]: https://travis-ci.org/jsarenik/spf-tools
-[semaphore]: https://semaphoreci.com/api/v1/projects/1bce3ee4-b034-439a-8df1-2047500ad523/477838/badge.svg
-[4]: https://semaphoreci.com/jsarenik/spf-tools
 
 ## License
 
@@ -191,3 +183,13 @@ Usage:
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+
+[badge]: https://circleci.com/gh/jsarenik/spf-tools.png?circle-token=76b5be548795219cce8df5780def8eceaa134c35 "Test status"
+[1]: https://circleci.com/gh/jsarenik/spf-tools
+[cdbadge]: https://codeship.com/projects/8958e590-0616-0133-c43a-12a4c431c178/status?branch=master
+[2]: https://codeship.com/projects/89613
+[travis]: https://travis-ci.org/jsarenik/spf-tools.svg
+[3]: https://travis-ci.org/jsarenik/spf-tools
+[semaphore]: https://semaphoreci.com/api/v1/projects/1bce3ee4-b034-439a-8df1-2047500ad523/477838/badge.svg
+[4]: https://semaphoreci.com/jsarenik/spf-tools
