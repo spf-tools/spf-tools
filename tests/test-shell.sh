@@ -18,7 +18,7 @@
 ##############################################################################
 
 a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
-PATH=$BINDIR/..:$PATH
+PATH=$BINDIR/..:$BINDIR/../include:$PATH
 cd $BINDIR
 
 for MYSH in sh ash pdksh ksh dash mksh bash 
