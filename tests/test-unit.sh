@@ -104,3 +104,7 @@ v=spf1 include:spf1.spf-tools.ml ~all
 EOF
 
 testexpect -n 1 parsepf mail.spf-tools.ml
+
+testexpect -n 1 isincidrange.sh 74.86.241.250 199.122.123.192 32
+
+testexpect -n 0 isincidrange.sh 192.168.5.1 192.168.0.0 16

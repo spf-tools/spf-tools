@@ -52,7 +52,7 @@ c=$3
 
 nm=$c
 if [ "x$nm" = "x32" ] ; then
-  test $a -eq $b
+  test "$a" = "$b"
 else
   resulta="$(network $a/$nm)"
   resultb="$(network $b/$nm)"
