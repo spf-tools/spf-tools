@@ -34,6 +34,9 @@ done
 a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 . $BINDIR/include/global.inc.sh
 
+test -n "$TOKEN" || { echo "TOKEN not set! Exiting."; exit 1; }
+test -n "$EMAIL" || { echo "EMAIL not set! Exiting."; exit 1; }
+
 DOMAIN=${1:-'spf-tools.ml'}
 TTL=1 # 1 = auto
 APIURL="https://www.cloudflare.com/api_json.html"
@@ -44,9 +47,6 @@ trap "rm $idsfile $zonefile" EXIT
 
 # Read TOKEN and EMAIL
 test -r $SPFTRC && . $SPFTRC
-
-test -n "$TOKEN" || { echo "TOKEN not set! Exiting."; exit 1; }
-test -n "$EMAIL" || { echo "EMAIL not set! Exiting."; exit 1; }
 
 apicmd() {
   CMD=${1:-'stats'}
