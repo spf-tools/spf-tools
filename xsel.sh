@@ -22,7 +22,7 @@ case $(uname -s) in
     cap="pbcopy"
     ;;
   *)
-    test -n "$DISPLAY" && type xsel && cap="xsel -b"
+    test -n "$DISPLAY" && type xsel >&2 && cap="xsel -b"
     ;;
 esac
 
