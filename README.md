@@ -190,6 +190,6 @@ Usage:
 [cdbadge]: https://codeship.com/projects/8958e590-0616-0133-c43a-12a4c431c178/status?branch=master
 [2]: https://codeship.com/projects/89613
 [travis]: https://travis-ci.org/jsarenik/spf-tools.svg
-[3]: https://travis-ci.org/jsarenik/spf-tools
+[3]: https://travis-ci.org/jsarenik/spf-tools.svg?branch=master
 [semaphore]: https://semaphoreci.com/api/v1/projects/1bce3ee4-b034-439a-8df1-2047500ad523/477838/badge.svg
 [4]: https://semaphoreci.com/jsarenik/spf-tools
