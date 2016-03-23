@@ -88,7 +88,13 @@ demx() {
 # parsepf <host>
 parsepf() {
   host=$1
-  myns=$(findns $host 2>/dev/null)
+  if
+    test -n "$USE_UPSTREAM"
+  then
+    myns=$(findns $host 2>/dev/null)
+  else
+    myns=$(sed -n 's/nameserver \([\.:0-9a-f]*\)/\1/p' /etc/resolv.conf)
+  fi
   for ns in $myns
   do
     mydig -t TXT $host @$ns 2>/dev/null | sed 's/^"//;s/"$//;s/" "//' \
