@@ -185,11 +185,11 @@ Usage:
     limitations under the License.
 
 
-[badge]: https://circleci.com/gh/jsarenik/spf-tools.png?circle-token=76b5be548795219cce8df5780def8eceaa134c35 "Test status"
+[badge]: https://circleci.com/gh/jsarenik/spf-tools/tree/master.png?circle-token=76b5be548795219cce8df5780def8eceaa134c35 "Test status"
 [1]: https://circleci.com/gh/jsarenik/spf-tools
 [cdbadge]: https://codeship.com/projects/8958e590-0616-0133-c43a-12a4c431c178/status?branch=master
 [2]: https://codeship.com/projects/89613
 [travis]: https://travis-ci.org/jsarenik/spf-tools.svg?branch=master
 [3]: https://travis-ci.org/jsarenik/spf-tools.svg
-[semaphore]: https://semaphoreci.com/api/v1/projects/1bce3ee4-b034-439a-8df1-2047500ad523/477838/badge.svg
+[semaphore]: https://semaphoreci.com/api/v1/jsarenik/spf-tools/branches/master/badge.svg
 [4]: https://semaphoreci.com/jsarenik/spf-tools
