@@ -25,7 +25,7 @@ export LANG=C
 
 testexpect() {
   IN=0
-  test $1 = "-n" && shift || cat > $tmp-out
+  test $1 = "-n" && { shift; > $tmp-out; } || cat > $tmp-out
   EXPRET=$1
   shift
 
@@ -34,7 +34,7 @@ testexpect() {
   eval "$@" > $tmp-real 2>&1
   RETURN=$?
   set -e
-  test -s $tmp-out && { diff $tmp-out $tmp-real; rm $tmp-out; }
+  test -s $tmp-out && { sort $tmp-real | diff -u $tmp-out -; }
   test $EXPRET -eq $RETURN
   echo .... OK
 }
