@@ -112,12 +112,11 @@ getem() {
   done
 }
 
-# getamx <a:modifiers>
-# e.g. a="a a:gnu.org a:google.com/24"
+# getamx host mech [mech [...]]
+# e.g. host="spf-tools.ml"
+# e.g. mech="a a:gnu.org a:google.com/24 mx:gnu.org mx:jasan.tk/24"
 getamx() {
   host=$1
-  local myloop=$2
-  shift
   shift
   for record in $* ; do 
     local cidr=$(echo $record | cut -s -d\/ -f2-)
@@ -160,7 +159,7 @@ despf() {
   dogetem=$(echo $myspf | grep -Eo 'include:\S+') \
     && getem $myloop $dogetem
   dogetamx=$(echo $myspf | grep -Eo -w '(mx|a)((\/|:)\S+)?')  \
-    && getamx $host $myloop $dogetamx
+    && getamx $host $dogetamx
   echo $myspf | grep -Eo 'ip[46]:\S+'
   set -e
 }
