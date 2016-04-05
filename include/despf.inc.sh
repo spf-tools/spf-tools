@@ -69,7 +69,7 @@ printip() {
   return $EXIT
 }
 
-# dea <hostname>
+# dea <hostname> <cidr>
 # dea both.spf-tools.ml
 # 1.2.3.4
 # fec0::1
@@ -78,7 +78,7 @@ dea() {
   true
 }
 
-# demx <domain>
+# demx <domain> <cidr>
 # Get MX record for a domain
 demx() {
   mymx=$(mydig -t MX $1 | awk '{print $2}' | grep -m1 .)
