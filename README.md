@@ -81,7 +81,7 @@ new TXT records in reverse order.
 
 Best practice is to put those lines into DNS starting with the
 last one. That's why `xsel.sh` reverses the input gathered from
-`mkblocks.sh` by using `tac`.
+`mkblocks.sh`.
 
 The last record to update is root domain's record which just
 contains an include. It should be always updated as the last one
