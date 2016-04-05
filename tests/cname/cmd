@@ -1,0 +1,1 @@
+$(which despf.sh) cname-spf.spf-tools.ml 2>/dev/null

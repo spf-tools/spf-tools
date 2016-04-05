@@ -39,18 +39,17 @@ testexpect() {
   echo .... OK
 }
 
-testexpect 0 mydig -t TXT spf-tools.ml <<EOF
+testexpect 0 mdrills TXT spf-tools.ml <<EOF
 "v=spf1 include:spf1.spf-tools.ml ~all"
 EOF
 
-testexpect 0 "mydig -t NS spf-tools.ml | sort" <<EOF
+testexpect 0 "mdrills NS spf-tools.ml | sort" <<EOF
 chris.ns.cloudflare.com.
 dawn.ns.cloudflare.com.
 EOF
 
-#testexpect 0 "mydig_notshort -t A cname.spf-tools.ml @dawn.ns.cloudflare.com." <<EOF
+#testexpect 0 "mdrill CNAME cname.spf-tools.ml @dawn.ns.cloudflare.com." <<EOF
 #cname.spf-tools.ml.	300	IN	CNAME	both.spf-tools.ml.
-#both.spf-tools.ml.	300	IN	A	1.2.3.4
 #EOF
 
 testexpect 0 findns one.spf-tools.ml <<EOF
