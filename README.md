@@ -26,7 +26,7 @@ should be saved as an otherwise unused subdomain TXT record
 
 Create a configuration file:
 
-    cat > ~/.spftoolsrc <<EOF
+    cat > ~/.spf-toolsrc <<EOF
     DOMAIN=spf-tools.ml
     ORIG_SPF=orig.spf-tools.ml
     DNS_TIMEOUT=5
