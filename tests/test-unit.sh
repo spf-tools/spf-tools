@@ -87,9 +87,28 @@ ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
+testexpect 0 dea cname.spf-tools.ml 24 <<EOF
+ip4:1.2.3.4/24
+ip6:fec0::1/24
+EOF
+
 testexpect 0 demx mx.spf-tools.ml <<EOF
 ip4:5.6.7.8
 ip6:56:78::1
+EOF
+
+testexpect 0 demx mx.spf-tools.ml 24 <<EOF
+ip4:5.6.7.8/24
+ip6:56:78::1/24
+EOF
+
+testexpect 0 demx spf-tools.ml 24 <<EOF
+ip4:122.103.250.12/24
+ip4:198.143.169.250/24
+ip4:42.3.81.21/24
+ip4:64.38.239.85/24
+ip4:66.37.25.72/24
+ip4:66.37.25.74/24
 EOF
 
 testexpect 0 parsepf spf-tools.ml <<EOF
