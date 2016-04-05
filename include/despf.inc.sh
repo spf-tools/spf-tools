@@ -81,7 +81,7 @@ dea() {
 # demx <domain> <cidr>
 # Get MX record for a domain
 demx() {
-  mymx=$(mydig -t MX $1 | awk '{print $2}' | grep -m1 .)
+  mymx=$(mydig -t MX $1 | awk '{print $2}')
   for name in $mymx; do dea $name $2; done
 }
 
