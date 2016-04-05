@@ -111,6 +111,11 @@ ip4:66.37.25.72/24
 ip4:66.37.25.74/24
 EOF
 
+testexpect 0 getamx both-spf.spf-tools.ml a:both.spf-tools.ml <<EOF
+ip4:1.2.3.4
+ip6:fec0::1
+EOF
+
 testexpect 0 parsepf spf-tools.ml <<EOF
 v=spf1 include:spf1.spf-tools.ml ~all
 EOF
