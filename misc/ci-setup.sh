@@ -19,56 +19,17 @@
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/usr/local/musl/bin:$HOME/bin
 
-ORIG_PWD=$PWD
-CD_CACHE=$HOME/.m2/repository
-mkdir -p $CD_CACHE/cache/bin
-ln -nsf $CD_CACHE/cache $HOME/cache
-ln -nsf $HOME/cache/bin $HOME/bin
-ln -nsf $(which busybox) $HOME/bin/ash
+ODIR=$PWD/mybin
+test -d $ODIR || mkdir $ODIR
 
-which dig || {
-  wget "http://dl.bintray.com/jsarenik/spf-tools-bin/dig.bz2"
-  bunzip2 dig.bz2
-  chmod a+x dig
-  mv dig $HOME/bin
+dlit() {
+  which $1 || {
+    OUT=$ODIR/$1
+    wget -O - "$2" | bzcat > $OUT
+    chmod a+x $OUT
+  }
 }
 
-clab() {
-  NAME=$1
-  REPO=$2
-  BIN=${3:-"nonexistent"}
-  TMPSH=$(mktemp /tmp/sh.XXXXXXX)
-
-  cat > $TMPSH
-  git clone -q $REPO || true
-  cd $NAME
-  if
-    test -x $BIN
-  then
-    cp $BIN $HOME/bin
-  else
-    sh $TMPSH
-  fi
-  rm $TMPSH
-  cd ..
-}
-
-cd $HOME/cache
-
-clab mksh https://github.com/MirBSD/mksh.git mksh <<EOF
-  sh Build.sh
-  cp mksh $HOME/bin/mksh
-EOF
-
-
-clab musl git://git.musl-libc.org/musl <<EOF
-  test -x tools/musl-gcc || ./configure --prefix=$HOME; make;
-  make install
-EOF
-
-clab loksh https://github.com/dimkr/loksh.git ksh <<EOF
-  export CC=musl-gcc LDFLAGS=-static; make;
-  make PREFIX=$HOME install
-EOF
-
-cd $ORIG_PWD
+dlit dig "http://dl.bintray.com/jsarenik/spf-tools-bin/dig.bz2"
+dlit mksh "http://dl.bintray.com/jsarenik/spf-tools-bin/mksh.bz2"
+dlit ksh "http://dl.bintray.com/jsarenik/spf-tools-bin/ksh.bz2"
