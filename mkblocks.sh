@@ -37,7 +37,7 @@ MYX=#
 
 incldomain="${prefix}${MYX}.$domain"
 footer="include:$incldomain $policy"
-counter=$((2))
+counter=$((1))
 
 mysed() {
   sed "s/$MYX/$1/"
@@ -45,13 +45,16 @@ mysed() {
 
 myout() {
   local mycounter=${3:-'1'}
-  mystart=$(echo $1 | mysed $((mycounter-1)))
+  rrlabel=$1
+  if [ $mycounter -eq 1 ]; then
+      #first resource label of chain is bare domain
+      rrlabel="$domain"
+  fi
+  mystart=$(echo $rrlabel | mysed $((mycounter-1)))
   myrest=$(echo $2 | mysed $((mycounter)))
   echo ${mystart}${delim}\"$header $myrest\"
 }
 
-# Corner case for first entry containing merely include
-myout $domain "$footer"
 
 while
   read block
