@@ -193,7 +193,8 @@ checkval4() {
 }
 
 checkval6() {
-  for i in $(echo $1 | tr ':' ' ')
+  myip=$(canon6 $1) || return 1
+  for i in $(echo $myip | tr ':' ' ')
   do
     C=$(echo $i | wc -c)
     # echo prints a newline --> 5 including \n
