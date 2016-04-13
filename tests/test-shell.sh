@@ -21,22 +21,24 @@ a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 PATH=$BINDIR/..:$BINDIR/../include:$PATH
 cd $BINDIR
 
+test -n "$DEBUG" && ADD="-x"
+
 for MYSH in sh ash pdksh ksh dash mksh bash 
 do
   MYSH=$(which $MYSH 2>/dev/null) || continue
 
   echo =================================
   echo Using $MYSH
-  $MYSH -se < test-real.sh
+  $MYSH -se $ADD < test-real.sh
 
   echo Testing despf functions...
-  $MYSH $BINDIR/test-unit.sh
+  $MYSH $ADD $BINDIR/test-unit.sh
 
   echo Testing with '-n'
   for script in $BINDIR/../*.sh
   do
     if
-      $MYSH -en $script
+      $MYSH -en $ADD $script
     then
       echo .. ${script##*/} ... OK
     else
