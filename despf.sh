@@ -19,6 +19,8 @@
 #
 # Usage: ./despf <domain_with_SPF_TXT_record>
 
+test -n "$DEBUG" && set -x
+
 # Check for required tools
 for cmd in dig awk grep sed cut
 do

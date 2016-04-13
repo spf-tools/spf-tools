@@ -21,7 +21,7 @@ a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 PATH=$BINDIR/..:$BINDIR/../include:$PATH
 cd $BINDIR
 
-test -n "$DEBUG" && ADD="-x"
+test -n "$DEBUG" && export DEBUG=1 ADD="-x"
 
 for MYSH in sh ash pdksh ksh dash mksh bash 
 do
