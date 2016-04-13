@@ -16,11 +16,13 @@
 #
 ##############################################################################
 
+out=$(mktemp)
 set | grep 'SH_VERSION=' >&2 || true
 for test in $(find . -type d -mindepth 1 -maxdepth 1)
 do
   echo Testing $test
-  $0 $test/cmd <$test/in >/tmp/test 2>&1
-  diff $test/out /tmp/test
+  $0 $ADD $test/cmd <$test/in >$out 2>&1
+  grep -v '^+' $out | diff -u $test/out -
   echo .. $test OK
+  rm $out
 done
