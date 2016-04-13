@@ -31,7 +31,7 @@ testexpect() {
 
   echo .. Testing $* ...
   set +e
-  eval "$@" > $tmp-real 2>&1
+  eval "$@" > $tmp-real
   RETURN=$?
   set -e
   test -s $tmp-out && { sort $tmp-real | diff -u $tmp-out -; }
