@@ -188,6 +188,7 @@ checkval4() {
   test $D -eq 3 || return 1
   for i in $(echo $1 | tr '.' ' ')
   do
+    echo "$i" | tr -d '[0-9]' | grep -q '^$' || return 1
     test $i -le 255 || return 1
   done
 }
