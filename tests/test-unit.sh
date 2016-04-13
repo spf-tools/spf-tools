@@ -138,11 +138,16 @@ testexpect -n 1 checkval4 a.1.1.2
 testexpect -n 1 checkval4 290.1.1.0
 testexpect -n 1 checkval4 123.197.5
 testexpect -n 0 checkval4 192.168.0.1
+testexpect -n 0 checkval4 192.168.0.1 24
+testexpect -n 0 checkval4 192.168.0.1 32
+testexpect -n 1 checkval4 192.168.0.1 33
 
 testexpect -n 1 checkval6 aaa::aab::aac
 testexpect -n 1 checkval6 aaq::aab
 testexpect -n 1 checkval6 aaaaa::aab
 testexpect -n 0 checkval6 ::1
+testexpect -n 0 checkval6 ::1 64
+testexpect -n 1 checkval6 ::1 129
 
 testexpect -n 1 canon6 1:1
 testexpect -n 1 canon6 1:1:1:1:1:1:1:1:1
@@ -153,3 +158,6 @@ EOF
 testexpect 0 shorten6 1:2:0:0:0:0:0:0 <<EOF
 1:2::0
 EOF
+
+testexpect -n 0 numlesseq 25 25
+testexpect -n 1 numlesseq 26 25

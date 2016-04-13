@@ -61,9 +61,9 @@ printip() {
     test -n "$1" || echo $line | grep -q '/' || prefix=""
     line=$(echo $line | cut -d/ -f1)
     if echo $line | grep -q ':'; then ver=6
-      checkval6 $line || continue
+      checkval6 $line $prefix || continue
     elif echo $line | grep -q '\.'; then ver=4
-      checkval4 $line || continue
+      checkval4 $line $prefix || continue
     else
       continue
     fi
@@ -184,17 +184,30 @@ despfit() {
 }
 
 checkval4() {
-  D=$(echo $1 | grep -o '\.' | wc -l)
+  ip=$1
+  cidr=${2#/}
+  test -n "$cidr" && { numlesseq $cidr 32 || return 1; }
+
+  D=$(echo $ip | grep -o '\.' | wc -l)
   test $D -eq 3 || return 1
-  for i in $(echo $1 | tr '.' ' ')
+  for i in $(echo $ip | tr '.' ' ')
   do
-    echo "$i" | tr -d '[0-9]' | grep -q '^$' || return 1
-    test $i -le 255 || return 1
+    numlesseq $i 255 || return 1
   done
+}
+
+numlesseq() {
+  num=${1:-1}
+  less=${2:-255}
+  echo "$num" | tr -d '[0-9]' | grep -q '^$' || return 1
+  test $num -le $less || return 1
 }
 
 checkval6() {
   myip=$(canon6 $1) || return 1
+  cidr=${2#/}
+  test -n "$cidr" && { numlesseq $cidr 128 || return 1; }
+
   for i in $(echo $myip | tr ':' ' ')
   do
     C=$(echo $i | wc -c)
