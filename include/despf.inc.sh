@@ -100,7 +100,7 @@ parsepf() {
   for ns in $myns
   do
     mydig -t TXT $host @$ns 2>/dev/null | sed 's/^"//;s/"$//;s/" "//' \
-      | grep -E '^v=spf1\s+' && break
+      | grep '^v=spf1 ' && break
   done
 }
 
