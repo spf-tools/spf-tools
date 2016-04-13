@@ -73,8 +73,9 @@ cat > $tmp <<EOF
 test
 fec0::1
 EOF
-testexpect 1 "cat $tmp | printip" <<EOF
+testexpect 0 "cat $tmp | printip" <<EOF
 ip4:1.2.3.4
+ip6:fec0::1
 EOF
 
 testexpect 0 dea both.spf-tools.ml <<EOF
@@ -132,3 +133,23 @@ testexpect -n 1 parsepf mail.spf-tools.ml
 testexpect -n 1 isincidrange.sh 74.86.241.250 199.122.123.192 32
 
 testexpect -n 0 isincidrange.sh 192.168.5.1 192.168.0.0 16
+
+testexpect -n 1 checkval4 a.1.1.2
+testexpect -n 1 checkval4 290.1.1.0
+testexpect -n 1 checkval4 123.197.5
+testexpect -n 0 checkval4 192.168.0.1
+
+testexpect -n 1 checkval6 aaa::aab::aac
+testexpect -n 1 checkval6 aaq::aab
+testexpect -n 1 checkval6 aaaaa::aab
+testexpect -n 0 checkval6 ::1
+
+testexpect -n 1 canon6 1:1
+testexpect -n 1 canon6 1:1:1:1:1:1:1:1:1
+testexpect 0 canon6 ::1 <<EOF
+0:0:0:0:0:0:0:1
+EOF
+
+testexpect 0 shorten6 1:2:0:0:0:0:0:0 <<EOF
+1:2::0
+EOF

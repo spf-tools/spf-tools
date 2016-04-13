@@ -55,18 +55,20 @@ findns() {
 # ip4:1.2.3.4
 # ip6:fec0::1
 printip() {
-  if [ "x" != "x$1" ] ; then 
-    prefix="/$1";
-  fi
   while read line
   do
+    prefix=/${1:-"${line##*/}"}
+    test -n "$1" || echo $line | grep -q '/' || prefix=""
+    line=$(echo $line | cut -d/ -f1)
     if echo $line | grep -q ':'; then ver=6
+      checkval6 $line || continue
     elif echo $line | grep -q '\.'; then ver=4
-    else EXIT=1; break 1
+      checkval4 $line || continue
+    else
+      continue
     fi
     echo "ip${ver}:${line}${prefix}"
   done
-  return $EXIT
 }
 
 # dea <hostname> <cidr>
@@ -160,7 +162,7 @@ despf() {
     && getem $myloop $dogetem
   dogetamx=$(echo $myspf | grep -Eo -w '(mx|a)((\/|:)\S+)?')  \
     && getamx $host $dogetamx
-  echo $myspf | grep -Eo 'ip[46]:\S+'
+  echo $myspf | grep -Eo 'ip[46]:\S+' | cut -d: -f2- | printip
   set -e
 }
 
@@ -179,4 +181,57 @@ despfit() {
 
   despf $host $myloop > "$myloop-out"
   sort -u $myloop-out
+}
+
+checkval4() {
+  D=$(echo $1 | grep -o '\.' | wc -l)
+  test $D -eq 3 || return 1
+  for i in $(echo $1 | tr '.' ' ')
+  do
+    test $i -le 255 || return 1
+  done
+}
+
+checkval6() {
+  for i in $(echo $1 | tr ':' ' ')
+  do
+    C=$(echo $i | wc -c)
+    # echo prints a newline --> 5 including \n
+    test $C -le 5 || return 1
+    echo "$i" | tr -d '[0-9a-f]' | grep -q '^$' || return 1
+  done
+}
+
+canon6() {
+  D=$(echo $1 | grep -o ':' | wc -l)
+  if
+    test $D -eq 7
+  then
+    echo $1
+  elif
+    test $D -le 7 && echo $1 | grep -q '::'
+  then
+    C=$(echo $1 | grep -o '::' | wc -l)
+    test $C -gt 1 && return 1
+    add=""
+    for a in $(seq $((8-$D)))
+    do
+      add=${add}:0
+    done
+    out=$(echo $1 | sed "s/::/${add}:/;s/^:/0:/;s/:$/:0/")
+    echo $out
+  else
+    return 1
+  fi
+}
+
+shorten6() {
+  addr=$1
+  addr=$(echo $addr | sed 's/:0:0:/::/')
+  while
+    echo $addr | grep -q '::0:'
+  do
+    addr=$(echo $addr | sed 's/::0:/::/')
+  done
+  echo $addr
 }
