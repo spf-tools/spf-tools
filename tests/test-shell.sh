@@ -1,11 +1,27 @@
 #!/bin/sh -e
+##############################################################################
+#
+# Copyright 2015 spf-tools team (see AUTHORS)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#     Unless required by applicable law or agreed to in writing, software
+#     distributed under the License is distributed on an "AS IS" BASIS,
+#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#     See the License for the specific language governing permissions and
+#     limitations under the License.
+#
+##############################################################################
 
 a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
-PATH=$BINDIR/..:$PATH
+PATH=$BINDIR/..:$BINDIR/../include:$PATH
 cd $BINDIR
 
-echo Refreshing despf output...
-despf.sh > $BINDIR/despf/out 2>/dev/null
+test -n "$DEBUG" && export DEBUG=1 ADD="-x"
 
 for MYSH in sh ash pdksh ksh dash mksh bash 
 do
@@ -13,16 +29,16 @@ do
 
   echo =================================
   echo Using $MYSH
-  $MYSH -se < test-real.sh
+  $MYSH -se $ADD < test-real.sh
 
   echo Testing despf functions...
-  $MYSH $BINDIR/test-unit.sh
+  $MYSH $ADD $BINDIR/test-unit.sh
 
   echo Testing with '-n'
   for script in $BINDIR/../*.sh
   do
     if
-      $MYSH -en $script
+      $MYSH -en $ADD $script
     then
       echo .. ${script##*/} ... OK
     else

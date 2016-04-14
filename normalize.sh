@@ -1,8 +1,26 @@
 #!/bin/sh
+##############################################################################
+#
+# Copyright 2015 spf-tools team (see AUTHORS)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#     Unless required by applicable law or agreed to in writing, software
+#     distributed under the License is distributed on an "AS IS" BASIS,
+#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#     See the License for the specific language governing permissions and
+#     limitations under the License.
+#
+##############################################################################
 #
 # Usage: ./despf.sh domain | ./normalize.sh
 #  E.g.: ./despf.sh microsoft.com | ./normalize.sh
 
+test "$1" = "-i" && ignore=1
 
 ip2int() {
   local a b c d
@@ -33,18 +51,19 @@ network() {
 while
   read i
 do
-  cidr=$(echo $i | cut -d: -f2)
+  cidr=$(echo $i | cut -d: -f2-)
   ipver=$(echo $i | cut -d: -f1)
   if [ $ipver = "ip4" ] ; then
     # check if is a CIDR
-    cidr=$(echo $i | cut -d: -f2 -)
     nm=$(echo $i | cut -s -d/ -f2)
     if [ "x$nm" = "x32" ] ; then
       echo $i
     elif [ "x$nm" = "x" ] ; then
       echo $i
     else
-      echo "ip4:$(network $cidr)"
+      result="ip4:$(network $cidr)"
+      test -n "$ignore" || { echo $result; continue; }
+      test "$result" = "$i" && echo $i || true
     fi
   else
     echo $i

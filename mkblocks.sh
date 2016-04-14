@@ -1,4 +1,21 @@
 #!/bin/sh
+##############################################################################
+#
+# Copyright 2015 spf-tools team (see AUTHORS)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#     Unless required by applicable law or agreed to in writing, software
+#     distributed under the License is distributed on an "AS IS" BASIS,
+#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#     See the License for the specific language governing permissions and
+#     limitations under the License.
+#
+##############################################################################
 #
 # Usage: ./mkblocks.sh <domain> <prefix>
 #  E.g.: ./mkblocks.sh microsoft.com _spf
@@ -20,7 +37,7 @@ MYX=#
 
 incldomain="${prefix}${MYX}.$domain"
 footer="include:$incldomain $policy"
-counter=$((2))
+counter=$((1))
 
 mysed() {
   sed "s/$MYX/$1/"
@@ -28,13 +45,16 @@ mysed() {
 
 myout() {
   local mycounter=${3:-'1'}
-  mystart=$(echo $1 | mysed $((mycounter-1)))
+  rrlabel=$1
+  if [ $mycounter -eq 1 ]; then
+      #first resource label of chain is bare domain
+      rrlabel="$domain"
+  fi
+  mystart=$(echo $rrlabel | mysed $((mycounter-1)))
   myrest=$(echo $2 | mysed $((mycounter)))
   echo ${mystart}${delim}\"$header $myrest\"
 }
 
-# Corner case for first entry containing merely include
-myout $domain "$footer"
 
 while
   read block

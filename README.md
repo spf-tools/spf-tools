@@ -7,6 +7,8 @@
 
 # SPF-tools
 
+[![Join the chat at https://gitter.im/jsarenik/spf-tools](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jsarenik/spf-tools?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![CircleCI badge][badge]][1]
 [![Codeship badge][cdbadge]][2]
 [![Travis-CI badge][travis]][3]
@@ -24,7 +26,7 @@ should be saved as an otherwise unused subdomain TXT record
 
 Create a configuration file:
 
-    cat > ~/.spftoolsrc <<EOF
+    cat > ~/.spf-toolsrc <<EOF
     DOMAIN=spf-tools.ml
     ORIG_SPF=orig.spf-tools.ml
     DNS_TIMEOUT=5
@@ -79,7 +81,7 @@ new TXT records in reverse order.
 
 Best practice is to put those lines into DNS starting with the
 last one. That's why `xsel.sh` reverses the input gathered from
-`mkblocks.sh` by using `tac`.
+`mkblocks.sh`.
 
 The last record to update is root domain's record which just
 contains an include. It should be always updated as the last one
@@ -165,11 +167,29 @@ Usage:
  * http://tools.ietf.org/html/rfc7208#section-5.5
  * http://tools.ietf.org/html/rfc7208#section-14.1
 
-[badge]: https://circleci.com/gh/jsarenik/spf-tools.png?circle-token=76b5be548795219cce8df5780def8eceaa134c35 "Test status"
+
+## License
+
+    Copyright 2015 spf-tools team (see AUTHORS)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+
+[badge]: https://circleci.com/gh/jsarenik/spf-tools/tree/master.png?circle-token=76b5be548795219cce8df5780def8eceaa134c35 "Test status"
 [1]: https://circleci.com/gh/jsarenik/spf-tools
 [cdbadge]: https://codeship.com/projects/8958e590-0616-0133-c43a-12a4c431c178/status?branch=master
 [2]: https://codeship.com/projects/89613
-[travis]: https://travis-ci.org/jsarenik/spf-tools.svg
-[3]: https://travis-ci.org/jsarenik/spf-tools
-[semaphore]: https://semaphoreci.com/api/v1/projects/1bce3ee4-b034-439a-8df1-2047500ad523/477838/badge.svg
+[travis]: https://travis-ci.org/jsarenik/spf-tools.svg?branch=master
+[3]: https://travis-ci.org/jsarenik/spf-tools.svg
+[semaphore]: https://semaphoreci.com/api/v1/jsarenik/spf-tools/branches/master/badge.svg
 [4]: https://semaphoreci.com/jsarenik/spf-tools
