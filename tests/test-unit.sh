@@ -1,3 +1,4 @@
+#!/bin/sh
 ##############################################################################
 #
 # Copyright 2015 spf-tools team (see AUTHORS)
@@ -17,6 +18,7 @@
 ##############################################################################
 
 a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
+export PATH=$BINDIR/../include:$PATH
 tmp=$(mktemp /tmp/spf-test-unit-XXXXXXXXX)
 trap "rm $tmp*" EXIT
 . $BINDIR/../include/despf.inc.sh
