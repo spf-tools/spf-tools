@@ -18,10 +18,9 @@
 ##############################################################################
 
 a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
-PATH=$BINDIR/..:$BINDIR/../include:$PATH
-cd $BINDIR
 
-test -n "$DEBUG" && export DEBUG=1 ADD="-x"
+export ADD="-e"
+test -n "$DEBUG" && export DEBUG=1 ADD="${ADD}x"
 
 for MYSH in sh ash pdksh ksh dash mksh bash 
 do
@@ -29,7 +28,7 @@ do
 
   echo =================================
   echo Using $MYSH
-  $MYSH -se $ADD < test-real.sh
+  $BINDIR/test-subdirs.sh $MYSH
 
   echo Testing despf functions...
   $MYSH $ADD $BINDIR/test-unit.sh
