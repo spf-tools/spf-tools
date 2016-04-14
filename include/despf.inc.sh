@@ -158,11 +158,11 @@ despf() {
   myspf=$(parsepf $host | sed 's/redirect=/include:/')
 
   set +e
-  dogetem=$(echo $myspf | grep -Eo 'include:\S+') \
+  dogetem=$(echo $myspf | grep -Eo 'include:[^[:blank:]]+') \
     && getem $myloop $dogetem
-  dogetamx=$(echo $myspf | grep -Eo -w '(mx|a)((\/|:)\S+)?')  \
+  dogetamx=$(echo $myspf | grep -Eo -w '(mx|a)((\/|:)[^[:blank:]]+)?')  \
     && getamx $host $dogetamx
-  echo $myspf | grep -Eo 'ip[46]:\S+' | cut -d: -f2- | printip
+  echo $myspf | grep -Eo 'ip[46]:[^[:blank:]]+' | cut -d: -f2- | printip
   set -e
 }
 
