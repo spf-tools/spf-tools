@@ -239,14 +239,3 @@ canon6() {
     return 1
   fi
 }
-
-shorten6() {
-  addr=$1
-  addr=$(echo $addr | sed 's/:0:0:/::/')
-  while
-    echo $addr | grep -q '::0:'
-  do
-    addr=$(echo $addr | sed 's/::0:/::/')
-  done
-  echo $addr
-}

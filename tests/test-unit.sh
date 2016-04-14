@@ -155,9 +155,5 @@ testexpect 0 canon6 ::1 <<EOF
 0:0:0:0:0:0:0:1
 EOF
 
-testexpect 0 shorten6 1:2:0:0:0:0:0:0 <<EOF
-1:2::0
-EOF
-
 testexpect -n 0 numlesseq 25 25
 testexpect -n 1 numlesseq 26 25
