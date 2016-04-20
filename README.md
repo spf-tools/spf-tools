@@ -7,12 +7,12 @@
 
 # SPF-tools
 
-[![Join the chat at https://gitter.im/jsarenik/spf-tools](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jsarenik/spf-tools?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [![CircleCI badge][badge]][1]
 [![Codeship badge][cdbadge]][2]
 [![Travis-CI badge][travis]][3]
 [![SemaphoreCI badge][semaphore]][4]
+
+[![Join the chat at https://gitter.im/jsarenik/spf-tools][gitter]][5]
 
 Simple tools for keeping the SPF TXT records tidy in order to fight
 [10 maximum DNS lookups](http://serverfault.com/questions/584708).
@@ -193,3 +193,5 @@ Usage:
 [3]: https://travis-ci.org/jsarenik/spf-tools.svg
 [semaphore]: https://semaphoreci.com/api/v1/jsarenik/spf-tools/branches/master/badge.svg
 [4]: https://semaphoreci.com/jsarenik/spf-tools
+[gitter]: https://badges.gitter.im/Join%20Chat.svg
+[5]: https://gitter.im/jsarenik/spf-tools
