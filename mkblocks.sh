@@ -26,7 +26,7 @@ do
 done
 
 header="v=spf1"
-policy="~all"
+policy=${3:-'~all'}
 delim="^"
 packet=257
 domain=${1:-'spf-tools.ml'}
