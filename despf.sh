@@ -38,7 +38,25 @@ loopfile=$(mktemp /tmp/despf-loop-XXXXXXX)
 echo random-non-match-tdaoeinthaonetuhanotehu > $loopfile
 trap "cleanup $loopfile; exit 1;" INT QUIT
 
-domain=${1:-'orig.spf-tools.ml'}
+usage() {
+    cat <<-EOF
+	Usage: despf.sh [OPTION]... [DOMAIN]...
+	Decompose SPF records of a DOMAIN, sort and unique them.
 
-despfit $domain $loopfile | grep . || { cleanup $loopfile; exit 1; }
+	Available options:
+	  -h                         display this help and exit
+	EOF
+    exit 1
+}
+
+test "$#" -gt 0 || usage
+while getopts "h" opt; do
+  case $opt in
+    *) usage;;
+  esac
+done
+
+domain=${*:-'orig.spf-tools.ml'}
+
+despfit "$domain" $loopfile | grep . || { cleanup $loopfile; exit 1; }
 cleanup $loopfile

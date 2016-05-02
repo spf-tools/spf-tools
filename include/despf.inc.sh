@@ -201,15 +201,17 @@ cleanup() {
 }
 
 despfit() {
-  host=$1
+  hosts="$1"
   myloop=$2
 
   # Make sort(1) behave
   export LC_ALL=C
   export LANG=C
 
-  despf $host $myloop > "$myloop-out"
-  sort -u $myloop-out
+  for host in $hosts
+  do
+    despf $host $myloop
+  done | sort -u
 }
 
 checkval4() {
