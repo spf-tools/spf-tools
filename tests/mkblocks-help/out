@@ -1,0 +1,16 @@
+Usage: mkblocks.sh [OPTION]... [DOMAIN]
+Make blocks out of decomposed SPF records.
+
+Available options:
+  -h HEADER                  set SPF header
+  -l LENGTH                  set desired packet length
+  -p PREFIX                  set SPF prefix
+  -o POLICY                  set default SPF policy
+  -d DELIM                   set delimiter of output
+
+Default values:
+  HEADER = v=spf1
+  LENGTH = 257
+  PREFIX = spf
+  POLICY = ~all
+  DELIM  = ^
