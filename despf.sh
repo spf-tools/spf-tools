@@ -50,7 +50,7 @@ usage() {
 }
 
 test "$#" -gt 0 || usage
-while getopts "h" opt; do
+while getopts "h-" opt; do
   case $opt in
     *) usage;;
   esac
