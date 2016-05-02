@@ -104,13 +104,42 @@ parsepf() {
   done
 }
 
+# in_list item list
+# e.g _spf.google.com  salesforce.com:google.com:outlook.com
+in_list() {
+  item=$1
+  shift
+  OLD_IFS=$IFS
+  FOUND_ITEM=0
+  IFS=":"
+  echo "$1" | while read domain
+  do
+	  if [ "x$domain" == "x$item" ] 
+	  then
+		  echo 1
+		  return 
+	  fi
+  done
+  IFS=$OLD_IFS
+  echo ""
+}
+
 # getem <includes>
 # e.g. includes="include:gnu.org include:google.com"
 getem() {
   myloop=$1
   shift
   echo $* | tr " " "\n" | sed '/^$/d' | cut -b 9- | while read included
-  do echo Getting $included 1>&2; despf $included $myloop
+  do
+	  if [ "$(in_list $included $DESPF_SKIP_DOMAINS)" == "1" ] 
+	  then
+		  echo "Skipping $included" 1>&2;
+		  echo "include:$included"
+	  else
+		  echo Getting $included 1>&2;
+		  despf $included $myloop
+	  fi
+
   done
 }
 
