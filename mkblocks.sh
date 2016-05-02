@@ -17,7 +17,7 @@
 #
 ##############################################################################
 #
-# Usage: ./mkblocks.sh <domain> <prefix>
+# Usage: ./mkblocks.sh <domain> <prefix> <policy>
 #  E.g.: ./mkblocks.sh microsoft.com _spf
 
 for cmd in awk grep sed cut
