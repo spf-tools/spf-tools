@@ -1,0 +1,8 @@
+Usage: despf.sh [OPTION]... [DOMAIN]...
+Decompose SPF records of a DOMAIN, sort and unique them.
+
+Available options:
+  -s DOMAIN[:DOMAIN...]      skip domains, i.e. leave include
+                             without decomposition
+  -t N                       set DNS timeout to N seconds
+  -h                         display this help and exit
