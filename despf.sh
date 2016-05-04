@@ -34,10 +34,6 @@ a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 # Read DNS_TIMEOUT if spf-toolsrc is present
 test -r $SPFTRC && . $SPFTRC
 
-loopfile=$(mktemp /tmp/despf-loop-XXXXXXX)
-echo random-non-match-tdaoeinthaonetuhanotehu > $loopfile
-trap "cleanup $loopfile; exit 1;" INT QUIT
-
 usage() {
     cat <<-EOF
 	Usage: despf.sh [OPTION]... [DOMAIN]...
@@ -63,6 +59,10 @@ done
 shift $((OPTIND-1))
 
 domain=${*:-'orig.spf-tools.ml'}
+
+loopfile=$(mktemp /tmp/despf-loop-XXXXXXX)
+echo random-non-match-tdaoeinthaonetuhanotehu > $loopfile
+trap "cleanup $loopfile; exit 1;" INT QUIT
 
 despfit "$domain" $loopfile | grep . || { cleanup $loopfile; exit 1; }
 cleanup $loopfile
