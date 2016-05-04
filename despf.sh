@@ -46,14 +46,16 @@ usage() {
 	Available options:
 	  -s DOMAIN[:DOMAIN...]      skip domains, i.e. leave include
 	                             without decomposition
+	  -t N                       set DNS timeout to N seconds
 	  -h                         display this help and exit
 	EOF
     exit 1
 }
 
 test "$#" -gt 0 || usage
-while getopts "s:h-" opt; do
+while getopts "t:s:h-" opt; do
   case $opt in
+    t) test -n "$OPTARG" && DNS_TIMEOUT=$OPTARG;;
     s) test -n "$OPTARG" && DESPF_SKIP_DOMAINS=$OPTARG;;
     *) usage;;
   esac
