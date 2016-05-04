@@ -1,0 +1,1 @@
+$(which despf.sh) -s linux.org:spf1.jasan.tk jasan.tk
