@@ -25,12 +25,10 @@ do
   type $cmd >/dev/null || exit 1
 done
 
-# For backward compatibility the options are also positional
-domain=${1:-'spf-tools.ml'}
-prefix=${2:-"spf"}
-policy=${3:-'~all'}
-
 # Default values
+domain="spf-tools.ml"
+prefix="spf"
+policy="~all"
 delim="^"
 header="v=spf1"
 length=257
@@ -68,6 +66,12 @@ while getopts "h:l:p:o:d:-" opt; do
     *) usage;;
   esac
 done
+shift $((OPTIND-1))
+
+# For backward compatibility the options are also positional
+domain=${1:-"$domain"}
+prefix=${2:-"$prefix"}
+policy=${3:-"$policy"}
 
 # One-char placeholder substitued for number later
 MYX=#
