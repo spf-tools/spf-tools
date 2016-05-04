@@ -25,12 +25,53 @@ do
   type $cmd >/dev/null || exit 1
 done
 
-header="v=spf1"
-policy=${3:-'~all'}
+# Default values
+domain="spf-tools.ml"
+prefix="spf"
+policy="~all"
 delim="^"
-packet=257
-domain=${1:-'spf-tools.ml'}
-prefix=${2:-"spf"}
+header="v=spf1"
+length=257
+
+usage() {
+    cat <<-EOF
+	Usage: mkblocks.sh [OPTION]... [DOMAIN]
+	Make blocks out of decomposed SPF records.
+
+	Available options:
+	  -h HEADER                  set SPF header
+	  -l LENGTH                  set desired packet length
+	  -p PREFIX                  set SPF prefix
+	  -o POLICY                  set default SPF policy
+	  -d DELIM                   set delimiter of output
+
+	Default values:
+	  HEADER = $header
+	  LENGTH = $length
+	  PREFIX = $prefix
+	  POLICY = $policy
+	  DELIM  = $delim
+	EOF
+    exit 1
+}
+
+test "$#" -gt 0 || usage
+while getopts "h:l:p:o:d:-" opt; do
+  case $opt in
+    h) test -n "$OPTARG" && header=$OPTARG;;
+    l) test -n "$OPTARG" && length=$OPTARG;;
+    p) test -n "$OPTARG" && prefix=$OPTARG;;
+    o) test -n "$OPTARG" && policy=$OPTARG;;
+    d) test -n "$OPTARG" && delim=$OPTARG;;
+    *) usage;;
+  esac
+done
+shift $((OPTIND-1))
+
+# For backward compatibility the options are also positional
+domain=${1:-"$domain"}
+prefix=${2:-"$prefix"}
+policy=${3:-"$policy"}
 
 # One-char placeholder substitued for number later
 MYX=#
@@ -62,7 +103,7 @@ do
   blocksprev=$blocks
   test -n "$blocks" && blocks="${blocks} ${block}" || blocks=$block
   compare="$header $blocks $footer"
-  test $(echo $compare | wc -c) -ge $packet && {
+  test $(echo $compare | wc -c) -ge $length && {
     myout $incldomain "${blocksprev} ${footer}" $counter
     blocks=$block
     counter=$((counter+1))

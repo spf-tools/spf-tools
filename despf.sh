@@ -34,11 +34,35 @@ a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 # Read DNS_TIMEOUT if spf-toolsrc is present
 test -r $SPFTRC && . $SPFTRC
 
+usage() {
+    cat <<-EOF
+	Usage: despf.sh [OPTION]... [DOMAIN]...
+	Decompose SPF records of a DOMAIN, sort and unique them.
+
+	Available options:
+	  -s DOMAIN[:DOMAIN...]      skip domains, i.e. leave include
+	                             without decomposition
+	  -t N                       set DNS timeout to N seconds
+	  -h                         display this help and exit
+	EOF
+    exit 1
+}
+
+test "$#" -gt 0 || usage
+while getopts "t:s:h-" opt; do
+  case $opt in
+    t) test -n "$OPTARG" && DNS_TIMEOUT=$OPTARG;;
+    s) test -n "$OPTARG" && DESPF_SKIP_DOMAINS=$OPTARG;;
+    *) usage;;
+  esac
+done
+shift $((OPTIND-1))
+
+domain=${*:-'orig.spf-tools.ml'}
+
 loopfile=$(mktemp /tmp/despf-loop-XXXXXXX)
 echo random-non-match-tdaoeinthaonetuhanotehu > $loopfile
 trap "cleanup $loopfile; exit 1;" INT QUIT
 
-domain=${1:-'orig.spf-tools.ml'}
-
-despfit $domain $loopfile | grep . || { cleanup $loopfile; exit 1; }
+despfit "$domain" $loopfile | grep . || { cleanup $loopfile; exit 1; }
 cleanup $loopfile

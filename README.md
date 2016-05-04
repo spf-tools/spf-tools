@@ -29,6 +29,7 @@ Create a configuration file:
     cat > ~/.spf-toolsrc <<EOF
     DOMAIN=spf-tools.ml
     ORIG_SPF=orig.spf-tools.ml
+    DESPF_SKIP_DOMAINS=_spf.domain1.com:spf.domain2.org
     DNS_TIMEOUT=5
     EOF
 
@@ -38,6 +39,17 @@ Now just call any of the scripts described below.
 ## Tools Description
 
 ### despf.sh
+
+```
+Usage: despf.sh [OPTION]... [DOMAIN]...
+Decompose SPF records of a DOMAIN, sort and unique them.
+
+Available options:
+  -s DOMAIN[:DOMAIN...]      skip domains, i.e. leave include
+                             without decomposition
+  -t N                       set DNS timeout to N seconds
+  -h                         display this help and exit
+```
 
 `despf.sh` is a tool that resolves all `ip4` and `ip6` blocks
 found in any included SPF subdomain. It prints all these blocks
@@ -58,7 +70,8 @@ Example:
     ip6:2c0f:fb50:4000::/36
 
 The `DNS_TIMEOUT` configuration variable sets number of seconds
-for the `dig +time=SECS` command.
+for the `dig +time=SECS` command (the same as option `-t`, see
+help).
 
 
 ### mkblocks.sh
