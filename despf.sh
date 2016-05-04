@@ -44,17 +44,21 @@ usage() {
 	Decompose SPF records of a DOMAIN, sort and unique them.
 
 	Available options:
+	  -s DOMAIN[:DOMAIN...]      skip domains, i.e. leave include
+	                             without decomposition
 	  -h                         display this help and exit
 	EOF
     exit 1
 }
 
 test "$#" -gt 0 || usage
-while getopts "h-" opt; do
+while getopts "s:h-" opt; do
   case $opt in
+    s) test -n "$OPTARG" && DESPF_SKIP_DOMAINS=$OPTARG;;
     *) usage;;
   esac
 done
+shift $((OPTIND-1))
 
 domain=${*:-'orig.spf-tools.ml'}
 
