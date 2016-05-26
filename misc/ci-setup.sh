@@ -34,7 +34,7 @@ KERNELARCH=$(uname -sm)
 if
   test "$KERNELARCH" = "Linux x86_64"
 then
-  dlit dig "http://dl.bintray.com/jsarenik/spf-tools-bin/dig.bz2"
+  dlit drill "http://dl.bintray.com/jsarenik/spf-tools-bin/drill.bz2"
   dlit mksh "http://dl.bintray.com/jsarenik/spf-tools-bin/mksh.bz2"
   dlit ksh "http://dl.bintray.com/jsarenik/spf-tools-bin/ksh.bz2"
   dlit dash "http://dl.bintray.com/jsarenik/spf-tools-bin/dash.bz2"
