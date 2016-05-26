@@ -3,4 +3,4 @@ dig() {
   echo ";; connection timed out; no servers could be reached"
   return 9
 }
-findns orig.spf-tools.ml || true
+findns orig.energystan.com || true

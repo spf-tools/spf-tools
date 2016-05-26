@@ -72,7 +72,7 @@ printip() {
 }
 
 # dea <hostname> <cidr>
-# dea both.spf-tools.ml
+# dea both.energystan.com
 # 1.2.3.4
 # fec0::1
 dea() {
@@ -130,7 +130,7 @@ getem() {
 }
 
 # getamx host mech [mech [...]]
-# e.g. host="spf-tools.ml"
+# e.g. host="energystan.com"
 # e.g. mech="a a:gnu.org a:google.com/24 mx:gnu.org mx:jasan.tk/24"
 getamx() {
   host=$1

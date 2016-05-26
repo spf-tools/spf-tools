@@ -26,7 +26,7 @@ do
 done
 
 # Default values
-domain="spf-tools.ml"
+domain="energystan.com"
 prefix="spf"
 policy="~all"
 delim="^"
