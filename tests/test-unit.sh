@@ -41,21 +41,21 @@ testexpect() {
   echo .... OK
 }
 
-testexpect 0 mydig -t TXT spf-tools.ml <<EOF
-"v=spf1 include:spf1.spf-tools.ml ~all"
+testexpect 0 mydig -t TXT spf.energystan.com <<EOF
+"v=spf1 include:spf1.energystan.com ~all"
 EOF
 
-testexpect 0 "mydig -t NS spf-tools.ml | sort" <<EOF
+testexpect 0 "mydig -t NS energystan.com | sort" <<EOF
 chris.ns.cloudflare.com.
 dawn.ns.cloudflare.com.
 EOF
 
-#testexpect 0 "mydig_notshort -t A cname.spf-tools.ml @dawn.ns.cloudflare.com." <<EOF
-#cname.spf-tools.ml.	300	IN	CNAME	both.spf-tools.ml.
-#both.spf-tools.ml.	300	IN	A	1.2.3.4
+#testexpect 0 "mydig_notshort -t A cname.energystan.com @dawn.ns.cloudflare.com." <<EOF
+#cname.energystan.com.	300	IN	CNAME	both.energystan.com.
+#both.energystan.com.	300	IN	A	1.2.3.4
 #EOF
 
-testexpect 0 findns one.spf-tools.ml <<EOF
+testexpect 0 findns one.energystan.com <<EOF
 ns1.he.net.
 EOF
 
@@ -80,32 +80,32 @@ ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
-testexpect 0 dea both.spf-tools.ml <<EOF
+testexpect 0 dea both.energystan.com <<EOF
 ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
-testexpect 0 dea cname.spf-tools.ml <<EOF
+testexpect 0 dea cname.energystan.com <<EOF
 ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
-testexpect 0 dea cname.spf-tools.ml 24 <<EOF
+testexpect 0 dea cname.energystan.com 24 <<EOF
 ip4:1.2.3.4/24
 ip6:fec0::1/24
 EOF
 
-testexpect 0 demx mx.spf-tools.ml <<EOF
+testexpect 0 demx mx.energystan.com <<EOF
 ip4:5.6.7.8
 ip6:56:78::1
 EOF
 
-testexpect 0 demx mx.spf-tools.ml 24 <<EOF
+testexpect 0 demx mx.energystan.com 24 <<EOF
 ip4:5.6.7.8/24
 ip6:56:78::1/24
 EOF
 
-testexpect 0 demx spf-tools.ml 24 <<EOF
+testexpect 0 demx energystan.com 24 <<EOF
 ip4:122.103.250.12/24
 ip4:198.143.169.250/24
 ip4:42.3.81.21/24
@@ -114,23 +114,23 @@ ip4:66.37.25.72/24
 ip4:66.37.25.74/24
 EOF
 
-testexpect 0 getamx both-spf.spf-tools.ml a:both.spf-tools.ml <<EOF
+testexpect 0 getamx both-spf.energystan.com a:both.energystan.com <<EOF
 ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
-testexpect 0 parsepf spf-tools.ml <<EOF
-v=spf1 include:spf1.spf-tools.ml ~all
+testexpect 0 parsepf spf.energystan.com <<EOF
+v=spf1 include:spf1.energystan.com ~all
 EOF
 
 # This tests the correct process of iteration
 # between different NS servers if one is not
 # responding
-testexpect 0 parsepf morens.spf-tools.ml <<EOF
-v=spf1 include:spf1.spf-tools.ml ~all
+testexpect 0 parsepf morens.energystan.com <<EOF
+v=spf1 include:spf1.energystan.com ~all
 EOF
 
-testexpect -n 1 parsepf mail.spf-tools.ml
+testexpect -n 1 parsepf mail.energystan.com
 
 testexpect -n 1 isincidrange.sh 74.86.241.250 199.122.123.192 32
 

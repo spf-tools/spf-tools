@@ -58,7 +58,7 @@ while getopts "t:s:h-" opt; do
 done
 shift $((OPTIND-1))
 
-domain=${*:-'orig.spf-tools.ml'}
+domain=${*:-'orig.energystan.com'}
 
 loopfile=$(mktemp /tmp/despf-loop-XXXXXXX)
 echo random-non-match-tdaoeinthaonetuhanotehu > $loopfile

@@ -19,8 +19,8 @@
 #
 # Usage: ./compare.sh DOMAIN1 DOMAIN2
 
-domain1=${1:-'spf-tools.ml'}
-domain2=${2:-'orig.spf-tools.ml'}
+domain1=${1:-'spf.energystan.com'}
+domain2=${2:-'orig.energystan.com'}
 
 a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 PATH=$BINDIR:$PATH

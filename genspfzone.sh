@@ -17,8 +17,8 @@
 #
 ##############################################################################
 
-ORIGDOMAIN=${1:-'orig.spf-tools.ml'}
-DOMAIN=${1:-'spf-tools.ml'}
+ORIGDOMAIN=${1:-'orig.energystan.com'}
+DOMAIN=${1:-'energystan.com'}
 
 a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 PATH=$BINDIR:$PATH
