@@ -1,0 +1,1 @@
+$(which despf.sh) cname-spf.energystan.com 2>/dev/null
