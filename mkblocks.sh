@@ -55,7 +55,6 @@ usage() {
     exit 1
 }
 
-test "$#" -gt 0 || usage
 while getopts "h:l:p:o:d:-" opt; do
   case $opt in
     h) test -n "$OPTARG" && header=$OPTARG;;
