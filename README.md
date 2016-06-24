@@ -7,13 +7,13 @@
 
 # SPF-tools
 
-[![CircleCI badge][badge]][1]
-[![Codeship badge][cdbadge]][2]
-[![Travis-CI badge][travis]][3]
-[![SemaphoreCI badge][semaphore]][4]
-[![Magnum CI badge][magnum]][magnum-web]
+[![CircleCI badge][circle-img]][circle]
+[![Codeship badge][codeship-img]][codeship]
+[![Travis-CI badge][travis-img]][travis]
+[![SemaphoreCI badge][semaphore-img]][semaphore]
+[![Magnum CI badge][magnum-img]][magnum]
 
-[![Join the chat at https://gitter.im/jsarenik/spf-tools][gitter]][5]
+[![Join the chat at https://gitter.im/jsarenik/spf-tools][gitter-img]][gitter]
 
 Simple tools for keeping the SPF TXT records tidy in order to fight
 [10 maximum DNS lookups](http://serverfault.com/questions/584708).
@@ -199,15 +199,15 @@ Usage:
     limitations under the License.
 
 
-[badge]: https://circleci.com/gh/jsarenik/spf-tools/tree/master.png?circle-token=76b5be548795219cce8df5780def8eceaa134c35 "Test status"
-[1]: https://circleci.com/gh/jsarenik/spf-tools
-[cdbadge]: https://codeship.com/projects/8958e590-0616-0133-c43a-12a4c431c178/status?branch=master
-[2]: https://codeship.com/projects/89613
-[travis]: https://travis-ci.org/jsarenik/spf-tools.svg?branch=master
-[3]: https://travis-ci.org/jsarenik/spf-tools.svg
-[semaphore]: https://semaphoreci.com/api/v1/jsarenik/spf-tools/branches/master/badge.svg
-[4]: https://semaphoreci.com/jsarenik/spf-tools
-[magnum]: https://magnum-ci.com/status/10aadca49949b855fa11ca7a44022c8a.png
-[magnum-web]: https://magnum-ci.com/public/1acdb8198c9cbd13c5db/builds
-[gitter]: https://badges.gitter.im/Join%20Chat.svg
-[5]: https://gitter.im/jsarenik/spf-tools
+[circle-img]: https://circleci.com/gh/jsarenik/spf-tools/tree/master.png?circle-token=76b5be548795219cce8df5780def8eceaa134c35 "Test status"
+[circle]: https://circleci.com/gh/jsarenik/spf-tools
+[codeship-img]: https://codeship.com/projects/8958e590-0616-0133-c43a-12a4c431c178/status?branch=master
+[codeship]: https://codeship.com/projects/89613
+[travis-img]: https://travis-ci.org/jsarenik/spf-tools.svg?branch=master
+[travis]: https://travis-ci.org/jsarenik/spf-tools
+[semaphore-img]: https://semaphoreci.com/api/v1/jsarenik/spf-tools/branches/master/badge.svg
+[semaphore]: https://semaphoreci.com/jsarenik/spf-tools
+[magnum-img]: https://magnum-ci.com/status/10aadca49949b855fa11ca7a44022c8a.png
+[magnum]: https://magnum-ci.com/public/1acdb8198c9cbd13c5db/builds
+[gitter-img]: https://badges.gitter.im/Join%20Chat.svg
+[gitter]: https://gitter.im/jsarenik/spf-tools
