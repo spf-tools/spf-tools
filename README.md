@@ -11,6 +11,7 @@
 [![Codeship badge][cdbadge]][2]
 [![Travis-CI badge][travis]][3]
 [![SemaphoreCI badge][semaphore]][4]
+[![Magnum CI badge][magnum]][magnum-web]
 
 [![Join the chat at https://gitter.im/jsarenik/spf-tools][gitter]][5]
 
@@ -206,5 +207,7 @@ Usage:
 [3]: https://travis-ci.org/jsarenik/spf-tools.svg
 [semaphore]: https://semaphoreci.com/api/v1/jsarenik/spf-tools/branches/master/badge.svg
 [4]: https://semaphoreci.com/jsarenik/spf-tools
+[magnum]: https://magnum-ci.com/status/10aadca49949b855fa11ca7a44022c8a.png
+[magnum-web]: https://magnum-ci.com/public/1acdb8198c9cbd13c5db/builds
 [gitter]: https://badges.gitter.im/Join%20Chat.svg
 [5]: https://gitter.im/jsarenik/spf-tools
