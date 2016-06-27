@@ -1,0 +1,7 @@
+language: none
+
+build:
+    pre_ci:
+        - misc/ci-setup.sh
+    ci:
+        - misc/ci-runtest.sh
