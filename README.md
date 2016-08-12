@@ -210,7 +210,7 @@ Usage:
 [semaphore]: https://semaphoreci.com/jsarenik/spf-tools
 [magnum-img]: https://magnum-ci.com/status/10aadca49949b855fa11ca7a44022c8a.png
 [magnum]: https://magnum-ci.com/public/1acdb8198c9cbd13c5db/builds
-[drone-img]: https://drone.io/github.com/jsarenik/spf-tools/status.png
+[drone-img]: https://drone.io/github.com/jsarenik/spf-tools/status.png?branch=master
 [drone]: https://drone.io/github.com/jsarenik/spf-tools/latest
 [gitter-img]: https://badges.gitter.im/Join%20Chat.svg
 [gitter]: https://gitter.im/jsarenik/spf-tools
