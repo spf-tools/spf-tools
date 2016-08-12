@@ -1,5 +1,5 @@
 . ../include/despf.inc.sh
-dig() {
+mdrills() {
   echo ";; connection timed out; no servers could be reached"
   return 9
 }

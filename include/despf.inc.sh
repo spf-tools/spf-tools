@@ -17,28 +17,36 @@
 ##############################################################################
 
 DNS_TIMEOUT=${DNS_TIMEOUT:-"2"}
+TIMEOUT_CMD=${TIMEOUT_CMD:-$(which timeout)}
 
-mydg() {
-  dig +time=$DNS_TIMEOUT "$@" \
+mdrill() {
+  TYPE=${1}
+  ${TIMEOUT_CMD:-"timeout"} $DNS_TIMEOUT drill "$@" \
+      | sed -n "/^[^;]/{/$TYPE/p}" \
       || { echo "DNS lookup error!" >&2; cleanup; false; }
 }
 
-mydig() {
-  mydg +short "$@"
-}
+mdrills() {
+  test $# -gt 1 && {
+    TYPE=${1}
+    TYPE=$(echo $TYPE | tr '[a-z]' '[A-Z]')
+    shift
+  }
+  HOST=${1:-"energystan.com"}
+  shift
 
-mydig_notshort() {
-  mydg +noall +answer "$@"
+  mdrill $TYPE $HOST "$@" | sed -n "s/^$HOST.*IN\t$TYPE\t//p" \
+    | grep .
 }
 
 # findns <domain>
 # Find an authoritative NS server for domain
 findns() {
-  dd="$1"; ns=""; dig=${2:-mydig}
+  dd="$1"; ns=""; dig=${2:-"mdrills"}
   while test -z "$ns"
   do
     if
-      ns=$($dig -t NS $dd | grep .)
+      ns=$($dig NS $dd | grep .)
     then
       break
     else
@@ -76,14 +84,19 @@ printip() {
 # 1.2.3.4
 # fec0::1
 dea() {
-  for TYPE in A AAAA; do mydig_notshort -t $TYPE $1 | grep -v CNAME | awk '{print $5}' | printip $2; done
-  true
+  if
+    CNAME=$(mdrills CNAME $1 | grep .)
+  then
+    dea $CNAME $2
+  else
+    for TYPE in A AAAA; do mdrills $TYPE $1 | printip $2 || true; done
+  fi
 }
 
 # demx <domain> <cidr>
 # Get MX record for a domain
 demx() {
-  mymx=$(mydig -t MX $1 | awk '{print $2}')
+  mymx=$(mdrills MX $1 | awk '{print $2}')
   for name in $mymx; do dea $name $2; done
 }
 
@@ -99,8 +112,8 @@ parsepf() {
   fi
   for ns in $myns
   do
-    mydig -t TXT $host @$ns 2>/dev/null | sed 's/^"//;s/"$//;s/" "//' \
-      | grep '^v=spf1 ' && break
+    mdrills TXT $host @$ns 2>/dev/null | sed 's/^"//;s/"$//;s/" "//' \
+      | grep -E '^v=spf1[[:blank:]]+' && break
   done
 }
 
