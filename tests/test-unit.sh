@@ -41,19 +41,14 @@ testexpect() {
   echo .... OK
 }
 
-testexpect 0 mydig -t TXT spf.energystan.com <<EOF
-"v=spf1 include:spf1.energystan.com ~all"
+testexpect 0 get_txt spf.energystan.com <<EOF
+v=spf1 include:spf1.energystan.com ~all
 EOF
 
-testexpect 0 "mydig -t NS energystan.com | sort" <<EOF
+testexpect 0 "get_ns energystan.com | sort" <<EOF
 chris.ns.cloudflare.com.
 dawn.ns.cloudflare.com.
 EOF
-
-#testexpect 0 "mydig_notshort -t A cname.energystan.com @dawn.ns.cloudflare.com." <<EOF
-#cname.energystan.com.	300	IN	CNAME	both.energystan.com.
-#both.energystan.com.	300	IN	A	1.2.3.4
-#EOF
 
 testexpect 0 findns one.energystan.com <<EOF
 ns1.he.net.

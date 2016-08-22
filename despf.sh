@@ -22,7 +22,7 @@
 test -n "$DEBUG" && set -x
 
 # Check for required tools
-for cmd in dig awk grep sed cut
+for cmd in host awk grep sed cut
 do
   type $cmd >/dev/null
 done
