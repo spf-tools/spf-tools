@@ -30,10 +30,18 @@ dlit() {
   }
 }
 
+dlhost() {
+  which $1 || {
+    cd $ODIR
+    wget -q -O - "$2" | tar xv
+  }
+}
+
 KERNELARCH=$(uname -sm)
 if
   test "$KERNELARCH" = "Linux x86_64"
 then
+  dlhost host "http://dl.bintray.com/jsarenik/spf-tools-bin/autonohoust.tar"
   dlit mksh "http://dl.bintray.com/jsarenik/spf-tools-bin/mksh.bz2"
   dlit ksh "http://dl.bintray.com/jsarenik/spf-tools-bin/ksh.bz2"
   dlit dash "http://dl.bintray.com/jsarenik/spf-tools-bin/dash.bz2"
