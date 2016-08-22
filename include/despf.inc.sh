@@ -133,11 +133,12 @@ getem() {
 # e.g. host="energystan.com"
 # e.g. mech="a a:gnu.org a:google.com/24 mx:gnu.org mx:jasan.tk/24"
 getamx() {
+  local cidr ahost
   host=$1
   shift
   for record in $* ; do 
-    local cidr=$(echo $record | cut -s -d\/ -f2-)
-    local ahost=$(echo $record | cut -s -d: -f2-)
+    cidr=$(echo $record | cut -s -d\/ -f2-)
+    ahost=$(echo $record | cut -s -d: -f2-)
     if [ "x" = "x$ahost" ] ; then
       lookuphost="$host";
       mech=$(echo $record | cut -d/ -f1)
