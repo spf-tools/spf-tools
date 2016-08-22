@@ -11,4 +11,7 @@ do
   type $cmd >/dev/null
 done
 
+which host
+host jasan.tk
+
 tests/test-shell.sh || DEBUG=1 tests/test-shell.sh
