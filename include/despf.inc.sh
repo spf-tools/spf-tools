@@ -107,7 +107,7 @@ parsepf() {
   for ns in $myns
   do
     get_txt $host $ns 2>/dev/null \
-      | grep -o 'v=spf1 [^"]\+' && break
+      | grep -Eo 'v=spf1 [^"]+' && break
   done
 }
 
@@ -213,7 +213,7 @@ checkval4() {
   cidr=${2#/}
   test -n "$cidr" && { numlesseq $cidr 32 || return 1; }
 
-  D=$(echo $ip | grep -o '\.' | wc -l)
+  D=$(echo $ip | grep -Eo '\.' | wc -l)
   test $D -eq 3 || return 1
   for i in $(echo $ip | tr '.' ' ')
   do
@@ -243,7 +243,7 @@ checkval6() {
 }
 
 canon6() {
-  D=$(echo $1 | grep -o ':' | wc -l)
+  D=$(echo $1 | grep -Eo ':' | wc -l)
   if
     test $D -eq 7
   then
@@ -251,7 +251,7 @@ canon6() {
   elif
     test $D -le 7 && echo $1 | grep -q '::'
   then
-    C=$(echo $1 | grep -o '::' | wc -l)
+    C=$(echo $1 | grep -Eo '::' | wc -l)
     test $C -gt 1 && return 1
     add=""
     for a in $(seq $((8-$D)))
