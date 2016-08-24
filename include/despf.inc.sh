@@ -254,7 +254,7 @@ canon6() {
     C=$(echo $1 | grep -Eo '::' | wc -l)
     test $C -gt 1 && return 1
     add=""
-    for a in $(seq $((8-$D)))
+    for a in $(awk -v MYEND=$((8-$D)) 'BEGIN { for(i=1;i<=MYEND;i++) print i }')
     do
       add=${add}:0
     done
