@@ -13,6 +13,7 @@
 [![SemaphoreCI badge][semaphore-img]][semaphore]
 [![Magnum CI badge][magnum-img]][magnum]
 [![Drone badge][drone-img]][drone]
+[![Shippable badge][shippable-img]][shippable]
 
 [![Join the chat at https://gitter.im/jsarenik/spf-tools][gitter-img]][gitter]
 
@@ -214,3 +215,5 @@ Usage:
 [drone]: https://drone.io/github.com/jsarenik/spf-tools/latest
 [gitter-img]: https://badges.gitter.im/Join%20Chat.svg
 [gitter]: https://gitter.im/jsarenik/spf-tools
+[shippable-img]: https://api.shippable.com/projects/5770eda33be4f4faa56ae58a/badge?branch=master
+[shippable]: https://app.shippable.com/projects/5770eda33be4f4faa56ae58a/status/
