@@ -33,6 +33,6 @@ despf.sh $domain2 | normalize.sh | simplify.sh > ${temp}-2 2>/dev/null
 trap "rm ${temp}-*" EXIT
 diff -u ${temp}-1 ${temp}-2
 cmp ${temp}-* 2>/dev/null 1>&2 && echo "Everything OK" >&2 || {
-  echo "Please update SPF TXT records of $domain!" 1>&2
+  echo "Please update SPF TXT records of $domain1!" 1>&2
   exit 1
 }

@@ -18,27 +18,34 @@
 
 DNS_TIMEOUT=${DNS_TIMEOUT:-"2"}
 
-mydg() {
-  dig +time=$DNS_TIMEOUT "$@" \
-      || { echo "DNS lookup error!" >&2; cleanup; false; }
+myhost() {
+  host -W $DNS_TIMEOUT "$@"
 }
 
-mydig() {
-  mydg +short "$@"
+get_txt() {
+  myhost -t TXT "$@" | cut -d\" -f2
 }
 
-mydig_notshort() {
-  mydg +noall +answer "$@"
+get_mx() {
+  myhost -t MX "$@" | awk '/mail is handled/ {print $NF}'
+}
+
+get_addr() {
+  myhost -t "$@" | awk '/alias/ {print $NF} /address/ {print $NF}'
+}
+
+get_ns() {
+  myhost -t NS "$@" | awk '/name server/ {print $NF}'
 }
 
 # findns <domain>
 # Find an authoritative NS server for domain
 findns() {
-  dd="$1"; ns=""; dig=${2:-mydig}
+  dd="$1"; ns="";
   while test -z "$ns"
   do
     if
-      ns=$($dig -t NS $dd | grep .)
+      ns=$(get_ns $dd | grep .)
     then
       break
     else
@@ -76,14 +83,14 @@ printip() {
 # 1.2.3.4
 # fec0::1
 dea() {
-  for TYPE in A AAAA; do mydig_notshort -t $TYPE $1 | grep -v CNAME | awk '{print $5}' | printip $2; done
+  for TYPE in A AAAA; do get_addr $TYPE $1 | printip $2; done
   true
 }
 
 # demx <domain> <cidr>
 # Get MX record for a domain
 demx() {
-  mymx=$(mydig -t MX $1 | awk '{print $2}')
+  mymx=$(get_mx $1)
   for name in $mymx; do dea $name $2; done
 }
 
@@ -99,8 +106,8 @@ parsepf() {
   fi
   for ns in $myns
   do
-    mydig -t TXT $host @$ns 2>/dev/null | sed 's/^"//;s/"$//;s/" "//' \
-      | grep '^v=spf1 ' && break
+    get_txt $host $ns 2>/dev/null \
+      | grep -Eo 'v=spf1 [^"]+' && break
   done
 }
 
@@ -133,11 +140,12 @@ getem() {
 # e.g. host="energystan.com"
 # e.g. mech="a a:gnu.org a:google.com/24 mx:gnu.org mx:jasan.tk/24"
 getamx() {
+  local cidr ahost
   host=$1
   shift
   for record in $* ; do 
-    local cidr=$(echo $record | cut -s -d\/ -f2-)
-    local ahost=$(echo $record | cut -s -d: -f2-)
+    cidr=$(echo $record | cut -s -d\/ -f2-)
+    ahost=$(echo $record | cut -s -d: -f2-)
     if [ "x" = "x$ahost" ] ; then
       lookuphost="$host";
       mech=$(echo $record | cut -d/ -f1)
@@ -205,7 +213,7 @@ checkval4() {
   cidr=${2#/}
   test -n "$cidr" && { numlesseq $cidr 32 || return 1; }
 
-  D=$(echo $ip | grep -o '\.' | wc -l)
+  D=$(echo $ip | grep -Eo '\.' | wc -l)
   test $D -eq 3 || return 1
   for i in $(echo $ip | tr '.' ' ')
   do
@@ -235,7 +243,7 @@ checkval6() {
 }
 
 canon6() {
-  D=$(echo $1 | grep -o ':' | wc -l)
+  D=$(echo $1 | grep -Eo ':' | wc -l)
   if
     test $D -eq 7
   then
@@ -243,10 +251,10 @@ canon6() {
   elif
     test $D -le 7 && echo $1 | grep -q '::'
   then
-    C=$(echo $1 | grep -o '::' | wc -l)
+    C=$(echo $1 | grep -Eo '::' | wc -l)
     test $C -gt 1 && return 1
     add=""
-    for a in $(seq $((8-$D)))
+    for a in $(awk -v MYEND=$((8-$D)) 'BEGIN { for(i=1;i<=MYEND;i++) print i }')
     do
       add=${add}:0
     done
