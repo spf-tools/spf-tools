@@ -53,7 +53,7 @@ while
 do
   cidr=$(echo $i | cut -d: -f2-)
   ipver=$(echo $i | cut -d: -f1)
-  if [ $ipver = "ip4" ] ; then
+  if [ "x$ipver" = "xip4" ] ; then
     # check if is a CIDR
     nm=$(echo $i | cut -s -d/ -f2)
     if [ "x$nm" = "x32" ] ; then
