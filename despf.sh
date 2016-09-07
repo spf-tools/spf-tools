@@ -38,6 +38,7 @@ usage() {
     cat <<-EOF
 	Usage: despf.sh [OPTION]... [DOMAIN]...
 	Decompose SPF records of a DOMAIN, sort and unique them.
+	DOMAIN may be specified in an environment variable.
 
 	Available options:
 	  -s DOMAIN[:DOMAIN...]      skip domains, i.e. leave include
@@ -48,7 +49,8 @@ usage() {
     exit 1
 }
 
-test "$#" -gt 0 || usage
+domain=${DOMAIN:-'orig.energystan.com'}
+test -n "$domain" -o "$#" -gt 0 || usage
 while getopts "t:s:h-" opt; do
   case $opt in
     t) test -n "$OPTARG" && DNS_TIMEOUT=$OPTARG;;
@@ -58,7 +60,8 @@ while getopts "t:s:h-" opt; do
 done
 shift $((OPTIND-1))
 
-domain=${*:-'orig.energystan.com'}
+# Domains specified as command line parameters override DOMAIN
+test -z "$*" || domain="$*"
 
 loopfile=$(mktemp /tmp/despf-loop-XXXXXXX)
 echo random-non-match-tdaoeinthaonetuhanotehu > $loopfile

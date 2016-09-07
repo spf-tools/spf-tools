@@ -46,6 +46,7 @@ Now just call any of the scripts described below.
 ```
 Usage: despf.sh [OPTION]... [DOMAIN]...
 Decompose SPF records of a DOMAIN, sort and unique them.
+DOMAIN may be specified in an environment variable.
 
 Available options:
   -s DOMAIN[:DOMAIN...]      skip domains, i.e. leave include
