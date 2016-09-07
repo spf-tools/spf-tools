@@ -1,0 +1,2 @@
+export DOMAIN=jasan.tk
+despf.sh | normalize.sh | simplify.sh | mkblocks.sh
