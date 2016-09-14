@@ -114,7 +114,7 @@ parsepf() {
 # in_list item list
 # e.g _spf.google.com  salesforce.com:google.com:outlook.com
 in_list() {
-  test $# = 2 && echo $2 | grep -wq $1
+  test $# -eq 2 && echo $2 | grep -wq $1
 }
 
 # getem <includes>
