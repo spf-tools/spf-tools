@@ -27,7 +27,7 @@ export LANG=C
 
 testexpect() {
   IN=0
-  test $1 = "-n" && { shift; > $tmp-out; } || cat > $tmp-out
+  test "x$1" = "x-n" && { shift; > $tmp-out; } || cat > $tmp-out
   EXPRET=$1
   shift
 
