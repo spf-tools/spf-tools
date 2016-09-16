@@ -106,7 +106,7 @@ do
     myout $incldomain "${blocksprev} ${footer}" $counter
     blocks=$block
     counter=$((counter+1))
-    test $counter -gt 10 && { echo "Too many DNS lookups!" 1>&2; exit 1; }
+    test $counter -gt 10 && { echo "Too many DNS look-ups!" 1>&2; exit 1; }
   }
 done
 
