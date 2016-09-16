@@ -18,12 +18,12 @@
 [![Join the chat at https://gitter.im/jsarenik/spf-tools][gitter-img]][gitter]
 
 Simple tools for keeping the SPF TXT records tidy in order to fight
-[10 maximum DNS lookups](http://serverfault.com/questions/584708).
+[10 maximum DNS look-ups](http://serverfault.com/questions/584708).
 
 
 ## General Usage
 
-Your original TXT record which causes more than 10 DNS lookups
+Your original TXT record which causes more than 10 DNS look-ups
 should be saved as an otherwise unused subdomain TXT record
 (e.g. `orig.energystan.com`).
 
@@ -164,7 +164,7 @@ Usage:
 
     ./despf.sh | ./normalize.sh | ./simplify.sh | ./mkblocks.sh \
       > /tmp/out 2>&1
-    grep "Too many DNS lookups!" /tmp/out \
+    grep "Too many DNS look-ups!" /tmp/out \
       || cat /tmp/out | ./mkzoneent.sh | ./cloudflare.sh
 
 
