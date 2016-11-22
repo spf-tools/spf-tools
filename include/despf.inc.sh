@@ -186,6 +186,7 @@ despf() {
   dogetamx=$(echo $myspf | grep -Eo -w '(mx|a)((\/|:)[^[:blank:]]+)?')  \
     && getamx $host $dogetamx
   echo $myspf | grep -Eo 'ip[46]:[^[:blank:]]+' | cut -d: -f2- | printip
+  echo $myspf | grep -Eo '(exists|exp|ptr):[^[:blank:]]+'
   set -e
 }
 
