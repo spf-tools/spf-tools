@@ -52,4 +52,9 @@ else
   cat $tmpfile
 fi | sed 's/^/ip4:/'
 
-grep -v "^ip4:" $tmpfile.orig
+grep "^ip6:" $tmpfile.orig
+grep -v "^ip[46]:" $tmpfile.orig
+
+if [ $? -eq 1 ]; then
+  return 0
+fi
