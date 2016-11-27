@@ -20,11 +20,12 @@
 Simple tools for keeping the SPF TXT records tidy in order to fight
 [10 maximum DNS look-ups](http://serverfault.com/questions/584708).
 
+## Release notes
 
-## WARNING
+### 2016/11 - new records on output
 
 spf-tools in version f4f51f7d327820c904572ea54c37634e2b2b792a do not
-output merely `ip4` and `ip6` records, but also keeps original `ptr`
+output merely `ip4` and `ip6` records, but also keep original `ptr`
 and `exists` ones.
 
 
