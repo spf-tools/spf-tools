@@ -23,7 +23,7 @@ myhost() {
 }
 
 get_txt() {
-  myhost -t TXT "$@" | cut -d\" -f2
+  myhost -t TXT "$@" | sed -e 's/\" \"//g'
 }
 
 get_mx() {
