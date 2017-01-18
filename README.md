@@ -33,13 +33,13 @@ and `exists` ones.
 
 Your original TXT record which causes more than 10 DNS look-ups
 should be saved as an otherwise unused subdomain TXT record
-(e.g. `orig.energystan.com`).
+(e.g. `spf-orig.jasan.tk`).
 
 Create a configuration file:
 
     cat > ~/.spf-toolsrc <<EOF
-    DOMAIN=energystan.com
-    ORIG_SPF=orig.energystan.com
+    DOMAIN=jasan.tk
+    ORIG_SPF=spf-orig.jasan.tk
     DESPF_SKIP_DOMAINS=_spf.domain1.com:spf.domain2.org
     DNS_TIMEOUT=5
     EOF
@@ -164,8 +164,8 @@ To use this script, file `.spf-toolsrc` in `$HOME` directory should
 contain `TOKEN` and `EMAIL` variable definitions which are then used
 to connect to CloudFlare API. The file should also contain `DOMAIN`
 and `ORIG_SPF` variables which stand for the target SPF domain
-(e.g. `energystan.com`) and original SPF record with includes
-(e.g. `orig.energystan.com`) in order to use `runspftools.sh`
+(e.g. `jasan.tk`) and original SPF record with includes
+(e.g. `spf-orig.jasan.tk`) in order to use `runspftools.sh`
 without modifying the script.
 
 Usage:
@@ -184,8 +184,8 @@ Usage:
 
 ## Links
 
- * https://dmarcian.com/spf-survey/spf.energystan.com
- * https://dmarcian.com/spf-survey/orig.energystan.com
+ * https://dmarcian.com/spf-survey/spf.jasan.tk
+ * https://dmarcian.com/spf-survey/spf-orig.jasan.tk
  * http://www.kitterman.com/spf/validate.html
  * http://serverfault.com/questions/584708
  * http://www.openspf.org/SPF_Record_Syntax

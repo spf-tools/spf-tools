@@ -49,7 +49,7 @@ usage() {
     exit 1
 }
 
-domain=${DOMAIN:-'orig.energystan.com'}
+domain=${DOMAIN:-'spf-orig.jasan.tk'}
 test -n "$domain" -o "$#" -gt 0 || usage
 while getopts "t:s:h-" opt; do
   case $opt in

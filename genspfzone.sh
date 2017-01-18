@@ -17,8 +17,8 @@
 #
 ##############################################################################
 
-ORIGDOMAIN=${1:-'orig.energystan.com'}
-DOMAIN=${1:-'energystan.com'}
+ORIGDOMAIN=${1:-'spf-orig.jasan.tk'}
+DOMAIN=${1:-'jasan.tk'}
 
 a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 PATH=$BINDIR:$PATH

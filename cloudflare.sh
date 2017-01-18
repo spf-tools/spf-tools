@@ -24,7 +24,7 @@
 #
 # Usage: ./despf.sh | ./simplify.sh | mkblocks.sh | \
 #          mkzoneent.sh | ./cloudflare.sh <domain>
-# E.g.: ... | ./cloudflare.sh energystan.com
+# E.g.: ... | ./cloudflare.sh jasan.tk
 
 for cmd in jq awk sed grep
 do
@@ -37,7 +37,7 @@ a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
 test -n "$TOKEN" || { echo "TOKEN not set! Exiting." >&2; exit 1; }
 test -n "$EMAIL" || { echo "EMAIL not set! Exiting.">&2; exit 1; }
 
-DOMAIN=${1:-'energystan.com'}
+DOMAIN=${1:-'jasan.tk'}
 TTL=1 # 1 = auto
 APIURL="https://www.cloudflare.com/api_json.html"
 idsfile=$(mktemp /tmp/cloudflare-ids-XXXXXX)
