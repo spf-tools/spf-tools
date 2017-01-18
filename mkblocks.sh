@@ -26,7 +26,7 @@ do
 done
 
 # Default values
-domain=${DOMAIN:-"energystan.com"}
+domain=${DOMAIN:-"jasan.tk"}
 prefix="spf"
 policy="~all"
 delim="^"

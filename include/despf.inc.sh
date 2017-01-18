@@ -79,7 +79,7 @@ printip() {
 }
 
 # dea <hostname> <cidr>
-# dea both.energystan.com
+# dea both.jasan.tk
 # 1.2.3.4
 # fec0::1
 dea() {
@@ -137,7 +137,7 @@ getem() {
 }
 
 # getamx host mech [mech [...]]
-# e.g. host="energystan.com"
+# e.g. host="jasan.tk"
 # e.g. mech="a a:gnu.org a:google.com/24 mx:gnu.org mx:jasan.tk/24"
 getamx() {
   local cidr ahost

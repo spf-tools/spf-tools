@@ -3,4 +3,4 @@ get_ns() {
   echo ";; connection timed out; no servers could be reached"
   return 9
 }
-findns orig.energystan.com || true
+findns orig.jasan.tk || true
