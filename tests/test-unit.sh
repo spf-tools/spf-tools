@@ -41,18 +41,18 @@ testexpect() {
   echo .... OK
 }
 
-testexpect 0 get_txt spf.energystan.com <<EOF
-v=spf1 include:spf1.energystan.com ~all
+testexpect 0 get_txt spf.jasan.tk <<EOF
+v=spf1 include:spf1.jasan.tk ~all
 EOF
 
-testexpect 0 "get_ns energystan.com | sort" <<EOF
+testexpect 0 "get_ns jasan.tk | sort" <<EOF
 chris.ns.cloudflare.com.
 dawn.ns.cloudflare.com.
 EOF
 
-testexpect 0 findns one.energystan.com <<EOF
-ns1.he.net.
-EOF
+#testexpect 0 findns one.jasan.tk <<EOF
+#ns1.he.net.
+#EOF
 
 testexpect -n 1 findns orig.non-existent.nonnon
 
@@ -75,57 +75,48 @@ ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
-testexpect 0 dea both.energystan.com <<EOF
+testexpect 0 dea both.jasan.tk <<EOF
 ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
-testexpect 0 dea cname.energystan.com <<EOF
+testexpect 0 dea cname.jasan.tk <<EOF
 ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
-testexpect 0 dea cname.energystan.com 24 <<EOF
+testexpect 0 dea cname.jasan.tk 24 <<EOF
 ip4:1.2.3.4/24
 ip6:fec0::1/24
 EOF
 
-testexpect 0 demx mx.energystan.com <<EOF
+testexpect 0 demx mx.jasan.tk <<EOF
 ip4:5.6.7.8
 ip6:56:78::1
 EOF
 
-testexpect 0 demx mx.energystan.com 24 <<EOF
+testexpect 0 demx mx.jasan.tk 24 <<EOF
 ip4:5.6.7.8/24
 ip6:56:78::1/24
 EOF
 
-testexpect 0 demx energystan.com 24 <<EOF
-ip4:122.103.250.12/24
-ip4:198.143.169.250/24
-ip4:42.3.81.21/24
-ip4:64.38.239.85/24
-ip4:66.37.25.72/24
-ip4:66.37.25.74/24
-EOF
-
-testexpect 0 getamx both-spf.energystan.com a:both.energystan.com <<EOF
+testexpect 0 getamx both-spf.jasan.tk a:both.jasan.tk <<EOF
 ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
-testexpect 0 parsepf spf.energystan.com <<EOF
-v=spf1 include:spf1.energystan.com ~all
+testexpect 0 parsepf spf.jasan.tk <<EOF
+v=spf1 include:spf1.jasan.tk ~all
 EOF
 
 # This tests the correct process of iteration
 # between different NS servers if one is not
 # responding
-testexpect 0 parsepf morens.energystan.com <<EOF
-v=spf1 include:spf1.energystan.com ~all
+testexpect 0 parsepf morens.jasan.tk <<EOF
+v=spf1 include:spf1.jasan.tk ~all
 EOF
 
-testexpect -n 1 parsepf mail.energystan.com
+testexpect -n 1 parsepf mail.jasan.tk
 
 testexpect -n 1 isincidrange.sh 74.86.241.250 199.122.123.192 32
 
