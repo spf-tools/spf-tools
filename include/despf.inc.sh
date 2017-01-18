@@ -102,7 +102,7 @@ parsepf() {
   then
     myns=$(findns $host 2>/dev/null)
   else
-    myns=$(sed -n 's/nameserver \([\.:0-9a-f]*\)/\1/p' /etc/resolv.conf)
+    myns=$(sed -n 's/^nameserver \([\.:0-9a-f]*\)/\1/p' /etc/resolv.conf)
   fi
   for ns in $myns
   do
