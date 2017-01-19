@@ -158,6 +158,7 @@ getamx() {
         lookuphost=$(echo $ahost | cut -d\/ -f1)
       fi
     fi
+    mech=$(echo $mech | tr '[A-Z]' '[a-z]')
     if [ "$mech" = "a" ]; then
       dea $lookuphost $cidr
     elif [ "$mech" = "mx" ]; then
