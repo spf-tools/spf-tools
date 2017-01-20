@@ -107,7 +107,7 @@ parsepf() {
   for ns in $myns
   do
     get_txt $host $ns 2>/dev/null \
-      | grep -Eo 'v=spf1 [^"]+' && break
+      | grep -Eio 'v=spf1 [^"]+' && break
   done
 }
 
@@ -158,6 +158,7 @@ getamx() {
         lookuphost=$(echo $ahost | cut -d\/ -f1)
       fi
     fi
+    mech=$(echo $mech | tr '[A-Z]' '[a-z]')
     if [ "$mech" = "a" ]; then
       dea $lookuphost $cidr
     elif [ "$mech" = "mx" ]; then
@@ -181,12 +182,12 @@ despf() {
   myspf=$(parsepf $host | sed 's/redirect=/include:/')
 
   set +e
-  dogetem=$(echo $myspf | grep -Eo 'include:[^[:blank:]]+') \
+  dogetem=$(echo $myspf | grep -Eio 'include:[^[:blank:]]+') \
     && getem $myloop $dogetem
-  dogetamx=$(echo $myspf | grep -Eo -w '(mx|a)((\/|:)[^[:blank:]]+)?')  \
+  dogetamx=$(echo $myspf | grep -Eio -w '(mx|a)((\/|:)[^[:blank:]]+)?')  \
     && getamx $host $dogetamx
-  echo $myspf | grep -Eo 'ip[46]:[^[:blank:]]+' | cut -d: -f2- | printip
-  echo $myspf | grep -Eo '(exists|ptr):[^[:blank:]]+'
+  echo $myspf | grep -Eio 'ip[46]:[^[:blank:]]+' | cut -d: -f2- | printip
+  echo $myspf | grep -Eio '(exists|ptr):[^[:blank:]]+'
   set -e
 }
 
