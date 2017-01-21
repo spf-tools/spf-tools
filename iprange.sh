@@ -17,6 +17,11 @@
 
 TMP=/tmp/iprange
 
+type iprange > /dev/null
+if [ $? -ne 0 ] ; then 
+	cat 
+	exit
+fi
 cat > $TMP
 grep -v ^ip4: $TMP > $TMP-rest
 grep ^ip4: $TMP | cut -d: -f2- | iprange | while read l; do echo "ip4:$l"; done
