@@ -12,7 +12,6 @@
 [![Travis-CI badge][travis-img]][travis]
 [![SemaphoreCI badge][semaphore-img]][semaphore]
 [![Magnum CI badge][magnum-img]][magnum]
-[![Drone badge][drone-img]][drone]
 [![Shippable badge][shippable-img]][shippable]
 
 [![Join the chat at https://gitter.im/jsarenik/spf-tools][gitter-img]][gitter]
@@ -243,8 +242,6 @@ Example:
 [semaphore]: https://semaphoreci.com/jsarenik/spf-tools
 [magnum-img]: https://magnum-ci.com/status/10aadca49949b855fa11ca7a44022c8a.png
 [magnum]: https://magnum-ci.com/public/1acdb8198c9cbd13c5db/builds
-[drone-img]: https://drone.io/github.com/jsarenik/spf-tools/status.png
-[drone]: https://drone.io/github.com/jsarenik/spf-tools/latest
 [gitter-img]: https://badges.gitter.im/Join%20Chat.svg
 [gitter]: https://gitter.im/jsarenik/spf-tools
 [shippable-img]: https://api.shippable.com/projects/5770eda33be4f4faa56ae58a/badge?branch=master
