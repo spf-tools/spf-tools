@@ -176,9 +176,31 @@ Usage:
       || cat /tmp/out | ./mkzoneent.sh | ./cloudflare.sh
 
 
-## Example
+### iprange.sh
 
-    ./despf.sh | ./normalize.sh | ./simplify.sh \
+Extra dependencies: [iprange](https://github.com/firehol/iprange)
+
+This script optimizes the IPv4 address block output (similar to, but
+more than `simplify.sh` because it can join multiple networks into
+one bigger).
+
+Usage:
+
+    ./despf.sh | ./iprange.sh
+
+Example:
+
+    $ ./despf.sh cont.jasan.tk
+    ip4:13.111.0.0/24
+    ip4:13.111.1.0/24
+    ip4:13.111.2.0/24
+    ip4:13.111.3.0/24
+    $ ./despf.sh cont.jasan.tk | ./iprange.sh
+    ip4:13.111.0.0/22
+
+## Putting it all together
+
+    ./despf.sh | ./normalize.sh | ./simplify.sh | ./iprange.sh \
       | ./mkblocks.sh | ./xsel.sh
 
 
