@@ -1,2 +1,2 @@
-export DOMAIN=jasan.tk
+export DOMAIN=demo.jasan.tk
 despf.sh | normalize.sh | simplify.sh | mkblocks.sh

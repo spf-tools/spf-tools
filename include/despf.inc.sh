@@ -23,7 +23,7 @@ myhost() {
 }
 
 get_txt() {
-  myhost -t TXT "$@" | cut -d\" -f2
+  myhost -t TXT "$@" | cut -d\" -f2- | sed -e 's/\" \"//g;s/\"$//'
 }
 
 get_mx() {
@@ -79,7 +79,7 @@ printip() {
 }
 
 # dea <hostname> <cidr>
-# dea both.energystan.com
+# dea both.jasan.tk
 # 1.2.3.4
 # fec0::1
 dea() {
@@ -102,12 +102,12 @@ parsepf() {
   then
     myns=$(findns $host 2>/dev/null)
   else
-    myns=$(sed -n 's/nameserver \([\.:0-9a-f]*\)/\1/p' /etc/resolv.conf)
+    myns=$(sed -n 's/^nameserver \([\.:0-9a-f]*\)/\1/p' /etc/resolv.conf)
   fi
   for ns in $myns
   do
     get_txt $host $ns 2>/dev/null \
-      | grep -Eo 'v=spf1 [^"]+' && break
+      | grep -Eio 'v=spf1 [^"]+' && break
   done
 }
 
@@ -137,7 +137,7 @@ getem() {
 }
 
 # getamx host mech [mech [...]]
-# e.g. host="energystan.com"
+# e.g. host="jasan.tk"
 # e.g. mech="a a:gnu.org a:google.com/24 mx:gnu.org mx:jasan.tk/24"
 getamx() {
   local cidr ahost
@@ -158,6 +158,7 @@ getamx() {
         lookuphost=$(echo $ahost | cut -d\/ -f1)
       fi
     fi
+    mech=$(echo $mech | tr '[A-Z]' '[a-z]')
     if [ "$mech" = "a" ]; then
       dea $lookuphost $cidr
     elif [ "$mech" = "mx" ]; then
@@ -181,12 +182,12 @@ despf() {
   myspf=$(parsepf $host | sed 's/redirect=/include:/')
 
   set +e
-  dogetem=$(echo $myspf | grep -Eo 'include:[^[:blank:]]+') \
+  dogetem=$(echo $myspf | grep -Eio 'include:[^[:blank:]]+') \
     && getem $myloop $dogetem
-  dogetamx=$(echo $myspf | grep -Eo -w '(mx|a)((\/|:)[^[:blank:]]+)?')  \
+  dogetamx=$(echo $myspf | grep -Eio -w '(mx|a)((\/|:)[^[:blank:]]+)?')  \
     && getamx $host $dogetamx
-  echo $myspf | grep -Eo 'ip[46]:[^[:blank:]]+' | cut -d: -f2- | printip
-  echo $myspf | grep -Eo '(exists|ptr):[^[:blank:]]+'
+  echo $myspf | grep -Eio 'ip[46]:[^[:blank:]]+' | cut -d: -f2- | printip
+  echo $myspf | grep -Eio '(exists|ptr):[^[:blank:]]+'
   set -e
 }
 

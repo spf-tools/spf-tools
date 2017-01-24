@@ -12,7 +12,6 @@
 [![Travis-CI badge][travis-img]][travis]
 [![SemaphoreCI badge][semaphore-img]][semaphore]
 [![Magnum CI badge][magnum-img]][magnum]
-[![Drone badge][drone-img]][drone]
 [![Shippable badge][shippable-img]][shippable]
 
 [![Join the chat at https://gitter.im/jsarenik/spf-tools][gitter-img]][gitter]
@@ -33,13 +32,13 @@ and `exists` ones.
 
 Your original TXT record which causes more than 10 DNS look-ups
 should be saved as an otherwise unused subdomain TXT record
-(e.g. `orig.energystan.com`).
+(e.g. `spf-orig.jasan.tk`).
 
 Create a configuration file:
 
     cat > ~/.spf-toolsrc <<EOF
-    DOMAIN=energystan.com
-    ORIG_SPF=orig.energystan.com
+    DOMAIN=jasan.tk
+    ORIG_SPF=spf-orig.jasan.tk
     DESPF_SKIP_DOMAINS=_spf.domain1.com:spf.domain2.org
     DNS_TIMEOUT=5
     EOF
@@ -164,8 +163,8 @@ To use this script, file `.spf-toolsrc` in `$HOME` directory should
 contain `TOKEN` and `EMAIL` variable definitions which are then used
 to connect to CloudFlare API. The file should also contain `DOMAIN`
 and `ORIG_SPF` variables which stand for the target SPF domain
-(e.g. `energystan.com`) and original SPF record with includes
-(e.g. `orig.energystan.com`) in order to use `runspftools.sh`
+(e.g. `jasan.tk`) and original SPF record with includes
+(e.g. `spf-orig.jasan.tk`) in order to use `runspftools.sh`
 without modifying the script.
 
 Usage:
@@ -176,16 +175,38 @@ Usage:
       || cat /tmp/out | ./mkzoneent.sh | ./cloudflare.sh
 
 
-## Example
+### iprange.sh
 
-    ./despf.sh | ./normalize.sh | ./simplify.sh \
+Extra dependencies: [iprange](https://github.com/firehol/iprange)
+
+This script optimizes the IPv4 address block output (similar to, but
+more than `simplify.sh` because it can join multiple networks into
+one bigger).
+
+Usage:
+
+    ./despf.sh | ./iprange.sh
+
+Example:
+
+    $ ./despf.sh cont.jasan.tk
+    ip4:13.111.0.0/24
+    ip4:13.111.1.0/24
+    ip4:13.111.2.0/24
+    ip4:13.111.3.0/24
+    $ ./despf.sh cont.jasan.tk | ./iprange.sh
+    ip4:13.111.0.0/22
+
+## Putting it all together
+
+    ./despf.sh | ./normalize.sh | ./simplify.sh | ./iprange.sh \
       | ./mkblocks.sh | ./xsel.sh
 
 
 ## Links
 
- * https://dmarcian.com/spf-survey/spf.energystan.com
- * https://dmarcian.com/spf-survey/orig.energystan.com
+ * https://dmarcian.com/spf-survey/spf.jasan.tk
+ * https://dmarcian.com/spf-survey/spf-orig.jasan.tk
  * http://www.kitterman.com/spf/validate.html
  * http://serverfault.com/questions/584708
  * http://www.openspf.org/SPF_Record_Syntax
@@ -221,8 +242,6 @@ Usage:
 [semaphore]: https://semaphoreci.com/jsarenik/spf-tools
 [magnum-img]: https://magnum-ci.com/status/10aadca49949b855fa11ca7a44022c8a.png
 [magnum]: https://magnum-ci.com/public/1acdb8198c9cbd13c5db/builds
-[drone-img]: https://drone.io/github.com/jsarenik/spf-tools/status.png
-[drone]: https://drone.io/github.com/jsarenik/spf-tools/latest
 [gitter-img]: https://badges.gitter.im/Join%20Chat.svg
 [gitter]: https://gitter.im/jsarenik/spf-tools
 [shippable-img]: https://api.shippable.com/projects/5770eda33be4f4faa56ae58a/badge?branch=master
