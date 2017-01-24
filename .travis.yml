@@ -1,5 +1,11 @@
 #language: shell
-
+language: ruby
+rvm:
+ - 2.2.5
+matrix:
+env:
+    - COVERAGE=1 DEBUG=1 
+    - COVERAGE=1
 cache:
   directories:
     - $HOME/.m2/repository
@@ -8,6 +14,10 @@ before_install:
   - sudo apt-get update -qq
 
 install:
+  - gem install coveralls
+  - gem install bashcov
+  - sudo gem update --system
+  - bundle install
   - sh -e misc/ci-setup.sh
 
 script:
