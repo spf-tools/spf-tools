@@ -4,7 +4,6 @@ rvm:
  - 2.2.5
 matrix:
 env:
-    - COVERAGE=1 DEBUG=1 
     - COVERAGE=1
     - COVERAGE=0
 cache:
@@ -17,6 +16,8 @@ before_install:
 install:
   - gem install coveralls
   - gem install bashcov
+  - gem regenerate_binstubs
+  - export PATH="$PATH:$PWD:$GEM_PATH:/home/travis/.rvm/gems/ruby-2.2.5/wrappers"
   - sh -e misc/ci-setup.sh
 
 script:
