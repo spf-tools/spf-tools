@@ -117,6 +117,12 @@ in_list() {
   test $# -eq 2 && echo $2 | grep -wq $1
 }
 
+# has_macro item
+# e.g %{i}.domain.com
+has_macro() {
+  echo $1 | grep '%{' > /dev/null
+}
+
 # getem <includes>
 # e.g. includes="include:gnu.org include:google.com"
 getem() {
@@ -128,6 +134,11 @@ getem() {
       in_list "$included" "$DESPF_SKIP_DOMAINS"
     then
       echo "Skipping $included" 1>&2;
+      echo "include:$included"
+    elif
+      has_macro "$included"
+    then
+      echo "Skipping (has macros) $included" 1>&2;
       echo "include:$included"
     else
       echo Getting $included 1>&2;
