@@ -18,7 +18,7 @@ install:
   - gem install bashcov
   - gem regenerate_binstubs
   - echo $GEM_HOME
-  - source $(rvm 1.9.3 do rvm env --path)
+  - source $(rvm 2.2.6 do rvm env --path)
   - sh -e misc/ci-setup.sh
 
 script:
