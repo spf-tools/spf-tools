@@ -17,7 +17,7 @@ install:
   - gem install coveralls
   - gem install bashcov
   - gem regenerate_binstubs
-  - export PATH="$PATH:$PWD:$GEM_PATH:/home/travis/.rvm/gems/ruby-2.2.6/wrappers"
+  - source $(rvm 1.9.3 do rvm env --path)
   - sh -e misc/ci-setup.sh
 
 script:
