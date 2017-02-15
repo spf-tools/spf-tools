@@ -32,6 +32,7 @@ policy="~all"
 delim="^"
 header="v=spf1"
 length=257
+start=1
 
 usage() {
     cat <<-EOF
@@ -44,6 +45,7 @@ usage() {
 	  -p PREFIX                  set SPF prefix
 	  -o POLICY                  set default SPF policy
 	  -d DELIM                   set delimiter of output
+	  -s START                   set the numbering start
 
 	Default values:
 	  HEADER = $header
@@ -51,17 +53,19 @@ usage() {
 	  PREFIX = $prefix
 	  POLICY = $policy
 	  DELIM  = $delim
+	  START  = $start
 	EOF
     exit 1
 }
 
-while getopts "h:l:p:o:d:-" opt; do
+while getopts "h:l:p:o:d:s:-" opt; do
   case $opt in
     h) test -n "$OPTARG" && header=$OPTARG;;
     l) test -n "$OPTARG" && length=$OPTARG;;
     p) test -n "$OPTARG" && prefix=$OPTARG;;
     o) test -n "$OPTARG" && policy=$OPTARG;;
     d) test -n "$OPTARG" && delim=$OPTARG;;
+    s) test -n "$OPTARG" && start=$OPTARG;;
     *) usage;;
   esac
 done
@@ -77,7 +81,7 @@ MYX=#
 
 incldomain="${prefix}${MYX}.$domain"
 footer="include:$incldomain $policy"
-counter=$((1))
+counter=$((start))
 
 mysed() {
   sed "s/$MYX/$1/"
