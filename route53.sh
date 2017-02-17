@@ -30,6 +30,8 @@
 # The AWS CLI can be configured using ~/.aws/credentials or using
 # environment variables, AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS KEY
 
+test -n "$DEBUG" && set -x
+
 for cmd in jq aws awk sed grep
 do
   type $cmd >/dev/null || exit 1
