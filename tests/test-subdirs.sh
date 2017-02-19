@@ -22,7 +22,7 @@ export PATH=$BINDIR/..:$PATH
 cd $BINDIR
 
 RUNSHELL=${1:-"/bin/sh"}
-out=$(mktemp)
+out=$(mktemp 2>/dev/null || mktemp -t 'spftools-test-subdir.XXXXXX')
 set | grep 'SH_VERSION=' >&2 || true
 for test in $(find . -mindepth 1 -maxdepth 1 -type d)
 do
