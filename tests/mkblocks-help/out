@@ -7,6 +7,7 @@ Available options:
   -p PREFIX                  set SPF prefix
   -o POLICY                  set default SPF policy
   -d DELIM                   set delimiter of output
+  -s START                   set the numbering start
 
 Default values:
   HEADER = v=spf1
@@ -14,3 +15,4 @@ Default values:
   PREFIX = spf
   POLICY = ~all
   DELIM  = ^
+  START  = 1
