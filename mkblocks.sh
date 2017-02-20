@@ -28,6 +28,7 @@ done
 # Default values
 domain=${DOMAIN:-"jasan.tk"}
 prefix="spf"
+suffix=""
 policy="~all"
 delim="^"
 header="v=spf1"
@@ -43,6 +44,7 @@ usage() {
 	  -h HEADER                  set SPF header
 	  -l LENGTH                  set desired packet length
 	  -p PREFIX                  set SPF prefix
+	  -x SUFFIX                  set SPF suffix
 	  -o POLICY                  set default SPF policy
 	  -d DELIM                   set delimiter of output
 	  -s START                   set the numbering start
@@ -51,6 +53,7 @@ usage() {
 	  HEADER = $header
 	  LENGTH = $length
 	  PREFIX = $prefix
+	  SUFFIX = $suffix
 	  POLICY = $policy
 	  DELIM  = $delim
 	  START  = $start
@@ -58,11 +61,12 @@ usage() {
     exit 1
 }
 
-while getopts "h:l:p:o:d:s:-" opt; do
+while getopts "h:l:p:x:o:d:s:-" opt; do
   case $opt in
     h) test -n "$OPTARG" && header=$OPTARG;;
     l) test -n "$OPTARG" && length=$OPTARG;;
     p) test -n "$OPTARG" && prefix=$OPTARG;;
+    x) test -n "$OPTARG" && suffix=$OPTARG;;
     o) test -n "$OPTARG" && policy=$OPTARG;;
     d) test -n "$OPTARG" && delim=$OPTARG;;
     s) test -n "$OPTARG" && start=$OPTARG;;
@@ -79,7 +83,7 @@ policy=${3:-"$policy"}
 # One-char placeholder substitued for number later
 MYX=#
 
-incldomain="${prefix}${MYX}.$domain"
+incldomain="${prefix}${MYX}${suffix}.$domain"
 footer="include:$incldomain $policy"
 counter=$((start))
 
