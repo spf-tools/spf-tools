@@ -169,10 +169,9 @@ without modifying the script.
 
 Usage:
 
-    ./despf.sh | ./normalize.sh | ./simplify.sh | ./mkblocks.sh \
-      > /tmp/out 2>&1
-    grep "Too many DNS look-ups!" /tmp/out \
-      || cat /tmp/out | ./mkzoneent.sh | ./cloudflare.sh
+    ./despf.sh | ./normalize.sh | ./simplify.sh | ./mkblocks.sh 2>&1 \
+      | tee /tmp/out | grep "Too many DNS look-ups!" \
+      || cat /tmp/out | ./mkzoneent.sh
 
 
 ### route53.sh
