@@ -175,6 +175,27 @@ Usage:
       || cat /tmp/out | ./mkzoneent.sh | ./cloudflare.sh
 
 
+### route53.sh
+
+Dependencies: [jq](https://stedolan.github.io/jq/),
+[aws](https://aws.amazon.com/cli/),
+[awk](https://www.gnu.org/software/gawk/),
+[sed](https://www.gnu.org/software/sed/),
+[grep](https://www.gnu.org/software/grep/)
+
+Script to update pre-existing TXT SPF records for a domain according
+to the input in DNS zone format.
+
+The AWS CLI can be configured using `~/.aws/credentials` or using
+environment variables: `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
+
+
+Usage:
+
+    ./despf.sh | ./simplify.sh | ./mkblocks.sh | \
+      ./mkzoneent.sh | ./route53.sh <hosted_zone_id>
+
+
 ### iprange.sh
 
 Extra dependencies: [iprange](https://github.com/firehol/iprange)
