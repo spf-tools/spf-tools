@@ -227,7 +227,7 @@ despfit() {
   for host in $hosts
   do
     despf $host $myloop
-  done | sort -u
+  done 
 }
 
 checkval4() {
