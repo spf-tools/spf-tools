@@ -186,7 +186,9 @@ Script to update pre-existing TXT SPF records for a domain according
 to the input in DNS zone format.
 
 The AWS CLI can be configured using `~/.aws/credentials` or using
-environment variables: `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
+environment variables: `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+(find more details in [Configuring the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-environment)
+documentation.
 
 
 Usage:
