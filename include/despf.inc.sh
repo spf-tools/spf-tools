@@ -64,6 +64,9 @@ findns() {
 printip() {
   while read line
   do
+    # Dont take the + . It's default
+    qualifier=$(echo $line | grep -Eio "^[\~\?\-]")
+    line=$(echo $line | sed -e 's/[\~\?\+\-]//')
     prefix=/${1:-"${line##*/}"}
     test -n "$1" || echo $line | grep -q '/' || prefix=""
     line=$(echo $line | cut -d/ -f1)
@@ -74,24 +77,29 @@ printip() {
     else
       continue
     fi
-    echo "ip${ver}:${line}${prefix}"
+    echo "${qualifier}ip${ver}:${line}${prefix}"
   done
 }
 
-# dea <hostname> <cidr>
+# dea <hostname> <cidr> <qualifier>
 # dea both.jasan.tk
 # 1.2.3.4
 # fec0::1
 dea() {
-  for TYPE in A AAAA; do get_addr $TYPE $1 | printip $2; done
+  for TYPE in A AAAA; do
+	  get_addr $TYPE $1 | while read ip ; do 
+	  	addr="${3}${ip}"
+	  	echo $addr | printip $2;
+  	  done
+  done
   true
 }
 
-# demx <domain> <cidr>
+# demx <domain> <cidr> <qualifier>
 # Get MX record for a domain
 demx() {
   mymx=$(get_mx $1)
-  for name in $mymx; do dea $name $2; done
+  for name in $mymx; do dea $name "$2" $3; done
 }
 
 # parsepf <host>
@@ -169,11 +177,12 @@ getamx() {
         lookuphost=$(echo $ahost | cut -d\/ -f1)
       fi
     fi
-    mech=$(echo $mech | tr '[A-Z]' '[a-z]')
+    qualifier=$(echo $mech | grep -Eio "^[\~\?\+\-]")
+    mech=$(echo $mech | sed -e 's/[\~\?\+\-]//'| tr '[A-Z]' '[a-z]')
     if [ "$mech" = "a" ]; then
-      dea $lookuphost $cidr
+      dea $lookuphost "$cidr" $qualifier
     elif [ "$mech" = "mx" ]; then
-      demx $lookuphost $cidr
+      demx $lookuphost "$cidr" $qualifier
     fi
   done
 }
@@ -195,10 +204,10 @@ despf() {
   set +e
   dogetem=$(echo $myspf | grep -Eio 'include:[^[:blank:]]+') \
     && getem $myloop $dogetem
-  dogetamx=$(echo $myspf | grep -Eio -w '(mx|a)((\/|:)[^[:blank:]]+)?')  \
+  dogetamx=$(echo $myspf | grep -Eio -w '[\?\~\+\-]?(mx|a)((\/|:)[^[:blank:]]+)?')  \
     && getamx $host $dogetamx
-  echo $myspf | grep -Eio 'ip[46]:[^[:blank:]]+' | cut -d: -f2- | printip
-  echo $myspf | grep -Eio '(exists|ptr):[^[:blank:]]+'
+  echo $myspf | grep -Eio '[\?\~\+\-]?ip[46]:[^[:blank:]]+' | sed -e 's/ip[46]\://' | printip
+  echo $myspf | grep -Eio '([\?\~\+\-]?exists|ptr):[^[:blank:]]+'
   set -e
 }
 
