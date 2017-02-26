@@ -28,7 +28,7 @@
 # E.g.: ... | ./route53.sh ABCXYZEXAMPLE
 
 # The AWS CLI can be configured using ~/.aws/credentials or using
-# environment variables, AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS KEY
+# environment variables: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
 
 test -n "$DEBUG" && set -x
 

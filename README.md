@@ -169,10 +169,32 @@ without modifying the script.
 
 Usage:
 
-    ./despf.sh | ./normalize.sh | ./simplify.sh | ./mkblocks.sh \
-      > /tmp/out 2>&1
-    grep "Too many DNS look-ups!" /tmp/out \
-      || cat /tmp/out | ./mkzoneent.sh | ./cloudflare.sh
+    ./despf.sh | ./normalize.sh | ./simplify.sh | ./mkblocks.sh 2>&1 \
+      | tee /tmp/out | grep "Too many DNS look-ups!" \
+      || cat /tmp/out | ./mkzoneent.sh
+
+
+### route53.sh
+
+Dependencies: [jq](https://stedolan.github.io/jq/),
+[aws](https://aws.amazon.com/cli/),
+[awk](https://www.gnu.org/software/gawk/),
+[sed](https://www.gnu.org/software/sed/),
+[grep](https://www.gnu.org/software/grep/)
+
+Script to update pre-existing TXT SPF records for a domain according
+to the input in DNS zone format.
+
+The AWS CLI can be configured using `~/.aws/credentials` or using
+environment variables: `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+(find more details in [Configuring the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-environment)
+documentation.
+
+
+Usage:
+
+    ./despf.sh | ./simplify.sh | ./mkblocks.sh | \
+      ./mkzoneent.sh | ./route53.sh <hosted_zone_id>
 
 
 ### iprange.sh
