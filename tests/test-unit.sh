@@ -75,6 +75,19 @@ ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
+cat > $tmp <<EOF
+-1.2.3.4
++1.2.3.5
+?1.2.3.6
+~1.2.3.7
+EOF
+testexpect 0 "cat $tmp | printip" <<EOF
+-ip4:1.2.3.4
+?ip4:1.2.3.6
+ip4:1.2.3.5
+~ip4:1.2.3.7
+EOF
+
 testexpect 0 dea both.jasan.tk <<EOF
 ip4:1.2.3.4
 ip6:fec0::1
