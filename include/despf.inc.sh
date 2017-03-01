@@ -223,11 +223,18 @@ despfit() {
   # Make sort(1) behave
   export LC_ALL=C
   export LANG=C
-
+ 
+  outputfile=$(mktemp /tmp/despf-sort-XXXXXXX)
   for host in $hosts
   do
     despf $host $myloop
-  done 
+  done  > $outputfile
+  if grep -E '^[\?\~\-]' $outputfile  ; then
+	  cat $outputfile
+  else
+	  sort -u $outputfile
+  fi
+  rm $outputfile
 }
 
 checkval4() {
