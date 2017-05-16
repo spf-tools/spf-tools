@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ODIR=$PWD/mybin
+ODIR=$PWD/bin
 export PATH=$ODIR:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/usr/local/musl/bin:$HOME/bin
 
 pwd

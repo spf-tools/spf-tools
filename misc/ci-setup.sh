@@ -19,7 +19,14 @@
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/usr/local/musl/bin:$HOME/bin
 
-ODIR=$PWD/mybin
+CD_CACHE=$HOME/.m2/repository
+ADIR=$CD_CACHE/cache/bin
+test -d $ADIR || mkdir -p $ADIR
+ln -nsf $CD_CACHE/cache $HOME/cache
+ln -nsf $HOME/cache/bin $HOME/bin
+#type busybox && ln -nsf $(which busybox) $HOME/bin/ash
+
+ODIR=$CD_CACHE
 test -d $ODIR || mkdir $ODIR
 
 dlit() {
