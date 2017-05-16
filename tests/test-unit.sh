@@ -17,7 +17,7 @@
 #
 ##############################################################################
 
-a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
+a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 export PATH=$BINDIR/../include:$PATH
 tmp=$(mktemp /tmp/spf-test-unit-XXXXXXXXX)
 trap "rm $tmp*" EXIT

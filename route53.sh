@@ -37,7 +37,7 @@ do
   type $cmd >/dev/null || exit 1
 done
 
-a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BINDIR=$(cd $a; pwd)
+a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 . $BINDIR/include/global.inc.sh
 
 # default values
