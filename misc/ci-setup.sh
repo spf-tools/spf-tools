@@ -17,9 +17,15 @@
 #
 ##############################################################################
 
-export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/usr/local/musl/bin:$HOME/bin
+export PATH=$HOME/bin:/bin:/sbin:/usr/bin:/usr/sbin
 
-ODIR=$PWD/mybin
+CD_CACHE=$HOME/.m2/repository
+ADIR=$CD_CACHE/bin
+test -d $ADIR || mkdir -p $ADIR
+ln -nsf $CD_CACHE/bin $HOME/bin
+#type busybox && ln -nsf $(which busybox) $HOME/bin/ash
+
+ODIR=$ADIR
 test -d $ODIR || mkdir $ODIR
 
 dlit() {
