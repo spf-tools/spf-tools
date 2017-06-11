@@ -25,7 +25,7 @@ test -d $ADIR || mkdir -p $ADIR
 ln -nsf $CD_CACHE/bin $HOME/bin
 #type busybox && ln -nsf $(which busybox) $HOME/bin/ash
 
-ODIR=$CD_CACHE
+ODIR=$ADIR
 test -d $ODIR || mkdir $ODIR
 
 dlit() {
