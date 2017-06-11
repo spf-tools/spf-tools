@@ -17,13 +17,12 @@
 #
 ##############################################################################
 
-export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/usr/local/musl/bin:$HOME/bin
+export PATH=$HOME/bin:/bin:/sbin:/usr/bin:/usr/sbin
 
 CD_CACHE=$HOME/.m2/repository
-ADIR=$CD_CACHE/cache/bin
+ADIR=$CD_CACHE/bin
 test -d $ADIR || mkdir -p $ADIR
-ln -nsf $CD_CACHE/cache $HOME/cache
-ln -nsf $HOME/cache/bin $HOME/bin
+ln -nsf $CD_CACHE/bin $HOME/bin
 #type busybox && ln -nsf $(which busybox) $HOME/bin/ash
 
 ODIR=$CD_CACHE
