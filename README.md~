@@ -40,7 +40,6 @@ Create a configuration file:
     ORIG_SPF=spf-orig.jasan.tk
     DESPF_SKIP_DOMAINS=_spf.domain1.com:spf.domain2.org
     DNS_TIMEOUT=5
-    DNS_SERVER=
     EOF
 
 Now just call any of the scripts described below.
