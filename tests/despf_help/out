@@ -7,4 +7,6 @@ Available options:
   -s DOMAIN[:DOMAIN...]      skip domains, i.e. leave include
                              without decomposition
   -t N                       set DNS timeout to N seconds
+  -d SERVER                  forcefully set queried DNS server
+                             and disable auto-detection
   -h                         display this help and exit
