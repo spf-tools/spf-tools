@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export PATH=$HOME/bin:/bin:/sbin:/usr/bin:/usr/sbin
+export PATH=$HOME/bin:/usr/bin:/usr/sbin:/bin:/sbin
 
 pwd
 
