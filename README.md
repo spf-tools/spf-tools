@@ -22,7 +22,7 @@ Simple tools for keeping the SPF TXT records tidy in order to fight
 
 ### 2016/11 - new records on output
 
-spf-tools in version f4f51f7d327820c904572ea54c37634e2b2b792a do not
+spf-tools since version jsarenik/spf-tools@f4f51f7 do not
 output merely `ip4` and `ip6` records, but also keep original `ptr`
 and `exists` ones.
 
