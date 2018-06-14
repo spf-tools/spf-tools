@@ -60,9 +60,11 @@ apicmd() {
     "$@"
 }
 
-apicmd rec_load_all | \
-  jq '.response.recs.objs[] | .name + " " + .type + " "
-    + .rec_id + " " + .content' | \
+IDS=$(apicmd rec_load_all | \
+        jq '.response.recs.objs[] | .name + " " + .type + " "
+          + .rec_id + " " + .content') || exit 1
+
+echo $IDS | \
   tr -d "\"" | sort > $idsfile
 
 while read domain ttl proto type content
