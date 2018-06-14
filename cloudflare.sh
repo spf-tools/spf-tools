@@ -51,7 +51,7 @@ test -n "$EMAIL" || { echo "EMAIL not set! Exiting.">&2; exit 1; }
 apicmd() {
   CMD=${1:-'GET'}
   REST=${2:-'/zones'}
-  shift
+  shift 2
   curl -X $CMD ${APIURL}${REST} \
     -s \
     -H "X-Auth-Key: $TOKEN" \
