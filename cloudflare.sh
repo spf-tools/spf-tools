@@ -34,6 +34,9 @@ done
 a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 . $BINDIR/include/global.inc.sh
 
+# Read TOKEN and EMAIL
+test -r $SPFTRC && . $SPFTRC
+
 test -n "$TOKEN" || { echo "TOKEN not set! Exiting." >&2; exit 1; }
 test -n "$EMAIL" || { echo "EMAIL not set! Exiting.">&2; exit 1; }
 
@@ -44,9 +47,6 @@ idsfile=$(mktemp /tmp/cloudflare-ids-XXXXXX)
 zonefile=$(mktemp /tmp/cloudflare-zone-XXXX)
 cat > $zonefile
 trap "rm $idsfile $zonefile" EXIT
-
-# Read TOKEN and EMAIL
-test -r $SPFTRC && . $SPFTRC
 
 apicmd() {
   CMD=${1:-'stats'}
