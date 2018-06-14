@@ -19,20 +19,29 @@
 #
 # Usage: ./compare.sh DOMAIN1 DOMAIN2
 
-domain1=${1:-'jasan.tk'}
-domain2=${2:-'spf-orig.jasan.tk'}
+a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
+. $BINDIR/include/global.inc.sh
+
+DOMAIN='jasan.tk'
+ORIG_SPF='spf-orig.jasan.tk'
+
+# Read settings from config file
+test -r $SPFTRC && . $SPFTRC
+
+DOMAIN=${1:-"$DOMAIN"}
+ORIG_SPF=${2:-"$ORIG_SPF"}
 
 a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 PATH=$BINDIR:$PATH
 
 temp=$(mktemp /tmp/$$.XXXXXXXX)
 
-despf.sh $domain1 | normalize.sh | simplify.sh > ${temp}-1 2>/dev/null
-despf.sh $domain2 | normalize.sh | simplify.sh > ${temp}-2 2>/dev/null
+despf.sh $DOMAIN | normalize.sh | simplify.sh > ${temp}-1 2>/dev/null
+despf.sh $ORIG_SPF | normalize.sh | simplify.sh > ${temp}-2 2>/dev/null
 
 trap "rm ${temp}-*" EXIT
 diff -u ${temp}-1 ${temp}-2
 cmp ${temp}-* 2>/dev/null 1>&2 && echo "Everything OK" >&2 || {
-  echo "Please update SPF TXT records of $domain1!" 1>&2
+  echo "Please update SPF TXT records of $DOMAIN!" 1>&2
   exit 1
 }
