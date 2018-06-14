@@ -29,7 +29,7 @@ a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 . $BINDIR/include/global.inc.sh
 
 # Read settings from config file
-test -r $SPFTRC && . $SPFTRC
+test -z "$DOMAIN" && { test -r $SPFTRC && . $SPFTRC; }
 
 # Default values
 domain=${DOMAIN:-"jasan.tk"}
