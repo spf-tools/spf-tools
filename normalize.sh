@@ -20,6 +20,8 @@
 # Usage: ./despf.sh domain | ./normalize.sh
 #  E.g.: ./despf.sh microsoft.com | ./normalize.sh
 
+test -n "$DEBUG" && set -x
+
 test "$1" = "-i" && ignore=1
 
 ip2int() {

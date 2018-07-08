@@ -17,6 +17,8 @@
 #
 ##############################################################################
 
+test -n "$DEBUG" && set -x
+
 for cmd in awk grep sed cut
 do
   type $cmd >/dev/null || exit 1

@@ -27,6 +27,8 @@ do
   type $cmd >/dev/null
 done
 
+test -n "$DOMAIN" && DOMAIN_OVER=$DOMAIN
+
 a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 . $BINDIR/include/global.inc.sh
 . $BINDIR/include/despf.inc.sh
@@ -52,7 +54,9 @@ usage() {
     exit 1
 }
 
-domain=${DOMAIN:-'spf-orig.jasan.tk'}
+domain=${ORIG_SPF:-'spf-orig.jasan.tk'}
+test -n "$DOMAIN_OVER" && domain=$DOMAIN_OVER
+
 test -n "$domain" -o "$#" -gt 0 || usage
 while getopts "t:s:d:h-" opt; do
   case $opt in

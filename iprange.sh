@@ -15,6 +15,8 @@
 #
 # Usage: despf.sh <domain> | iprange.sh
 
+test -n "$DEBUG" && set -x
+
 TMP=/tmp/iprange
 
 type iprange > /dev/null

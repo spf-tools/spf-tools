@@ -26,6 +26,8 @@
 #          mkzoneent.sh | ./cloudflare.sh <domain>
 # E.g.: ... | ./cloudflare.sh jasan.tk
 
+test -n "$DEBUG" && set -x
+
 for cmd in jq awk sed grep
 do
   type $cmd >&2 || exit 1
@@ -34,50 +36,52 @@ done
 a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 . $BINDIR/include/global.inc.sh
 
+DOMAIN=${1:-'jasan.tk'}
+APIURL="https://api.cloudflare.com/client/v4"
+idsfile=$(mktemp /tmp/cloudflare-ids-XXXXXX)
+zonefile=$(mktemp /tmp/cloudflare-zone-XXXX)
+cat > $zonefile
+trap "rm -f $idsfile $zonefile $zonefile-data" EXIT
+
 # Read TOKEN and EMAIL
 test -r $SPFTRC && . $SPFTRC
 
 test -n "$TOKEN" || { echo "TOKEN not set! Exiting." >&2; exit 1; }
 test -n "$EMAIL" || { echo "EMAIL not set! Exiting.">&2; exit 1; }
 
-DOMAIN=${1:-'jasan.tk'}
-TTL=1 # 1 = auto
-APIURL="https://www.cloudflare.com/api_json.html"
-idsfile=$(mktemp /tmp/cloudflare-ids-XXXXXX)
-zonefile=$(mktemp /tmp/cloudflare-zone-XXXX)
-cat > $zonefile
-trap "rm $idsfile $zonefile" EXIT
-
 apicmd() {
-  CMD=${1:-'stats'}
-  shift
-  curl $APIURL \
+  CMD=${1:-'GET'}
+  test -n "$1" && shift
+  REST=${1:-'/zones'}
+  test -n "$1" && shift
+  curl -X $CMD ${APIURL}${REST} \
     -s \
-    -d "a=$CMD" \
-    -d "tkn=$TOKEN" \
-    -d "email=$EMAIL" \
-    -d "z=$DOMAIN" \
+    -H "X-Auth-Key: $TOKEN" \
+    -H "X-Auth-Email: $EMAIL" \
+    -H "Content-Type: application/json" \
     "$@"
 }
 
-apicmd rec_load_all | \
-  jq '.response.recs.objs[] | .name + " " + .type + " "
-    + .rec_id + " " + .content' | \
-  tr -d "\"" | sort > $idsfile
+DOMAIN_ID=$(apicmd GET /zones | jq -r '.result | .[] | .name + ":" + .id' \
+            | grep $DOMAIN) \
+  || exit 1
+DOMAIN_ID=$(echo $DOMAIN_ID | cut -d: -f2)
 
-while read domain ttl proto type content
+apicmd GET "/zones/$DOMAIN_ID/dns_records?type=TXT" \
+  | jq -r '.result | .[] | .name + ":" + .id' > $idsfile
+
+while read line
 do
-  name=$domain
-  domain=$(echo $domain | sed 's/\.$//')
-  id_to_change=$(grep -x "^$domain TXT [0-9]\+ .v=spf1.*" $idsfile | \
-    awk '{print $3}')
+  name=$(echo $line | cut -d^ -f1)
+  content=$(echo $line | cut -d^ -f2 | tr -d \")
+  id_to_change=$(grep "^$name" $idsfile | cut -d: -f2)
 
-  echo -n "Changing $domain with id $id_to_change... "
-  apicmd rec_edit \
-    -o /dev/null \
-    -d 'type=TXT' \
-    -d "name=$name" \
-    -d "ttl=$TTL" \
-    -d "id=$id_to_change" \
-    -d "content=$content" && echo "OK"
+  echo -n "Changing $name with id $id_to_change... "
+  cat > $zonefile-data <<EOF
+{"type":"TXT","name":"$name","content":"$content"}
+EOF
+
+  apicmd PUT "/zones/$DOMAIN_ID/dns_records/$id_to_change" \
+    --data "@${zonefile}-data" | jq .success | grep -q true \
+    && echo OK || echo error
 done < $zonefile
