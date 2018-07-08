@@ -37,12 +37,11 @@ a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 . $BINDIR/include/global.inc.sh
 
 DOMAIN=${1:-'jasan.tk'}
-TTL=1 # 1 = auto
 APIURL="https://api.cloudflare.com/client/v4"
 idsfile=$(mktemp /tmp/cloudflare-ids-XXXXXX)
 zonefile=$(mktemp /tmp/cloudflare-zone-XXXX)
 cat > $zonefile
-trap "rm $idsfile $zonefile $zonefile-data" EXIT
+trap "rm -f $idsfile $zonefile $zonefile-data" EXIT
 
 # Read TOKEN and EMAIL
 test -r $SPFTRC && . $SPFTRC
@@ -63,7 +62,7 @@ apicmd() {
     "$@"
 }
 
-DOMAIN_ID=$(apicmd | jq -r '.result | .[] | .name + ":" + .id' \
+DOMAIN_ID=$(apicmd GET /zones | jq -r '.result | .[] | .name + ":" + .id' \
             | grep $DOMAIN) \
   || exit 1
 DOMAIN_ID=$(echo $DOMAIN_ID | cut -d: -f2)
@@ -83,6 +82,6 @@ do
 EOF
 
   apicmd PUT "/zones/$DOMAIN_ID/dns_records/$id_to_change" \
-    --data "@$zonefile-data" | jq .success | grep -q true \
+    --data "@${zonefile}-data" | jq .success | grep -q true \
     && echo OK || echo error
 done < $zonefile
