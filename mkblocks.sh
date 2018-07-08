@@ -20,6 +20,8 @@
 # Usage: ./mkblocks.sh <domain> <prefix> <policy>
 #  E.g.: ./mkblocks.sh microsoft.com _spf
 
+test -n "$DEBUG" && set -x
+
 for cmd in awk grep sed cut
 do
   type $cmd >/dev/null || exit 1

@@ -19,6 +19,8 @@
 #
 # Usage: ./compare.sh DOMAIN1 DOMAIN2
 
+test -n "$DEBUG" && set -x
+
 a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 . $BINDIR/include/global.inc.sh
 

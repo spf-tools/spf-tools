@@ -26,6 +26,8 @@
 #          mkzoneent.sh | ./cloudflare.sh <domain>
 # E.g.: ... | ./cloudflare.sh jasan.tk
 
+test -n "$DEBUG" && set -x
+
 for cmd in jq awk sed grep
 do
   type $cmd >&2 || exit 1
