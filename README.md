@@ -195,7 +195,7 @@ documentation.
 Usage:
 
     ./despf.sh | ./simplify.sh | ./mkblocks.sh | \
-      ./mkzoneent.sh | ./route53.sh <hosted_zone_id>
+      ./route53.sh <hosted_zone_id>
 
 
 ### iprange.sh

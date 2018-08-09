@@ -24,7 +24,7 @@
 # Requires AWS CLI from https://aws.amazon.com/cli/
 #
 # Usage: ./despf.sh | ./simplify.sh | mkblocks.sh | \
-#          mkzoneent.sh | ./route53.sh <hosted_zone_id>
+#          ./route53.sh <hosted_zone_id>
 # E.g.: ... | ./route53.sh ABCXYZEXAMPLE
 
 # The AWS CLI can be configured using ~/.aws/credentials or using
