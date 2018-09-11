@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/jsarenik/spf-tools
+    working_directory: ~/spf-tools
     parallelism: 1
     shell: /bin/sh --login
     environment:
