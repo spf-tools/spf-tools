@@ -17,15 +17,15 @@
 #
 ##############################################################################
 #
-# Usage: isincidrange.sh <ip> <ip> <mask>
-# E.g.: isincidrange.sh 192.168.0.1 192.168.0.5 24
+# Usage: isincidrange6.sh <ip6> <ip6> <mask>
+# E.g.: isincidrange6.sh 2400:aa00:1:1::19c1 2400:aa00:1:1::5 64
 
 test -n "$DEBUG" && set -x
 
 ip2int() {
-  local a b c d
-  echo $1 | while IFS="." read a b c d ; do
-    echo $(((((((a << 8) | b) << 8) | c) << 8) | d))
+  local a b c d e f g h
+  echo $1 | while IFS=":" read a b c d e f g h; do
+    perl -e "print (((((((((((((($a << 16) | $b) << 16) | $c) << 16) | $d) << 16) | $e) << 16) | $f) << 16) | $g) << 16) | $h)" | bc
   done
 }
 
@@ -48,9 +48,9 @@ network() {
   done
 }
 
-a=${1:-192.168.0.1}
-b=${2:-192.168.0.2}
-c=${3:-24}
+a=${1:-"2400:aa00:1:1::19c1"}
+b=$2:-"2400:aa00:1:1::5"}
+c=$3:-64}
 
 nm=$c
 if [ "x$nm" = "x32" ] ; then
