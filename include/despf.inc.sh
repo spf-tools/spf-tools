@@ -294,9 +294,9 @@ expand6() {
       add=${add}:0000
     done
     out=$(echo $1 | sed "s/::/${add}:/;s/^:/0000:/;s/:$/:0000/")
-    out=$(echo $out | sed -r 's/:([0-9]{1})$/:000\1/')
-    out=$(echo $out | sed -r 's/:([0-9]{2})$/:00\1/')
-    out=$(echo $out | sed -r 's/:([0-9]{3})$/:0\1/')
+    out=$(echo $out | sed -E 's/:([0-9]{1})$/:000\1/')
+    out=$(echo $out | sed -E 's/:([0-9]{2})$/:00\1/')
+    out=$(echo $out | sed -E 's/:([0-9]{3})$/:0\1/')
     echo $out
   else
     return 1
