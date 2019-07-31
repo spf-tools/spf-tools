@@ -1,0 +1,1 @@
+$(which mkblocks.sh) -L 512 peerj.com _spf

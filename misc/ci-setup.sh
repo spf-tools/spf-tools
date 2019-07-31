@@ -17,7 +17,7 @@
 #
 ##############################################################################
 
-export PATH=$HOME/bin:/bin:/sbin:/usr/bin:/usr/sbin
+export PATH=$HOME/bin:/bin:/sbin:/usr/bin:/usr/sbin:$PATH
 
 CD_CACHE=$HOME/.m2/repository
 ADIR=$CD_CACHE/bin
@@ -45,3 +45,6 @@ then
   dlit ksh "http://dl.bintray.com/jsarenik/spf-tools-bin/ksh.bz2"
   dlit dash "http://dl.bintray.com/jsarenik/spf-tools-bin/dash.bz2"
 fi
+
+test x"$SEMAPHORE" = x"true" && install-package gawk
+true
