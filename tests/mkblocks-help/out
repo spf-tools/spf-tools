@@ -4,6 +4,7 @@ Make blocks out of decomposed SPF records.
 Available options:
   -h HEADER                  set SPF header
   -l LENGTH                  set desired packet length
+  -L STRLENGTH               set desired DNS STRING length
   -p PREFIX                  set SPF prefix
   -x SUFFIX                  set SPF suffix
   -o POLICY                  set default SPF policy
@@ -13,6 +14,7 @@ Available options:
 Default values:
   HEADER = v=spf1
   LENGTH = 257
+  STRLENGTH = 255
   PREFIX = spf
   SUFFIX = 
   POLICY = ~all

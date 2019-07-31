@@ -41,6 +41,7 @@ policy="~all"
 delim="^"
 header="v=spf1"
 length=257
+strlength=255
 start=1
 
 usage() {
@@ -51,6 +52,7 @@ usage() {
 	Available options:
 	  -h HEADER                  set SPF header
 	  -l LENGTH                  set desired packet length
+	  -L STRLENGTH               set desired DNS STRING length
 	  -p PREFIX                  set SPF prefix
 	  -x SUFFIX                  set SPF suffix
 	  -o POLICY                  set default SPF policy
@@ -60,6 +62,7 @@ usage() {
 	Default values:
 	  HEADER = $header
 	  LENGTH = $length
+	  STRLENGTH = $strlength
 	  PREFIX = $prefix
 	  SUFFIX = $suffix
 	  POLICY = $policy
@@ -69,10 +72,11 @@ usage() {
     exit 1
 }
 
-while getopts "h:l:p:x:o:d:s:-" opt; do
+while getopts "h:l:L:p:x:o:d:s:-" opt; do
   case $opt in
     h) test -n "$OPTARG" && header=$OPTARG;;
     l) test -n "$OPTARG" && length=$OPTARG;;
+    L) test -n "$OPTARG" && strlength=$OPTARG;;
     p) test -n "$OPTARG" && prefix=$OPTARG;;
     x) test -n "$OPTARG" && suffix=$OPTARG;;
     o) test -n "$OPTARG" && policy=$OPTARG;;
@@ -108,7 +112,8 @@ myout() {
   fi
   mystart=$(echo $rrlabel | mysed $((mycounter-1)))
   myrest=$(echo $2 | mysed $((mycounter)))
-  echo ${mystart}${delim}\"$header $myrest\"
+  output=$(printf "$header $myrest" | awk "{gsub(/.{$strlength}/,\"&\\\" \\\"\")}1")
+  echo ${mystart}${delim}\"$output\"
 }
 
 
