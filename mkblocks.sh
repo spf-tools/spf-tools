@@ -53,6 +53,7 @@ usage() {
 	  -h HEADER                  set SPF header
 	  -l LENGTH                  set desired packet length
 	  -L STRLENGTH               set desired DNS STRING length
+	                             WARNINIG: hosted DNS may have own limits
 	  -p PREFIX                  set SPF prefix
 	  -x SUFFIX                  set SPF suffix
 	  -o POLICY                  set default SPF policy
