@@ -24,8 +24,8 @@ test -n "$DEBUG" && set -x
 a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 . $BINDIR/include/global.inc.sh
 
-DOMAIN='jasan.tk'
-ORIG_SPF='spf-orig.jasan.tk'
+DOMAIN='spf-tools.eu.org'
+ORIG_SPF='spf-orig.spf-tools.eu.org'
 
 # Read settings from config file
 test -r $SPFTRC && . $SPFTRC

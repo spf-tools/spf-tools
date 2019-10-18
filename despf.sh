@@ -54,7 +54,7 @@ usage() {
     exit 1
 }
 
-domain=${ORIG_SPF:-'spf-orig.jasan.tk'}
+domain=${ORIG_SPF:-'spf-orig.spf-tools.eu.org'}
 test -n "$DOMAIN_OVER" && domain=$DOMAIN_OVER
 
 test -n "$domain" -o "$#" -gt 0 || usage

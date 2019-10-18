@@ -24,7 +24,7 @@
 #
 # Usage: ./despf.sh | ./simplify.sh | mkblocks.sh | \
 #          mkzoneent.sh | ./cloudflare.sh <domain>
-# E.g.: ... | ./cloudflare.sh jasan.tk
+# E.g.: ... | ./cloudflare.sh spf-tools.eu.org
 
 test -n "$DEBUG" && set -x
 
@@ -36,7 +36,7 @@ done
 a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 . $BINDIR/include/global.inc.sh
 
-DOMAIN=${1:-'jasan.tk'}
+DOMAIN=${1:-'spf-tools.eu.org'}
 APIURL="https://api.cloudflare.com/client/v4"
 idsfile=$(mktemp /tmp/cloudflare-ids-XXXXXX)
 zonefile=$(mktemp /tmp/cloudflare-zone-XXXX)
