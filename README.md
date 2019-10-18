@@ -20,6 +20,10 @@ Simple tools for keeping the SPF TXT records tidy in order to fight
 
 ## Release notes
 
+### 2019/10 - new domain spf-tools.eu.org
+
+Domain name spf-tools.eu.org is used for testing now.
+
 ### 2016/11 - new records on output
 
 spf-tools since version spf-tools/spf-tools@f4f51f7 do not
@@ -225,6 +229,10 @@ Example:
     ./despf.sh | ./normalize.sh | ./simplify.sh | ./iprange.sh \
       | ./mkblocks.sh | ./xsel.sh
 
+## Free Ad
+
+As we are successfully using a free eu.org domain, we are proud to
+spread the word: Free domains: http://www.eu.org/
 
 ## Links
 
@@ -236,6 +244,7 @@ Example:
  * http://tools.ietf.org/html/rfc7208#section-5.5
  * http://tools.ietf.org/html/rfc7208#section-14.1
  * https://space.dmarcian.com/too-many-dns-lookups/
+ * https://nic.eu.org/
 
 
 ## License
