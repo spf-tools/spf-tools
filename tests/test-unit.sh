@@ -46,8 +46,11 @@ v=spf1 include:spf1.spf-tools.eu.org ~all
 EOF
 
 testexpect 0 "get_ns spf-tools.eu.org | sort" <<EOF
-chris.ns.cloudflare.com.
-dawn.ns.cloudflare.com.
+ns1.he.net.
+ns2.he.net.
+ns3.he.net.
+ns4.he.net.
+ns5.he.net.
 EOF
 
 #testexpect 0 findns one.spf-tools.eu.org <<EOF
