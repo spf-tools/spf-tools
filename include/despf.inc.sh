@@ -19,7 +19,7 @@
 DNS_TIMEOUT=${DNS_TIMEOUT:-"2"}
 
 myhost() {
-  host -W $DNS_TIMEOUT "$@"
+  host -W $DNS_TIMEOUT "$@" || { host -W $DNS_TIMEOUT "$@" 1>&2; exit 1; }
 }
 
 get_txt() {
@@ -82,7 +82,7 @@ printip() {
 }
 
 # dea <hostname> <cidr> <qualifier>
-# dea both.jasan.tk
+# dea both.spf-tools.eu.org
 # 1.2.3.4
 # fec0::1
 dea() {
@@ -162,8 +162,8 @@ getem() {
 }
 
 # getamx host mech [mech [...]]
-# e.g. host="jasan.tk"
-# e.g. mech="a a:gnu.org a:google.com/24 mx:gnu.org mx:jasan.tk/24"
+# e.g. host="spf-tools.eu.org"
+# e.g. mech="a a:gnu.org a:google.com/24 mx:gnu.org mx:spf-tools.eu.org/24"
 getamx() {
   local cidr ahost
   host=$1

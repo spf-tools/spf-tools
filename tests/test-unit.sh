@@ -41,16 +41,19 @@ testexpect() {
   echo .... OK
 }
 
-testexpect 0 get_txt spf.jasan.tk <<EOF
-v=spf1 include:spf1.jasan.tk ~all
+testexpect 0 get_txt spf.spf-tools.eu.org <<EOF
+v=spf1 include:spf1.spf-tools.eu.org ~all
 EOF
 
-testexpect 0 "get_ns jasan.tk | sort" <<EOF
-chris.ns.cloudflare.com.
-dawn.ns.cloudflare.com.
+testexpect 0 "get_ns spf-tools.eu.org | sort" <<EOF
+ns1.he.net.
+ns2.he.net.
+ns3.he.net.
+ns4.he.net.
+ns5.he.net.
 EOF
 
-#testexpect 0 findns one.jasan.tk <<EOF
+#testexpect 0 findns one.spf-tools.eu.org <<EOF
 #ns1.he.net.
 #EOF
 
@@ -88,48 +91,48 @@ ip4:1.2.3.5
 ~ip4:1.2.3.7
 EOF
 
-testexpect 0 dea both.jasan.tk <<EOF
+testexpect 0 dea both.spf-tools.eu.org <<EOF
 ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
-testexpect 0 dea cname.jasan.tk <<EOF
+testexpect 0 dea cname.spf-tools.eu.org <<EOF
 ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
-testexpect 0 dea cname.jasan.tk 24 <<EOF
+testexpect 0 dea cname.spf-tools.eu.org 24 <<EOF
 ip4:1.2.3.4/24
 ip6:fec0::1/24
 EOF
 
-testexpect 0 demx mx.jasan.tk <<EOF
+testexpect 0 demx mx.spf-tools.eu.org <<EOF
 ip4:5.6.7.8
 ip6:56:78::1
 EOF
 
-testexpect 0 demx mx.jasan.tk 24 <<EOF
+testexpect 0 demx mx.spf-tools.eu.org 24 <<EOF
 ip4:5.6.7.8/24
 ip6:56:78::1/24
 EOF
 
-testexpect 0 getamx both-spf.jasan.tk a:both.jasan.tk <<EOF
+testexpect 0 getamx both-spf.spf-tools.eu.org a:both.spf-tools.eu.org <<EOF
 ip4:1.2.3.4
 ip6:fec0::1
 EOF
 
-testexpect 0 parsepf spf.jasan.tk <<EOF
-v=spf1 include:spf1.jasan.tk ~all
+testexpect 0 parsepf spf.spf-tools.eu.org <<EOF
+v=spf1 include:spf1.spf-tools.eu.org ~all
 EOF
 
 # This tests the correct process of iteration
 # between different NS servers if one is not
 # responding
-testexpect 0 parsepf morens.jasan.tk <<EOF
-v=spf1 include:spf1.jasan.tk ~all
+testexpect 0 parsepf morens.spf-tools.eu.org <<EOF
+v=spf1 include:spf1.spf-tools.eu.org ~all
 EOF
 
-testexpect -n 1 parsepf mail.jasan.tk
+testexpect -n 1 parsepf mail.spf-tools.eu.org
 
 testexpect -n 1 isincidrange.sh 74.86.241.250 199.122.123.192 32
 

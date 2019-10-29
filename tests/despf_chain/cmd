@@ -1,2 +1,2 @@
-export DOMAIN=demo.jasan.tk
+export DOMAIN=demo.spf-tools.eu.org
 despf.sh | normalize.sh | simplify.sh | mkblocks.sh

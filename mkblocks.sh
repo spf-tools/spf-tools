@@ -34,7 +34,7 @@ a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 test -z "$DOMAIN" && { test -r $SPFTRC && . $SPFTRC; }
 
 # Default values
-domain=${DOMAIN:-"jasan.tk"}
+domain=${DOMAIN:-"spf-tools.eu.org"}
 prefix="spf"
 suffix=""
 policy="~all"

@@ -1,1 +1,1 @@
-$(which despf.sh) -t 5 -s linux.org:dem1.jasan.tk demo.jasan.tk
+$(which despf.sh) -t 5 -s linux.org:dem1.spf-tools.eu.org demo.spf-tools.eu.org

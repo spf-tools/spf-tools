@@ -20,6 +20,10 @@ Simple tools for keeping the SPF TXT records tidy in order to fight
 
 ## Release notes
 
+### 2019/10 - new domain spf-tools.eu.org
+
+Domain name spf-tools.eu.org is used for testing now.
+
 ### 2016/11 - new records on output
 
 spf-tools since version spf-tools/spf-tools@f4f51f7 do not
@@ -31,13 +35,13 @@ and `exists` ones.
 
 Your original TXT record which causes more than 10 DNS look-ups
 should be saved as an otherwise unused subdomain TXT record
-(e.g. `spf-orig.jasan.tk`).
+(e.g. `spf-orig.spf-tools.eu.org`).
 
 Create a configuration file:
 
     cat > ~/.spf-toolsrc <<EOF
-    DOMAIN=jasan.tk
-    ORIG_SPF=spf-orig.jasan.tk
+    DOMAIN=spf-tools.eu.org
+    ORIG_SPF=spf-orig.spf-tools.eu.org
     DESPF_SKIP_DOMAINS=_spf.domain1.com:spf.domain2.org
     DNS_TIMEOUT=5
     DNS_SERVER=
@@ -164,8 +168,8 @@ To use this script, file `.spf-toolsrc` in `$HOME` directory should
 contain `TOKEN` and `EMAIL` variable definitions which are then used
 to connect to CloudFlare API. The file should also contain `DOMAIN`
 and `ORIG_SPF` variables which stand for the target SPF domain
-(e.g. `jasan.tk`) and original SPF record with includes
-(e.g. `spf-orig.jasan.tk`) in order to use `runspftools.sh`
+(e.g. `spf-tools.eu.org`) and original SPF record with includes
+(e.g. `spf-orig.spf-tools.eu.org`) in order to use `runspftools.sh`
 without modifying the script.
 
 Usage:
@@ -212,12 +216,12 @@ Usage:
 
 Example:
 
-    $ ./despf.sh cont.jasan.tk
+    $ ./despf.sh cont.spf-tools.eu.org
     ip4:13.111.0.0/24
     ip4:13.111.1.0/24
     ip4:13.111.2.0/24
     ip4:13.111.3.0/24
-    $ ./despf.sh cont.jasan.tk | ./iprange.sh
+    $ ./despf.sh cont.spf-tools.eu.org | ./iprange.sh
     ip4:13.111.0.0/22
 
 ## Putting it all together
@@ -225,17 +229,22 @@ Example:
     ./despf.sh | ./normalize.sh | ./simplify.sh | ./iprange.sh \
       | ./mkblocks.sh | ./xsel.sh
 
+## Free Ad
+
+As we are successfully using a free eu.org domain, we are proud to
+spread the word: Free domains: http://www.eu.org/
 
 ## Links
 
- * https://dmarcian.com/spf-survey/spf.jasan.tk
- * https://dmarcian.com/spf-survey/spf-orig.jasan.tk
+ * https://dmarcian.com/spf-survey/spf.spf-tools.eu.org
+ * https://dmarcian.com/spf-survey/spf-orig.spf-tools.eu.org
  * http://www.kitterman.com/spf/validate.html
  * http://serverfault.com/questions/584708
  * http://www.openspf.org/SPF_Record_Syntax
  * http://tools.ietf.org/html/rfc7208#section-5.5
  * http://tools.ietf.org/html/rfc7208#section-14.1
  * https://space.dmarcian.com/too-many-dns-lookups/
+ * https://nic.eu.org/
 
 
 ## License

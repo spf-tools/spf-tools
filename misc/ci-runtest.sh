@@ -11,7 +11,7 @@ do
 done
 
 which host
-host jasan.tk
+host spf-tools.eu.org
 
 echo "COVERAGE is $COVERAGE"
 if [ "x1" = "x$COVERAGE" ] ; then
