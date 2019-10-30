@@ -115,7 +115,7 @@ parsepf() {
     then
       myns=$DNS_SERVER
     else
-      myns=$(sed -n 's/^nameserver \([\.:0-9a-f]*\)/\1/p' /etc/resolv.conf)
+      myns=$(sed -n 's/^nameserver \([\.:0-9a-fA-F]*\)/\1/p' /etc/resolv.conf)
     fi
   fi
   for ns in $myns
@@ -264,7 +264,7 @@ numlesseq() {
 }
 
 checkval6() {
-  myip=$(canon6 $1) || return 1
+  myip=$(expand6 $1) || return 1
   cidr=${2#/}
   test -n "$cidr" && { numlesseq $cidr 128 || return 1; }
 
@@ -273,11 +273,11 @@ checkval6() {
     C=$(echo $i | wc -c)
     # echo prints a newline --> 5 including \n
     test $C -le 5 || return 1
-    echo "$i" | tr -d '[0-9a-f]' | grep -q '^$' || return 1
+    echo "$i" | tr -d '[0-9a-fA-F]' | grep -q '^$' || return 1
   done
 }
 
-canon6() {
+expand6() {
   D=$(echo $1 | grep -Eo ':' | wc -l)
   if
     test $D -eq 7
@@ -291,9 +291,12 @@ canon6() {
     add=""
     for a in $(awk -v MYEND=$((8-$D)) 'BEGIN { for(i=1;i<=MYEND;i++) print i }')
     do
-      add=${add}:0
+      add=${add}:0000
     done
-    out=$(echo $1 | sed "s/::/${add}:/;s/^:/0:/;s/:$/:0/")
+    out=$(echo $1 | sed "s/::/${add}:/;s/^:/0000:/;s/:$/:0000/")
+    out=$(echo $out | sed -E 's/:([0-9]{1})$/:000\1/')
+    out=$(echo $out | sed -E 's/:([0-9]{2})$/:00\1/')
+    out=$(echo $out | sed -E 's/:([0-9]{3})$/:0\1/')
     echo $out
   else
     return 1

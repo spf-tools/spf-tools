@@ -153,10 +153,10 @@ testexpect -n 0 checkval6 ::1
 testexpect -n 0 checkval6 ::1 64
 testexpect -n 1 checkval6 ::1 129
 
-testexpect -n 1 canon6 1:1
-testexpect -n 1 canon6 1:1:1:1:1:1:1:1:1
-testexpect 0 canon6 ::1 <<EOF
-0:0:0:0:0:0:0:1
+testexpect -n 1 expand6 1:1
+testexpect -n 1 expand6 1:1:1:1:1:1:1:1:1
+testexpect 0 expand6 ::1 <<EOF
+0000:0000:0000:0000:0000:0000:0000:0001
 EOF
 
 testexpect -n 0 numlesseq 25 25
