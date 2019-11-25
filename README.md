@@ -249,7 +249,7 @@ spread the word: Free domains: http://www.eu.org/
 
 ## License
 
-    Copyright 2015 spf-tools team (see AUTHORS)
+    Copyright 2015-2019 spf-tools team (see AUTHORS)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
