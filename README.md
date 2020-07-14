@@ -172,6 +172,10 @@ and `ORIG_SPF` variables which stand for the target SPF domain
 (e.g. `spf-orig.spf-tools.eu.org`) in order to use `runspftools.sh`
 without modifying the script.
 
+The only needed permissions for a custom API token are:
+  - Zone.Zone: Read
+  - Zone.DNS: Edit
+
 Usage:
 
     ./despf.sh | ./normalize.sh | ./simplify.sh | ./mkblocks.sh 2>&1 \
