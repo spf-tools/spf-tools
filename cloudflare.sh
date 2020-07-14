@@ -38,16 +38,6 @@ a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 
 DOMAIN=${1:-'spf-tools.eu.org'}
 APIURL="https://api.cloudflare.com/client/v4"
-idsfile=$(mktemp /tmp/cloudflare-ids-XXXXXX)
-zonefile=$(mktemp /tmp/cloudflare-zone-XXXX)
-cat > $zonefile
-trap "rm -f $idsfile $zonefile $zonefile-data" EXIT
-
-# Read TOKEN and EMAIL
-test -r $SPFTRC && . $SPFTRC
-
-test -n "$TOKEN" || { echo "TOKEN not set! Exiting." >&2; exit 1; }
-test -n "$EMAIL" || { echo "EMAIL not set! Exiting.">&2; exit 1; }
 
 apicmd() {
   CMD=${1:-'GET'}
@@ -56,11 +46,26 @@ apicmd() {
   test -n "$1" && shift
   curl -X $CMD ${APIURL}${REST} \
     -s \
-    -H "X-Auth-Key: $TOKEN" \
-    -H "X-Auth-Email: $EMAIL" \
-    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $TOKEN" \
+    -H "Content-Type:application/json" \
     "$@"
 }
+
+# Read TOKEN and EMAIL
+test -r $SPFTRC && . $SPFTRC
+
+test -n "$TOKEN" || { echo "TOKEN not set! Exiting." >&2; exit 1; }
+test -n "$EMAIL" || { echo "EMAIL not set! Exiting.">&2; exit 1; }
+
+test "$1" = "verify" && {
+	apicmd GET "/user/tokens/verify"
+	exit
+}
+
+idsfile=$(mktemp /tmp/cloudflare-ids-XXXXXX)
+zonefile=$(mktemp /tmp/cloudflare-zone-XXXX)
+cat > $zonefile
+trap "rm -f $idsfile $zonefile $zonefile-data" EXIT
 
 DOMAIN_ID=$(apicmd GET /zones | jq -r '.result | .[] | .name + ":" + .id' \
             | grep $DOMAIN) \
@@ -72,7 +77,7 @@ apicmd GET "/zones/$DOMAIN_ID/dns_records?type=TXT" \
 
 while read line
 do
-  name=$(echo $line | cut -d^ -f1)
+  name=$(echo $line | cut -d" " -f1)
   content=$(echo $line | cut -d^ -f2 | tr -d \")
   id_to_change=$(grep "^$name" $idsfile | cut -d: -f2)
 
