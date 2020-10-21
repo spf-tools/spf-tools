@@ -172,7 +172,7 @@ and `ORIG_SPF` variables which stand for the target SPF domain
 (e.g. `spf-orig.spf-tools.eu.org`) in order to use `runspftools.sh`
 without modifying the script.
 
-The script if written against v4 of https://api.cloudflare.com/
+The script is written against v4 of https://api.cloudflare.com/
 
 The only needed permissions for a custom API token are:
   - Zone.Zone: Read
