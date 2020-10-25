@@ -165,7 +165,7 @@ Script to update pre-existing TXT SPF records for a domain according
 to the input in DNS zone format using CloudFlare's API.
 
 To use this script, file `.spf-toolsrc` in `$HOME` directory should
-contain `TOKEN` and `EMAIL` variable definitions which are then used
+contain `TOKEN` variable definition which is then used
 to connect to CloudFlare API. The file should also contain `DOMAIN`
 and `ORIG_SPF` variables which stand for the target SPF domain
 (e.g. `spf-tools.eu.org`) and original SPF record with includes
