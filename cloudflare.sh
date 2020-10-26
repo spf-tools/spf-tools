@@ -51,11 +51,10 @@ apicmd() {
     "$@"
 }
 
-# Read TOKEN and EMAIL
+# Read TOKEN
 test -r $SPFTRC && . $SPFTRC
 
 test -n "$TOKEN" || { echo "TOKEN not set! Exiting." >&2; exit 1; }
-test -n "$EMAIL" || { echo "EMAIL not set! Exiting.">&2; exit 1; }
 
 test "$1" = "verify" && {
 	apicmd GET "/user/tokens/verify"
