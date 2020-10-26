@@ -1,26 +1,14 @@
-version: 2
-jobs:
-  build:
-    working_directory: ~/spf-tools
-    parallelism: 1
-    shell: /bin/sh --login
-    environment:
-      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
-      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
-    docker:
-      - image: alpine:3.7
-    steps:
-      - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-      - run: apk --no-progress update
-      - run: apk --no-progress upgrade
-      - run: apk --no-progress add diffutils coreutils sed grep openssh-client git
-      - run: apk --no-progress add bash mksh dash loksh mksh
-      - checkout
-      - run: sh -ex misc/ci-setup.sh
-      - run: sh -ex misc/ci-runtest.sh
-      - store_test_results:
-          path: /tmp/circleci-test-results
-      - store_artifacts:
-          path: /tmp/circleci-artifacts
-      - store_artifacts:
-          path: /tmp/circleci-test-results
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+# Use a package of configuration called an orb.
+orbs:
+  # Declare a dependency on the welcome-orb
+  welcome: circleci/welcome-orb@0.4.1
+# Orchestrate or schedule a set of jobs
+workflows:
+  # Name the workflow "welcome"
+  welcome:
+    # Run the welcome/run job in its own container
+    jobs:
+      - welcome/run
+
