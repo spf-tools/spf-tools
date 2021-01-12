@@ -71,8 +71,9 @@ DOMAIN_ID=$(apicmd GET /zones | jq -r '.result | .[] | .name + ":" + .id' \
   || exit 1
 DOMAIN_ID=$(echo $DOMAIN_ID | cut -d: -f2)
 
+# only edit existing TXT records containig the "v=spf1" marker
 apicmd GET "/zones/$DOMAIN_ID/dns_records?type=TXT" \
-  | jq -r '.result | .[] | .name + ":" + .id' > $idsfile
+  | jq -r '.result | .[] | select ( .content | contains("v=spf1") ) | .name + ":" + .id' > $idsfile
 
 while read line
 do
