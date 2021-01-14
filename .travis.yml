@@ -14,8 +14,8 @@ before_install:
   - sudo apt-get update -qq
 
 install:
-  - gem install coveralls --version 1.8.2 --no-format-exec
-  - gem install bashcov
+  - gem install coveralls 
+  - gem install bashcov --version 1.8.2 --no-format-exec
   - gem regenerate_binstubs
   - echo $GEM_HOME
   - sh -e misc/ci-setup.sh
