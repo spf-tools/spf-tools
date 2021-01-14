@@ -43,7 +43,7 @@ a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; BINDIR=$(cd $a; pwd)
 # default values
 ttl=300
 changesfile=$(mktemp /tmp/aws-route53-XXXXXXXXX)
-trap "rm $changesfile" EXIT
+#trap "rm $changesfile" EXIT
 
 usage() {
     cat <<-EOF
@@ -53,6 +53,7 @@ usage() {
 
   Available options:
     -t TTL                     set Time To Live for DNS records
+    -a TXT RECORD              set aditional TXT record to domain
 
   Default values:
     TTL = $ttl
@@ -60,9 +61,10 @@ EOF
     exit 1
 }
 
-while getopts "t:-" opt; do
+while getopts "a:t:-" opt; do
   case $opt in
     t) test -n "$OPTARG" && ttl=$OPTARG;;
+    a) test -n "$OPTARG" && ADDITIONAL_TXT="$ADDITIONAL_TXT{\"Value\":\"$OPTARG\"},";;
     *) usage;;
   esac
 done
@@ -73,10 +75,19 @@ test -r $SPFTRC && . $SPFTRC
 
 test -n "$1" -o -n "$HOSTED_ZONE_ID" || { echo "HOSTED_ZONE_ID not present! Exiting." >&2; exit 1; }
 HOSTED_ZONE_ID=${1:-"$HOSTED_ZONE_ID"}
+  test -n "$SPFT_ADDITIONAL_TXT" && ADDITIONAL_TXT="$ADDITIONAL_TXT{\"Value\":\"$SPFT_ADDITIONAL_TXT\"},"
 
 CHANGES=$(cat | jq -R -s -j --argjson TTL $ttl '.|split("\n")|map(split("^")|select(length>0)|{Action:"UPSERT",ResourceRecordSet:{Type:"TXT",TTL:$TTL,Name:.[0],ResourceRecords:[{Value:.[1]}]}})|{Changes:.}')
 echo $CHANGES > $changesfile
+test -n "$ADDITIONAL_TXT" && {
+  ADDITIONAL_TXT=$(echo $ADDITIONAL_TXT | sed s/,$// )
+  echo $ADDITIONAL_TXT
+  CHANGES=$(echo $CHANGES | jq -r ".Changes[0].ResourceRecordSet.ResourceRecords += [$ADDITIONAL_TXT]")
+  echo $CHANGES > $changesfile
+}
 
+echo $CHANGES | jq . 
+exit
 aws route53 change-resource-record-sets \
   --hosted-zone-id $HOSTED_ZONE_ID \
   --change-batch "file://${changesfile}"
