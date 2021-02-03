@@ -53,7 +53,7 @@ usage() {
 
   Available options:
     -t TTL                     set Time To Live for DNS records
-    -a TXT RECORD              set aditional TXT record to domain (can use multiples times)
+    -a TXT RECORD              set aditional TXT record to domain (can be used multiple times)
 
   Default values:
     TTL = $ttl
