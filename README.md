@@ -193,6 +193,18 @@ Dependencies: [jq](https://stedolan.github.io/jq/),
 [sed](https://www.gnu.org/software/sed/),
 [grep](https://www.gnu.org/software/grep/)
 
+```
+ Usage: route53.sh [OPTION]... [HOSTED_ZONE_ID]
+  Script to update pre-existing TXT SPF records for
+  a domain according to the input in DNS zone format.
+
+  Available options:
+    -t TTL                     set Time To Live for DNS records
+    -a TXT RECORD              set aditional TXT record to domain (can be used multiple times)
+
+  Default values:
+    TTL = 300
+```
 Script to update pre-existing TXT SPF records for a domain according
 to the input in DNS zone format.
 
@@ -201,11 +213,10 @@ environment variables: `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
 (find more details in [Configuring the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-environment)
 documentation.
 
-
-Usage:
+Example:
 
     ./despf.sh | ./simplify.sh | ./mkblocks.sh | \
-      ./route53.sh <hosted_zone_id>
+      ./route53.sh -a "google-site-verification=deadbeef" DEADBEEF
 
 
 ### iprange.sh
