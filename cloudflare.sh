@@ -81,12 +81,20 @@ do
   content=$(echo $line | cut -d^ -f2 | tr -d \")
   id_to_change=$(grep "^$name" $idsfile | cut -d: -f2)
 
-  echo -n "Changing $name with id $id_to_change... "
-  cat > $zonefile-data <<EOF
+    cat > $zonefile-data <<EOF
 {"type":"TXT","name":"$name","content":"$content"}
 EOF
 
-  apicmd PUT "/zones/$DOMAIN_ID/dns_records/$id_to_change" \
-    --data "@${zonefile}-data" | jq .success | grep -q true \
-    && echo OK || echo error
+  if test -z "$id_to_change" 
+  then
+        echo -n "Creating TXT record $name... "
+        apicmd PUT "/zones/$DOMAIN_ID/dns_records" \
+          --data "@${zonefile}-data" | jq .success | grep -q true \
+          && echo OK || echo error
+  else
+        echo -n "Updating TXT record $name with id $id_to_change... "
+        apicmd PUT "/zones/$DOMAIN_ID/dns_records/$id_to_change" \
+          --data "@${zonefile}-data" | jq .success | grep -q true \
+          && echo OK || echo error
+  fi
 done < $zonefile
