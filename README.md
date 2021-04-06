@@ -179,9 +179,7 @@ The only needed permissions for a custom API token are:
 
 Usage:
 
-    ./despf.sh | ./normalize.sh | ./simplify.sh | ./mkblocks.sh 2>&1 \
-      | tee /tmp/out | grep "Too many DNS look-ups!" \
-      || cat /tmp/out | ./mkzoneent.sh
+    ./despf.sh | ./normalize.sh | ./simplify.sh | ./iprange.sh | ./cloudflare.sh
 
 
 ### route53.sh
@@ -290,3 +288,4 @@ spread the word: Free domains: http://www.eu.org/
 [semaphore]: https://semaphoreci.com/spf-tools/spf-tools
 [gitter-img]: https://badges.gitter.im/Join%20Chat.svg
 [gitter]: https://gitter.im/spf-tools/spf-tools
+
