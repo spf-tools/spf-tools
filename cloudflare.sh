@@ -77,7 +77,7 @@ apicmd GET "/zones/$DOMAIN_ID/dns_records?type=TXT" \
 
 while read line
 do
-  name=$(echo $line | cut -d" " -f1)
+  name=$(echo $line | cut -d^ -f1)
   content=$(echo $line | cut -d^ -f2 | tr -d \")
   id_to_change=$(grep "^$name" $idsfile | cut -d: -f2)
 
