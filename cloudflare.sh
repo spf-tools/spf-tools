@@ -66,7 +66,7 @@ test "$1" = "verify" && {
 idsfile=$(mktemp /tmp/cloudflare-ids-XXXXXX)
 zonefile=$(mktemp /tmp/cloudflare-zone-XXXX)
 cat > "$zonefile"
-trap 'rm -f $idsfile $zonefile $zonefile-data' EXIT
+trap 'rm -f "$idsfile" "$zonefile" "$zonefile-data"' EXIT
 
 DOMAIN_ID=$(apicmd GET /zones | jq -r '.result | .[] | .name + ":" + .id' \
             | grep "$DOMAIN") \
