@@ -43,7 +43,7 @@ temp=$(mktemp /tmp/$$.XXXXXXXX)
 despf.sh "$DOMAIN" | normalize.sh | simplify.sh > "${temp}-1" 2>/dev/null
 despf.sh "$ORIG_SPF" | normalize.sh | simplify.sh > "${temp}-2" 2>/dev/null
 
-trap 'rm ${temp}-*' EXIT
+trap 'rm "${temp}-"*' EXIT
 diff -u "${temp}-1" "${temp}-2"
 # shellcheck disable=2015
 cmp "${temp}-"* 2>/dev/null 1>&2 && echo "Everything OK" >&2 || {
