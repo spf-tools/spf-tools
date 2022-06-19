@@ -24,7 +24,8 @@ test -n "$DEBUG" && set -x
 # Check for required tools
 for cmd in host awk grep sed cut
 do
-  type $cmd >/dev/null
+  type $cmd >/dev/null 2>&1 || \
+    { echo >&2 "I require \"$cmd\" but it's not installed. Aborting."; exit 1; }
 done
 
 # shellcheck disable=2153
