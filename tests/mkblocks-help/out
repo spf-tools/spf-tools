@@ -11,7 +11,7 @@ Available options:
   -o POLICY                  set default SPF policy
   -d DELIM                   set delimiter of output
   -s START                   set the numbering start
-  -f                         force prefix numbing on the first block
+  -f                         force prefix numbering on the first block
 
 Default values:
   HEADER = v=spf1
