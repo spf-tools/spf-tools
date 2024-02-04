@@ -78,7 +78,7 @@ test "$ACCOUNT_ID" = "null" && {
 
 RECORDS=$(apicmd GET "$ACCOUNT_ID/zones/$DOMAIN/records?type=TXT&per_page=100" | jq  '[.data | .[] | select ( .content | contains("v=spf1") )]')
 apicmd GET "$ACCOUNT_ID/zones/$DOMAIN/records?type=TXT&per_page=100" > /tmp/bla.json
-echo $RECORDS
+
 while read -r line
 do
   __name=$(echo "$line" | cut -d^ -f1)
