@@ -176,6 +176,28 @@ Usage:
 
     ./despf.sh | ./normalize.sh | ./simplify.sh | ./iprange.sh | ./cloudflare.sh
 
+### dnsimple.sh
+
+Dependencies: [jq](https://stedolan.github.io/jq/)
+
+Script to create or update pre-existing TXT SPF records for
+a domain according to the input in mkblocks format using
+DNSimple's API.
+
+To use this script, file `.spf-toolsrc` in `$HOME` directory should
+contain a `TOKEN` variable definition with an account token (not a user
+token) which is then used to connect to the DNSimple API. The file
+should also contain `DOMAIN` and `ORIG_SPF` variables which 
+stand for the target SPF domain (e.g. `spf-tools.eu.org`) and
+original SPF record with includes (e.g. `spf-orig.spf-tools.eu.org`) 
+in order to use `runspftools.sh` without modifying the script.
+
+The script is written against v2 running at https://api.dnsimple.com/v2/
+
+Usage:
+
+    ./despf.sh | ./normalize.sh | ./simplify.sh | ./iprange.sh | ./mkblocks.sh \
+      ./dnsimple.sh spf-tools.eu.org
 
 ### route53.sh
 

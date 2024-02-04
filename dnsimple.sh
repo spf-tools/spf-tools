@@ -1,7 +1,7 @@
 #!/bin/sh
 ##############################################################################
 #
-# Copyright 2015 spf-tools team (see AUTHORS)
+# Copyright 2024 spf-tools team (see AUTHORS)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 #
 ##############################################################################
 #
-# Script to update pre-existing TXT SPF records for
+# Script to create or update pre-existing TXT SPF records for
 # a domain according to the input in mkblocks format.
 #
 # Requires jq(1) from http://stedolan.github.io/jq/
@@ -30,7 +30,7 @@
 
 test -n "$DEBUG" && set -x
 
-for cmd in jq awk sed grep
+for cmd in jq
 do
   type $cmd >&2 || exit 1
 done
