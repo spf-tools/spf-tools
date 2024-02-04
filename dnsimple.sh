@@ -24,7 +24,7 @@
 #
 # Requires TOKEN env var to be set to an account token (not a user token).
 #
-# Usage: ./despf.sh | ./simplify.sh | mkblocks.sh | \
+# Usage: ./despf.sh | ./normalize.sh | ./simplify.sh | ./iprange.sh | mkblocks.sh | \
 #          ./dnsimple.sh <domain>
 # E.g.: ... | ./dnsimple.sh spf-tools.eu.org
 
