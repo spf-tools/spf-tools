@@ -211,7 +211,7 @@ despf() {
   set +e
   dogetem=$(echo $myspf | grep -Eio 'include:[^[:blank:]]+') \
     && getem $myloop $dogetem
-  dogetamx=$(echo $myspf | grep -Eio -w '[\?\~\+\-]?(mx|a)((\/|:)[^[:blank:]]+)?')  \
+  dogetamx=$(echo $myspf | grep -Eio -w '[\?\~\+\-]?(mx|a)((/|:)[^[:blank:]]+)?')  \
     && getamx $host $dogetamx
   echo $myspf | grep -Eio '[\?\~\+\-]?ip[46]:[^[:blank:]]+' | sed -e 's/ip[46]\://' | printip
   echo $myspf | grep -Eio '([\?\~\+\-]?exists|ptr):[^[:blank:]]+'
