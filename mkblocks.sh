@@ -120,7 +120,7 @@ myout() {
   fi
   mystart=$(echo $rrlabel | mysed $((mycounter-1)))
   myrest=$(echo $2 | mysed $((mycounter)))
-  output=$(printf "$header $myrest" | awk "{gsub(/.{$strlength}/,\"&\\\" \\\"\")}1")
+  output=$(printf "%s" "$header $myrest" | awk "{gsub(/.{$strlength}/,\"&\\\" \\\"\")}1")
   echo ${mystart}${delim}\"$output\"
 }
 
