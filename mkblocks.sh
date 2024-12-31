@@ -43,6 +43,7 @@ header="v=spf1"
 length=257
 strlength=255
 start=1
+forcenumbering=false
 
 usage() {
     cat <<-EOF
@@ -59,6 +60,7 @@ usage() {
 	  -o POLICY                  set default SPF policy
 	  -d DELIM                   set delimiter of output
 	  -s START                   set the numbering start
+	  -f                         force prefix numbering on the first block
 
 	Default values:
 	  HEADER = $header
@@ -69,11 +71,12 @@ usage() {
 	  POLICY = $policy
 	  DELIM  = $delim
 	  START  = $start
+	  FORCENUMBERING = $forcenumbering
 	EOF
     exit 1
 }
 
-while getopts "h:l:L:p:x:o:d:s:-" opt; do
+while getopts "h:l:L:p:x:o:d:s:f-" opt; do
   case $opt in
     h) test -n "$OPTARG" && header=$OPTARG;;
     l) test -n "$OPTARG" && length=$OPTARG;;
@@ -83,6 +86,7 @@ while getopts "h:l:L:p:x:o:d:s:-" opt; do
     o) test -n "$OPTARG" && policy=$OPTARG;;
     d) test -n "$OPTARG" && delim=$OPTARG;;
     s) test -n "$OPTARG" && start=$OPTARG;;
+    f) forcenumbering=true;;
     *) usage;;
   esac
 done
@@ -106,8 +110,11 @@ mysed() {
 
 myout() {
   local mycounter=${3:-'1'}
+  if [ $forcenumbering = true ]; then
+      mycounter=$((mycounter+1))
+  fi
   rrlabel=$1
-  if [ $mycounter -eq 1 ]; then
+  if [ $mycounter -eq 1 ] && [ $forcenumbering = false ]; then
       #first resource label of chain is bare domain
       rrlabel="$domain"
   fi
