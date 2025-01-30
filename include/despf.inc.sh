@@ -66,7 +66,7 @@ printip() {
   while read line
   do
     # Dont take the + . It's default
-    qualifier=$(echo $line | grep -Eio "^[\~\?\-]")
+    qualifier=$(echo $line | grep -Eio "^[~?-]")
     line=$(echo $line | sed -e 's/[\~\?\+\-]//')
     prefix=/${1:-"${line##*/}"}
     test -n "$1" || echo $line | grep -q '/' || prefix=""
@@ -88,7 +88,7 @@ printip() {
 # fec0::1
 dea() {
   for TYPE in A AAAA; do
-	  get_addr $TYPE $1 | while read ip ; do 
+      get_addr $TYPE $1 | while read ip ; do 
 	  	addr="${3}${ip}"
 	  	echo $addr | printip $2;
   	  done
@@ -184,7 +184,7 @@ getamx() {
         lookuphost=$(echo $ahost | cut -d\/ -f1)
       fi
     fi
-    qualifier=$(echo $mech | grep -Eio "^[\~\?\+\-]")
+    qualifier=$(echo $mech | grep -Eio "^[~?+-]")
     mech=$(echo $mech | sed -e 's/[\~\?\+\-]//'| tr '[A-Z]' '[a-z]')
     if [ "$mech" = "a" ]; then
       dea $lookuphost "$cidr" $qualifier
@@ -211,10 +211,10 @@ despf() {
   set +e
   dogetem=$(echo $myspf | grep -Eio 'include:[^[:blank:]]+') \
     && getem $myloop $dogetem
-  dogetamx=$(echo $myspf | grep -Eio -w '[\?\~\+\-]?(mx|a)((/|:)[^[:blank:]]+)?')  \
+  dogetamx=$(echo $myspf | grep -Eio -w '[?~+-]?(mx|a)((/|:)[^[:blank:]]+)?')  \
     && getamx $host $dogetamx
-  echo $myspf | grep -Eio '[\?\~\+\-]?ip[46]:[^[:blank:]]+' | sed -e 's/ip[46]\://' | printip
-  echo $myspf | grep -Eio '([\?\~\+\-]?exists|ptr):[^[:blank:]]+'
+  echo $myspf | grep -Eio '[?~+-]?ip[46]:[^[:blank:]]+' | sed -e 's/ip[46]\://' | printip
+  echo $myspf | grep -Eio '([?~+-]?exists|ptr):[^[:blank:]]+'
   set -e
 }
 
@@ -236,10 +236,10 @@ despfit() {
   do
     despf $host $myloop
   done  > $outputfile
-  if grep -E '^[\?\~\-]' $outputfile  ; then
+  if grep -E '^[?~-]' $outputfile  ; then
 	  cat $outputfile
   else
-	  sort -u $outputfile
+      sort -u $outputfile
   fi
   rm $outputfile
 }
