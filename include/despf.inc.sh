@@ -88,7 +88,7 @@ printip() {
 # fec0::1
 dea() {
   for TYPE in A AAAA; do
-      get_addr $TYPE $1 | while read ip ; do 
+  	  get_addr $TYPE $1 | while read ip ; do 
 	  	addr="${3}${ip}"
 	  	echo $addr | printip $2;
   	  done
@@ -239,7 +239,7 @@ despfit() {
   if grep -E '^[?~-]' $outputfile  ; then
 	  cat $outputfile
   else
-      sort -u $outputfile
+	  sort -u $outputfile
   fi
   rm $outputfile
 }
