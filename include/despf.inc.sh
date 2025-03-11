@@ -116,7 +116,9 @@ parsepf() {
     then
       myns=$DNS_SERVER
     else
-      myns=$(sed -n 's/^nameserver \([\.:0-9a-fA-F]*\)/\1/p' /etc/resolv.conf)
+      #myns=$(sed -E -n 's/^nameserver[[:space:]]+([.:[:xdigit:]]]+)/\1/p' /etc/resolv.conf)
+      # [ SP TAB ]
+      myns=$(sed -n 's/^nameserver[ 	]//p' /etc/resolv.conf)
     fi
   fi
   for ns in $myns
