@@ -50,7 +50,7 @@ Now just call any of the scripts described below.
 
 ```
 Usage: despf.sh [OPTION]... [DOMAIN]...
-Decompose SPF records of a DOMAIN. Optionaly can
+Decompose SPF records of a DOMAIN. Optionally can
 sort and unique them.
 DOMAIN may be specified in an environment variable.
 
