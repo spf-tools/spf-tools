@@ -9,6 +9,18 @@
 
 [![Join the chat at https://gitter.im/jsarenik/spf-tools][gitter-img]][gitter]
 
+## Debian package
+
+A `.deb` package is available via the [edmundlod apt repository](https://github.com/edmundlod/apt):
+
+```bash
+sudo apt install spf-tools
+```
+
+See the [apt repo README](https://github.com/edmundlod/apt) for setup instructions.
+
+---
+
 Simple tools for keeping the SPF TXT records tidy in order to fight
 [10 maximum DNS look-ups](http://serverfault.com/questions/584708).
 
