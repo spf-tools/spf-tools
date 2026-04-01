@@ -1,0 +1,17 @@
+Source: spf-tools
+Section: net
+Priority: optional
+Maintainer: Edmund Lodewijks <edmund@proteamail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.2
+Homepage: https://github.com/spf-tools/spf-tools
+Rules-Requires-Root: no
+
+Package: spf-tools
+Architecture: all
+Depends: ${misc:Depends}, bind9-host | host
+Description: Tools for querying and flattening SPF records
+ A collection of shell scripts for querying DNS SPF records and expanding
+ them into flat lists of IP addresses and CIDR blocks. Used by postallow
+ to generate Postfix Postscreen allowlists from the SPF records of large,
+ trusted mail senders.

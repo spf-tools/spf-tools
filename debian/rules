@@ -1,0 +1,13 @@
+#!/usr/bin/make -f
+%:
+	dh $@
+
+override_dh_auto_install:
+	install -d -m 755 $(CURDIR)/debian/spf-tools/usr/bin/spf-tools
+	install -d -m 755 $(CURDIR)/debian/spf-tools/usr/bin/spf-tools/include
+	install -m 755 despf.sh cloudflare.sh compare.sh genspfzone.sh \
+		iprange.sh mkblocks.sh mkzoneent.sh normalize.sh route53.sh \
+		runspftools.sh simplify.sh xsel.sh dnsimple.sh \
+		$(CURDIR)/debian/spf-tools/usr/bin/spf-tools/
+	install -m 644 include/*.sh \
+		$(CURDIR)/debian/spf-tools/usr/bin/spf-tools/include/
