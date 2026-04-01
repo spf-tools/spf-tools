@@ -28,7 +28,23 @@ jobs:
           mkdir dist
           mv ../*.deb dist/
 
+      - name: Get .deb filename
+        id: deb
+        run: echo "filename=$(ls dist/*.deb | xargs basename)" >> $GITHUB_OUTPUT
+
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.deb
+
+      - name: Dispatch to apt repo
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
+          repository: edmundlod/apt
+          event-type: package-built
+          client-payload: >-
+            {
+              "deb_url": "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/${{ steps.deb.outputs.filename }}",
+              "package": "${{ steps.deb.outputs.filename }}"
+            }
