@@ -1,4 +1,4 @@
-%{!?pkg_version: %global pkg_version 20250415}
+%{!?pkg_version: %global pkg_version 20260411}
 
 Name:           spf-tools
 Version:        %{pkg_version}
@@ -41,5 +41,5 @@ install -m 644 include/*.sh %{buildroot}%{_bindir}/spf-tools/include/
 %{_bindir}/spf-tools/include/*.sh
 
 %changelog
-* Sat Apr 11 2026 Edmund Lodewijks <edmund@proteamail.com> - 20250415-1
+* Sat Apr 11 2026 Edmund Lodewijks <edmund@proteamail.com> - 20260411-1
 - Initial RPM packaging

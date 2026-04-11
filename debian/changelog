@@ -1,3 +1,9 @@
+spf-tools (20260411-1) trixie; urgency=low
+
+  * Add RPM spec file and build workflow for AlmaLinux 10.
+
+ -- Edmund Lodewijks <edmund@proteamail.com>  Sat, 11 Apr 2026 00:00:00 +0000
+
 spf-tools (20250415-1) trixie; urgency=low
 
   * Initial Debian packaging (based on upstream commit b1f0a1b).
