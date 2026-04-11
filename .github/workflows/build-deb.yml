@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   build-deb:
     runs-on: ubuntu-latest
@@ -38,7 +41,7 @@ jobs:
           files: dist/*.deb
 
       - name: Dispatch to apt repo
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@v4
         with:
           token: ${{ secrets.REPO_DISPATCH_TOKEN }}
           repository: edmundlod/apt
