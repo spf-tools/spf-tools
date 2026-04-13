@@ -6,7 +6,7 @@ Release:        1%{?dist}
 Summary:        Tools for querying and flattening SPF records
 License:        Apache-2.0
 URL:            https://github.com/spf-tools/spf-tools
-Source0:        %{name}-%{version}.tar.gz
+Source0:        https://github.com/spf-tools/spf-tools/archive/refs/tags/v%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 Requires:       bind-utils
@@ -41,5 +41,5 @@ install -m 644 include/*.sh %{buildroot}%{_bindir}/spf-tools/include/
 %{_bindir}/spf-tools/include/*.sh
 
 %changelog
-* Mon Apr 14 2026 Edmund Lodewijks <edmund@proteamail.com> - 2.3-1
+* Mon Apr 13 2026 Edmund Lodewijks <edmund@proteamail.com> - 2.3-1
 - Initial RPM packaging
