@@ -199,6 +199,48 @@ Usage:
     ./despf.sh | ./normalize.sh | ./simplify.sh | ./iprange.sh | ./mkblocks.sh \
       ./dnsimple.sh spf-tools.eu.org
 
+### desec.sh
+
+Dependencies: [jq](https://stedolan.github.io/jq/),
+[curl](https://curl.se/)
+
+```
+  Usage: desec.sh [OPTION]... [DOMAIN]
+         desec.sh verify [DOMAIN]
+  Create or update TXT SPF records of DOMAIN (a zone managed
+  by deSEC) according to the input in mkblocks format.
+
+  Available options:
+    -t TTL                     set Time To Live for changed records
+                               (default: keep existing TTL, or 3600
+                               for new records; deSEC minimum is 3600)
+    -n                         dry run, print the request and exit
+    -h                         display this help and exit
+```
+
+Script to create or update TXT SPF records for a domain according
+to the input in mkblocks format using the [deSEC](https://desec.io/) API.
+
+To use this script, file `.spf-toolsrc` in `$HOME` directory should
+contain a `DESEC_TOKEN` (or `TOKEN`) variable definition with a deSEC
+API token. If `DOMAIN` is set there as well, the domain argument
+can be omitted. Run `./desec.sh verify` to check that the token
+can access the domain.
+
+All changed records are sent in a single atomic bulk request, so the
+SPF chain is never published half-updated. Records that are already
+up to date are not touched. Other TXT records sharing a name with an
+SPF record (e.g. `google-site-verification=...`) are preserved.
+SPF records that are no longer produced by `mkblocks.sh` are not
+deleted.
+
+The script is written against v1 running at https://desec.io/api/v1/
+
+Usage:
+
+    ./despf.sh | ./normalize.sh | ./simplify.sh | ./iprange.sh \
+      | ./mkblocks.sh spf-tools.eu.org | ./desec.sh spf-tools.eu.org
+
 ### route53.sh
 
 Dependencies: [jq](https://stedolan.github.io/jq/),

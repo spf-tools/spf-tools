@@ -27,7 +27,7 @@ trusted mail senders.
 install -d -m 755 %{buildroot}%{_bindir}/spf-tools
 install -m 755 despf.sh cloudflare.sh compare.sh genspfzone.sh \
     iprange.sh mkblocks.sh mkzoneent.sh normalize.sh route53.sh \
-    runspftools.sh simplify.sh xsel.sh dnsimple.sh \
+    runspftools.sh simplify.sh xsel.sh dnsimple.sh desec.sh \
     %{buildroot}%{_bindir}/spf-tools/
 install -d -m 755 %{buildroot}%{_bindir}/spf-tools/include
 install -m 644 include/*.sh %{buildroot}%{_bindir}/spf-tools/include/
