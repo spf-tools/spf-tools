@@ -231,8 +231,14 @@ All changed records are sent in a single atomic bulk request, so the
 SPF chain is never published half-updated. Records that are already
 up to date are not touched. Other TXT records sharing a name with an
 SPF record (e.g. `google-site-verification=...`) are preserved.
-SPF records that are no longer produced by `mkblocks.sh` are not
-deleted.
+
+SPF records of the previous chain that are no longer produced by
+`mkblocks.sh` (e.g. `_spf3` when the chain shrinks from three records
+to two) are removed in the same request. They are found by following
+the `include:` links of the currently published records, starting
+from the names in the input, so SPF records outside that chain (such
+as `ORIG_SPF` or `mail.spf-tools.eu.org`) are never touched. If such
+a record also holds other TXT data, only its SPF entry is removed.
 
 The script is written against v1 running at https://desec.io/api/v1/
 

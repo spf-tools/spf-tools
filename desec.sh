@@ -23,6 +23,8 @@
 # All changes are sent in one atomic bulk request, so the published
 # SPF chain is never left half-updated. TXT records that do not start
 # with "v=spf1" (e.g. site verification tokens) are kept untouched.
+# SPF records of the previously published chain which are no longer
+# part of the new one are removed.
 #
 # Requires jq(1) from http://stedolan.github.io/jq/ and curl(1).
 #
@@ -74,13 +76,13 @@ shift $((OPTIND-1))
 VERIFY=
 test "$1" = "verify" && { VERIFY=1; shift; }
 
-# Read DESEC_TOKEN/TOKEN and DOMAIN
+# Read DESEC_TOKEN/TOKEN, DOMAIN and ORIG_SPF
 # shellcheck source=/dev/null
 test -r "$SPFTRC" && . "$SPFTRC"
 
 DESEC_TOKEN=${DESEC_TOKEN:-"$TOKEN"}
 DOMAIN=${1:-"$DOMAIN"}
-DOMAIN=${DOMAIN%.}
+DOMAIN=$(printf "%s" "${DOMAIN%.}" | tr "[:upper:]" "[:lower:]")
 
 test -n "$DESEC_TOKEN" || { echo "DESEC_TOKEN not set! Exiting." >&2; exit 1; }
 test -n "$DOMAIN" || { echo "DOMAIN not set! Exiting." >&2; exit 1; }
@@ -89,7 +91,7 @@ test -z "$TTL" || test "$TTL" -gt 0 2>/dev/null \
 
 RESPONSE_FILE=$(mktemp /tmp/desec-response-XXXXXX)
 PAYLOAD_FILE=$(mktemp /tmp/desec-payload-XXXXXX)
-trap 'rm -f "$RESPONSE_FILE" "$PAYLOAD_FILE"' EXIT
+trap 'rm -f "$RESPONSE_FILE" "$PAYLOAD_FILE" "$PAYLOAD_FILE.tmp"' EXIT
 
 # apicmd METHOD PATH [CURL_ARGS...]
 # Writes the response body to $RESPONSE_FILE, fails on non-2xx status.
@@ -121,29 +123,54 @@ EXISTING=$(cat "$RESPONSE_FILE")
 # Turn "name^content" lines into deSEC RRsets, merging with existing ones:
 # drop old v=spf1 records, keep any other TXT records at the same name,
 # and only emit RRsets whose records actually change.
+#
+# Stale chain records are removed too: starting from the input names, the
+# include:/redirect= links of the currently published SPF records are
+# followed within the zone. Every SPF record reached this way which is
+# neither produced nor referenced by the new input is deleted. ORIG_SPF
+# is never deleted.
 jq -R -n \
   --arg domain "$DOMAIN" \
   --arg ttl "$TTL" \
+  --arg orig "$ORIG_SPF" \
   --argjson existing "$EXISTING" '
   def spf: ltrimstr("\"") | startswith("v=spf1");
+  # TXT presentation format to plain text: join "a" "b" strings
+  def text: gsub("\" \""; "") | ltrimstr("\"") | rtrimstr("\"");
+  # FQDN to subname within $domain, null when outside of it
+  def subname: ascii_downcase | rtrimstr(".")
+    | if . == $domain then ""
+      elif endswith("." + $domain) then .[:-($domain | length + 1)]
+      else null end;
+  def targets: text | [scan("(?:include:|redirect=)([^ ]+)")[0]
+    | subname | select(. != null)];
   ($existing | map({key: .subname, value: .}) | from_entries) as $cur
-  | [ inputs
+  | def oldtargets: [($cur[.].records // [])[] | select(spf) | targets[]];
+    def closure: . as $set
+      | ($set + [$set[] | oldtargets[]] | unique) as $next
+      | if $next == $set then $set else $next | closure end;
+  [ inputs
       | select(length > 0)
       | index("^") as $i
       | if $i == null then error("malformed input line: \(.)") else . end
-      | (.[:$i] | rtrimstr(".")) as $name
-      | .[$i+1:] as $content
-      | if $name == $domain then ""
-        elif ($name | endswith("." + $domain)) then $name[:-($domain | length + 1)]
-        else error("\($name) is not within \($domain)") end
-      | . as $sub
-      | ($cur[$sub] // {records: [], ttl: null}) as $old
-      | ($old.records | map(select(spf | not))) + [$content] as $new
-      | select(($new | sort) != ($old.records | sort))
-      | {subname: $sub, type: "TXT",
+      | .[:$i] as $name
+      | {sub: ($name | subname), content: .[$i+1:]}
+      | if .sub == null then error("\($name) is not within \($domain)") else . end
+    ] as $in
+  | ($in | map(.sub)) as $insubs
+  | ([$in[].content | targets[]] + $insubs
+     + [$orig | subname | select(. != null)]) as $keep
+  | (($insubs | unique | closure) - $keep) as $stale
+  | def rrset($sub; $records; $action):
+      ($cur[$sub] // {records: [], ttl: null}) as $old
+      | select(($records | sort) != ($old.records | sort))
+      | {action: $action, subname: $sub, type: "TXT",
          ttl: (if $ttl != "" then ($ttl | tonumber) else ($old.ttl // 3600) end),
-         records: $new}
-    ]' > "$PAYLOAD_FILE" || exit 1
+         records: $records};
+    def others($sub): ($cur[$sub].records // []) | map(select(spf | not));
+  [ ($in[] | rrset(.sub; others(.sub) + [.content]; "Updating")),
+    ($stale[] | rrset(.; others(.); "Removing SPF from")) ]
+  ' > "$PAYLOAD_FILE" || exit 1
 
 if test "$(jq length "$PAYLOAD_FILE")" -eq 0
 then
@@ -151,9 +178,13 @@ then
   exit 0
 fi
 
-jq -r '.[] | "Updating TXT record " +
+jq -r '.[] | "\(.action) TXT record " +
   (if .subname == "" then "@" else .subname end) + " (ttl \(.ttl))"' \
   "$PAYLOAD_FILE"
+
+# Strip the informational action field before sending
+jq 'map(del(.action))' "$PAYLOAD_FILE" > "$PAYLOAD_FILE.tmp" \
+  && mv "$PAYLOAD_FILE.tmp" "$PAYLOAD_FILE" || exit 1
 
 test -n "$DRYRUN" && { jq . "$PAYLOAD_FILE"; exit 0; }
 
